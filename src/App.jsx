@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Auth from './pages/Auth';
+import Carrusel from './components/Carrusel';
 import './index.css';
 import Productos from './pages/Productos';
 import DetalleProducto from './pages/DetalleProducto';
@@ -19,16 +20,8 @@ function AppWrapper() {
         <Route path="/productos" element={<Productos />} />
         <Route path="/productos/:id" element={<DetalleProducto />} />
       </Routes>
-    </>
-  );
-}
 
-function App() {
-  return (
-    <Router>
-      <AppWrapper />
-    </Router>
-  );
-}
 
+</>
+)}
 export default App;
