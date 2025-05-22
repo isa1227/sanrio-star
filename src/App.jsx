@@ -2,12 +2,17 @@
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import './index.css';
+import Carrusel from './components/Carrusel';
+
 
 function App() {
-  return (
+  return(
+    
     <>
       <Navbar />
       <Home />
+      <Carrusel />
+      
     </>
   );
 }

@@ -1,43 +1,54 @@
-// src/components/Carrusel.jsx
-import React from "react";
-import { Link } from "react-router-dom";
-import "../styles/Carrusel.css";
+import { useEffect, useRef } from 'react';
+import '../styles/Carrusel.css'; 
 
 const personajes = [
-  { nombre: "Hellokitty", img: "iconHello.jfif" },
-  { nombre: "cinna", img: "iconCina.jfif" },
-  { nombre: "kuromi", img: "iconK.jfif" },
-  { nombre: "Mymelody", img: "iconMeldy.jfif" },
-  { nombre: "paxmaru", img: "paxmaru.jpg" },
-  { nombre: "pochaco", img: "iconPochaco.jfif" },
-  { nombre: "pompom", img: "iconPompom.jfif" },
-  { nombre: "keroppi", img: "iconKeroppi.jfif" },
-  { nombre: "chococat", img: "iconcat.jpg" },
+  { nombre: 'Hello Kitty', ruta: '/Kitty.html', imagen: '/asset/img/iconHello.jfif' },
+  { nombre: 'Cinnamoroll', ruta: '/Cina.html', imagen: '/asset/img/iconCina.jfif' },
+  { nombre: 'Kuromi', ruta: '/Kuromi.html', imagen: '/asset/img/iconK.jfif' },
+  { nombre: 'My Melody', ruta: '/Melody.html', imagen: '/asset/img/iconMeldy.jfif' },
+  { nombre: 'Paxmaru', ruta: '/Paxmaru.html', imagen: '/asset/img/paxmaru.jpg' },
+  { nombre: 'Pochaco', ruta: '/Pochaco.html', imagen: '/asset/img/iconPochaco.jfif' },
+  { nombre: 'Pompom', ruta: '/Pompom.html', imagen: '/asset/img/iconPompom.jfif' },
+  { nombre: 'Keroppi', ruta: '/Keroppi.html', imagen: '/asset/img/iconKeroppi.jfif' },
 ];
 
-const Carrusel = () => {
+function Carrusel() {
+  const carruselRef = useRef(null);
+
+  useEffect(() => {
+    const carrusel = carruselRef.current;
+
+    const pauseAnimation = () => {
+      carrusel.style.animationPlayState = 'paused';
+    };
+
+    const resumeAnimation = () => {
+      carrusel.style.animationPlayState = 'running';
+    };
+
+    carrusel.addEventListener('mouseenter', pauseAnimation);
+    carrusel.addEventListener('mouseleave', resumeAnimation);
+
+    return () => {
+      carrusel.removeEventListener('mouseenter', pauseAnimation);
+      carrusel.removeEventListener('mouseleave', resumeAnimation);
+    };
+  }, []);
+
   return (
     <div className="carrusel">
-      <div className="contenedor">
-        {[...personajes, ...personajes].map((p, index) => (
-          <div className="item" key={index}>
-            <Link to={`/${p.nombre}.html`} className="circular-button">
-              <img src={`/img/${p.img}`} alt={`Imagen de ${p.nombre}`} />
-            </Link>
-          </div>
-        ))}
-      </div>
-      <div className="contenedor">
-        {[...personajes, ...personajes].map((p, index) => (
-          <div className="item" key={`second-${index}`}>
-            <Link to={`/${p.nombre}.html`} className="circular-button">
-              <img src={`/img/${p.img}`} alt={`Imagen de ${p.nombre}`} />
-            </Link>
-          </div>
-        ))}
+      <div className="contenedor" ref={carruselRef}>
+        {[...Array(2)].flatMap(() =>
+          personajes.map((p, i) => (
+            <div className="item" key={`${p.nombre}-${i}`}>
+              <a href={p.ruta}><img src={p.imagen} alt={p.nombre} /></a>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
-};
+}
+
 
 export default Carrusel;
