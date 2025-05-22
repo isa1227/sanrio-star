@@ -1,15 +1,20 @@
 // src/components/Navbar.jsx
-import './Navbar.css';
-import logo from '../assets/img/logo.PNG';
+import '../styles/Navbar.css';
+import { Link } from 'react-router-dom';
+import logo from "../assets/img/logo.png"; // Asegúrate de que la ruta sea correcta
 
 const Navbar = () => {
   return (
     <div className="navbar">
-      <img src={logo} alt="Logo Sanrio" />
+      {/* Hacer clic en el logo lleva al Home */}
+      <Link to="/">
+        <img src={logo} alt="Logo Sanrio" />
+      </Link>
       <div className="nav-links">
-        <a href="#" title="Productos">🛍️</a>
+        <Link to="/productos">🛍️</Link>
         <a href="#" title="Carrito">🛒</a>
         <a href="#" title="Contacto">📞</a>
+        <Link to="/auth">🔐</Link> {/* ← Ir a login/signup */}
       </div>
     </div>
   );
