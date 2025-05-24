@@ -1,10 +1,10 @@
-/* src/components/Navbar.css */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap');
 .navbar {
   width: 90%;
-  margin: 20px auto;
+  margin: 15px auto;
   background-color: #2d0346;
   border-radius: 20px;
-  padding: 10px 20px;
+  padding: 5px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;

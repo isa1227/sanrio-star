@@ -31,7 +31,7 @@ const DetalleProducto = () => {
           <button>AÑADIR AL PEDIDO</button>
         </div>
         <p>Disponible: 8</p>
-        <button className="whatsapp-button">PEDIR POR WHATSAPP</button>
+        
       </div>
     </div>
   );
