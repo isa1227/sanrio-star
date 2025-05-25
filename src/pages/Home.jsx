@@ -1,12 +1,22 @@
+import Carrusel from '../components/Carrusel';
+import Destacados from '../components/Destacados';
+import Footer from '../components/Footer';
+import Fondo from '../components/Fondo'; 
+
+import '../styles/Carrusel.css';
+import '../styles/productos.css';
+import '../styles/Navbar.css';
+import '../styles/Fondo.css';
+
 const Home = () => {
   return (
-    <div className="content">
-      <h1>Bienvenidos a Sanrio Star</h1>
-      <p>Aquí va el contenido de tu página. Puedes personalizar todo a tu gusto.</p>
+    <div className="home-container">
+      <Fondo /> {/* 🔹 Agregamos la sección con el fondo */}
+      <Carrusel />
+      <Destacados />
+      <Footer />
     </div>
   );
 };
-
-
 
 export default Home;

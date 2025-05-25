@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap');
 body {
-  font-family: 'Fredoka';
+  font-family: 'Fredoka', 'Poppins', cursive;
   background-color: rgb(0, 0, 0);
   margin: 0;
   padding: 40px;
@@ -13,6 +13,7 @@ body {
   max-width: 1200px;
   margin: auto;
   padding: 40px;
+  font-family: 'Fredoka', 'Poppins', cursive;
 }
 
 .productos-layout {
@@ -101,6 +102,7 @@ body {
 /* Detalle del producto */
 
 .product-detail {
+    font-family: 'Fredoka', 'Poppins', cursive;
       display: flex;
       background: rgb(39, 39, 39);
       border-radius: 15px;
