@@ -14,7 +14,7 @@ const Navbar = () => {
         <Link to="/productos">🛍️</Link>
         <a href="#" title="Carrito">🛒</a>
         <a href="#contacto" title="Contacto">📞</a>
-        <Link to="/auth">🔐</Link> {/* ← Ir a login/signup */}
+        <Link to="/auth">🔐</Link> 
       </div>
     </div>
   );

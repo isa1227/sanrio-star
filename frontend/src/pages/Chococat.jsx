@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/Chococat.css";
+import "../styles/Personajes.css";
 
 import backImg from "../assets/img/iconchococat.jpg";
 import bolso from "../assets/img/bolsocat.jpg";
@@ -32,7 +32,7 @@ const productos = [
 
 export default function Chococat() {
   return (
-    <div className="chococat-page">
+    <div className="character-page chococat-theme">
       <header>
         <a href="/" className="back-btn circular-button">
           <img src={backImg} alt="Volver al inicio" />
@@ -41,7 +41,7 @@ export default function Chococat() {
       </header>
 
       <h1>🐱‍👤 Chococat 🐱‍👤</h1>
-      <p className="tex">
+      <p className="description-text">
         Su nombre viene de su nariz color chocolate. Es muy inteligente, curioso y siempre está al tanto de las últimas noticias gracias a sus bigotes "antena". 🐱‍👤
       </p>
 
@@ -59,7 +59,7 @@ export default function Chococat() {
         </div>
       </section>
 
-      <footer className="foooter">
+      <footer className="footer">
         <h3>Contacto</h3>
         <p>Email: contacto@sanriostar.com</p>
         <p>Teléfono: +123 456 789</p>

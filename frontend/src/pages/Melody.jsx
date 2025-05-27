@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/Mymelody.css";
+import "../styles/Personajes.css";
 
 import backImg from "../assets/img/melo.png";
 import peluche from "../assets/img/meloPELUCHE.jpeg";
@@ -32,7 +32,7 @@ const productos = [
 
 export default function MyMelody() {
   return (
-    <div className="mymelody-page">
+    <div className="character-page mymelody-theme">
       <header>
         <a href="/" className="back-btn">
           <img src={backImg} alt="Volver al inicio" />
@@ -40,7 +40,7 @@ export default function MyMelody() {
       </header>
 
       <h1>🌺 My Melody 🌺</h1>
-      <p className="tex">
+      <p className="tdescription-text">
         Una conejita dulce y amable que siempre usa una capucha rosa.
         Le encanta hornear y pasar tiempo con sus amigos, especialmente en el bosque de Mary Land. 🌺
       </p>
@@ -59,7 +59,7 @@ export default function MyMelody() {
         </div>
       </section>
 
-      <footer className="foooter">
+      <footer className="footer">
         <h3>Contacto</h3>
         <p>Email: contacto@sanriostar.com</p>
         <p>Teléfono: +123 456 789</p>

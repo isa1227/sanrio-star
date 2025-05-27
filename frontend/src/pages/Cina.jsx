@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/Cinnamoroll.css";
+import "../styles/Personajes.css";
 
 import backImg from "../assets/img/c.webp";
 import peluche from "../assets/img/cinaPELUCHE.jpg";
@@ -32,15 +32,15 @@ const productos = [
 
 export default function Cinnamoroll() {
   return (
-    <div className="cinnamoroll-page">
+    <div className="character-page cinnamoroll-theme">
       <header>
-        <a href="/" className="back-btn">
+        <a href="/" className="back-btn circular-button">
           <img src={backImg} alt="Volver al inicio" />
         </a>
       </header>
 
       <h1>☁️ Cinnamoroll ☁️</h1>
-      <p className="tex">
+      <p className="description-text">
         Un perrito blanco con orejas largas que le permiten volar. Tiene una cola rizada como un rollito
         de canela. Es muy tierno y tímido.☁️
       </p>
@@ -59,7 +59,7 @@ export default function Cinnamoroll() {
         </div>
       </section>
 
-      <footer className="foooter">
+      <footer className="footer">
         <h3>Contacto</h3>
         <p>Email: contacto@sanriostar.com</p>
         <p>Teléfono: +123 456 789</p>

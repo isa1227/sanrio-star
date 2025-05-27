@@ -10,17 +10,17 @@ import instagramIcon from '../assets/img/insta.jpeg';
 
 const Footer = () => {
   return (
-    <div className="footer-container">
-      <img src={fondoFooter} alt="Fondo de footer" className="footer-background" />
+    <div className="foter-container">
+      <img src={fondoFooter} alt="Fondo de foter" className="foter-background" />
 
-      <footer id="contacto" className="footer">
+      <footer id="contacto" className="foter">
         <h3>Contacto</h3>
         <p>Email: contacto@sanriosatar.com</p>
         <p>Teléfono: +123 456 789</p>
         <p>© 2024 Sanrio Star</p>
       </footer>
 
-      <footer className="footer2">
+      <footer className="foter2">
         <div>
           <h3>Sobre nosotros</h3>
           <p>En nuestra tienda Sanrio Star, nos apasiona llevarte lo mejor del universo Sanrio.</p>
@@ -28,7 +28,7 @@ const Footer = () => {
         </div>
       </footer>
 
-      <footer className="footer2">
+      <footer className="foter2">
         <h3>Redes</h3>
         <div className="social-icons">
           <a href="https://www.facebook.com/Sanrio" target="_blank" rel="noopener noreferrer">

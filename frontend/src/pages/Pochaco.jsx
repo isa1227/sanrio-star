@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/Pochaco.css";
+import "../styles/Personajes.css";
 
 import backImg from "../assets/img/po.png";
 import peluche from "../assets/img/poPELUCHE.jpg";
@@ -32,7 +32,7 @@ const productos = [
 
 export default function Pochaco() {
   return (
-    <div className="pochaco-page">
+    <div className="character-page pochaco-theme">
       <header>
         <a href="/" className="back-btn">
           <img src={backImg} alt="Volver al inicio" />
@@ -40,7 +40,7 @@ export default function Pochaco() {
       </header>
 
       <h1>🐶 Pochaco 🐶</h1>
-      <p className="tex">
+      <p className="description-text">
         Un perrito blanco con orejas negras, muy curioso y deportivo. Le encanta jugar al 
         fútbol y andar en patineta.🐶
       </p>
@@ -59,7 +59,7 @@ export default function Pochaco() {
         </div>
       </section>
 
-      <footer className="foooter">
+      <footer className="footer">
         <h3>Contacto</h3>
         <p>Email: contacto@sanriostar.com</p>
         <p>Teléfono: +123 456 789</p>

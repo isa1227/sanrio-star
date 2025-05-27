@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/kuromi.css";
+import "../styles/Personajes.css";
 
 import backImg from "../assets/img/ku.jpeg";
 import jabonera from "../assets/img/JABONERAkuromi.jpg";
@@ -32,7 +32,7 @@ const productos = [
 
 export default function Kuromi() {
   return (
-    <div className="kuromi-page">
+    <div className="character-page kuromi-theme">
       <header>
         <a href="/" className="back-btn">
           <img src={backImg} alt="Volver al inicio" />
@@ -40,7 +40,7 @@ export default function Kuromi() {
       </header>
 
       <h1>💀 Kuromi 💀</h1>
-      <p className="tex">
+      <p className="description-text">
         La rival traviesa de My Melody. Viste de negro con un gorro con una calavera rosa.
         Aunque parece ruda, también tiene un lado femenino y divertido.💀
       </p>
@@ -59,7 +59,7 @@ export default function Kuromi() {
         </div>
       </section>
 
-      <footer className="foooter">
+      <footer className="footer">
         <h3>Contacto</h3>
         <p>Email: contacto@sanriostar.com</p>
         <p>Teléfono: +123 456 789</p>

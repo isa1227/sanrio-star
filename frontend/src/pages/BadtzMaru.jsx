@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/BadtzMaru.css";
+import "../styles/Personajes.css";
 
 import backImg from "../assets/img/pax.jpeg";
 import peluche from "../assets/img/paxPELUCHE.jpeg";
@@ -32,7 +32,7 @@ const productos = [
 
 export default function BadtzMaru() {
   return (
-    <div className="badtzmaru-page">
+    <div className="character-page">
       <header>
         <a href="/" className="back-btn">
           <img src={backImg} alt="Volver al inicio" />
@@ -40,7 +40,7 @@ export default function BadtzMaru() {
       </header>
 
       <h1>🐧 Badtz-Maru 🐧</h1>
-      <p className="tex">
+      <p className="description-text">
         Un pingüino negro con actitud rebelde y un poco sarcástico. Sueña con ser rico y famoso algún día.🐧
       </p>
 
@@ -58,7 +58,7 @@ export default function BadtzMaru() {
         </div>
       </section>
 
-      <footer className="foooter">
+      <footer className="footer">
         <h3>Contacto</h3>
         <p>Email: contacto@sanriostar.com</p>
         <p>Teléfono: +123 456 789</p>

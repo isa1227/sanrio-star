@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/Hellokitty.css";
+import "../styles/Personajes.css";
 
 import backImg from "../assets/img/j.webp";
 import kittyLLAVERO from "../assets/img/kittyLLAVERO.jpg";
@@ -32,7 +32,7 @@ const productos = [
 
 export default function HelloKitty() {
   return (
-    <div className="hellokitty-page">
+    <div className="character-page hellokitty-theme">
       <header>
         <a href="/" className="back-btn circular-button">
           <img src={backImg} alt="Volver al inicio" />
@@ -41,7 +41,7 @@ export default function HelloKitty() {
       </header>
 
       <h1>🎀 Hello Kitty 🎀</h1>
-      <p className="tex">
+      <p className="description-text">
         Una gatita blanca con un lazo rojo en la oreja izquierda. Es amable, cariñosa y le encanta hornear pasteles. Vive en Londres con su familia. 🎀
       </p>
 
@@ -59,7 +59,7 @@ export default function HelloKitty() {
         </div>
       </section>
 
-      <footer className="foooter">
+      <footer className="footer">
         <h3>Contacto</h3>
         <p>Email: contacto@sanriostar.com</p>
         <p>Teléfono: +123 456 789</p>

@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/Keroppi.css";
+import "../styles/Personajes.css";
 
 import backImg from "../assets/img/ke.jpeg";
 import peluches from "../assets/img/kePELUCHES.jpg";
@@ -30,7 +30,7 @@ const productos = [
 
 export default function Keroppi() {
   return (
-    <div className="keroppi-page">
+    <div className="character-page keroppi-theme">
       <header>
         <a href="/" className="back-btn circular-button">
           <img src={backImg} alt="Volver al inicio" />
@@ -39,7 +39,7 @@ export default function Keroppi() {
       </header>
 
       <h1>🐸 Keroppi 🐸</h1>
-      <p className="tex">
+      <p className="description-text">
         Una ranita alegre con grandes ojos. Vive en el estanque Donut con su familia. 
         Es aventurero y le encantan los retos y la diversión.🐸
       </p>
@@ -58,7 +58,7 @@ export default function Keroppi() {
         </div>
       </section>
 
-      <footer className="foooter">
+      <footer className="footer">
         <h3>Contacto</h3>
         <p>Email: contacto@sanriostar.com</p>
         <p>Teléfono: +123 456 789</p>

@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/Pompom.css";
+import "../styles/Personajes.css";
 
 import backImg from "../assets/img/pom.png";
 import peluche from "../assets/img/pomPELUCHE.jpg";
@@ -32,7 +32,7 @@ const productos = [
 
 export default function Pompom() {
   return (
-    <div className="pompom-page">
+    <div className="character-page pompom-theme">
       <header>
         <a href="/" className="back-btn">
           <img src={backImg} alt="Volver al inicio" />
@@ -40,7 +40,7 @@ export default function Pompom() {
       </header>
 
       <h1>🍮 Pompompurin 🍮</h1>
-      <p className="tex">
+      <p className="description-text">
         Un perrito Golden Retriever de color crema con una boina marrón. Le encanta dormir, 
         comer pudín y pasar tiempo con sus amigos.🍮
       </p>
@@ -59,7 +59,7 @@ export default function Pompom() {
         </div>
       </section>
 
-      <footer className="foooter">
+      <footer className="footer">
         <h3>Contacto</h3>
         <p>Email: contacto@sanriostar.com</p>
         <p>Teléfono: +123 456 789</p>
