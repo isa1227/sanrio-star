@@ -26,7 +26,7 @@ class AuthController extends Controller
     'nombre_usuario' => $request->nombre_usuario,
     'correo' => $request->correo,
     'contrasena' => Hash::make($request->contrasena),
-    'rol_id' => 1, // <- Ajusta este ID según el rol por defecto
+    'rol_id' => 1, 
 ]);
 
 
