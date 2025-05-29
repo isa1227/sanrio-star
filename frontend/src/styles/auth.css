@@ -103,3 +103,23 @@
   cursor: pointer;
   font-size: 1rem;
 }
+.mensaje-auth {
+  background-color: #d1e7dd;
+  color: #0f5132;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.mensaje-logout {
+  background-color: #d1ffd1;
+  color: #2d0346;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+

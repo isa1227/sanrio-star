@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Auth from './pages/Auth';
 import Productos from './pages/Productos';
 import DetalleProducto from './pages/DetalleProducto';
+import CarritoPage from './pages/CarritoPage';
 import Kuromi from './pages/Kuromi';
 import Cinnamoroll from './pages/Cina';
 import MyMelody from './pages/Melody';
@@ -56,9 +57,10 @@ function App() {
       {!hideNavbar && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/auth" element={<Auth />} />
+       <Route path="/auth" element={<Auth />} />
         <Route path="/productos" element={<Productos />} />
         <Route path="/productos/:id" element={<DetalleProducto />} />
+        <Route path="/carrito" element={<CarritoPage />} />
         <Route path="/kuromi" element={<Kuromi />} />
         <Route path="/cinnamoroll" element={<Cinnamoroll />} />
         <Route path="/mymelody" element={<MyMelody />} />

@@ -6,7 +6,13 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CarritoController;
 
+Route::get('/productos', [ProductoController::class, 'index']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/carrito', [CarritoController::class, 'agregar']);
+});
 
 
 Route::post('/register', [AuthController::class, 'register']);

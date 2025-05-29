@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/auth.css';
 import loginImage from '../assets/img/login.jpg';
@@ -6,6 +6,7 @@ import logoImage from '../assets/img/logo.PNG';
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [mensaje, setMensaje] = useState('');
   const [formData, setFormData] = useState({
     nombre_usuario: '',
     correo: '',
@@ -14,18 +15,29 @@ const Auth = () => {
 
   const navigate = useNavigate();
 
+  // Mostrar solo mensaje de logout (en /auth)
+  useEffect(() => {
+    const mensajeLogout = localStorage.getItem("mensajeLogout");
+    if (mensajeLogout) {
+      setMensaje(mensajeLogout);
+      localStorage.removeItem("mensajeLogout");
+
+      const timer = setTimeout(() => setMensaje(''), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  // Enviar formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const endpoint = isLogin
-        ? 'http://127.0.0.1:8000/api/login'
-        : 'http://127.0.0.1:8000/api/register';
+    const endpoint = isLogin
+      ? 'http://127.0.0.1:8000/api/login'
+      : 'http://127.0.0.1:8000/api/register';
 
+    try {
       const response = await fetch(endpoint, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
 
@@ -37,20 +49,23 @@ const Auth = () => {
       }
 
       if (isLogin) {
-        alert('Inicio de sesión exitoso');
-        navigate('/productos');
+        localStorage.setItem("usuarioLogueado", JSON.stringify(data.usuario));
+        localStorage.setItem("mensajeAuth", "✅ Inicio de sesión exitoso");
+        navigate('/productos'); // Mostrará el mensaje allá
       } else {
-        alert('Registro exitoso');
+        alert('✅ Registro exitoso');
         setIsLogin(true);
       }
+
     } catch (error) {
-      console.error(error);
-      alert('Error al conectar con el servidor');
+      console.error('Error:', error);
+      alert('❌ Error al conectar con el servidor');
     }
   };
 
   return (
     <div className="auth-container">
+      {/* Imagen a la izquierda */}
       <div
         className="auth-image"
         style={{
@@ -61,8 +76,11 @@ const Auth = () => {
         }}
       ></div>
 
+      {/* Formulario */}
       <div className="auth-form">
         <h2>{isLogin ? 'Iniciar Sesión' : 'Registrarse'}</h2>
+
+        {mensaje && <p className="mensaje-auth">{mensaje}</p>}
 
         <form onSubmit={handleSubmit}>
           {!isLogin && (
@@ -97,10 +115,7 @@ const Auth = () => {
             }
             required
           />
-
-          <button type="submit">
-            {isLogin ? 'Ingresar' : 'Crear cuenta'}
-          </button>
+          <button type="submit">{isLogin ? 'Ingresar' : 'Crear cuenta'}</button>
         </form>
 
         <p className="toggle-text">

@@ -34,3 +34,23 @@
 .nav-links a:hover {
   background-color: #000000;
 }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.usuario-nombre {
+  font-weight: bold;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #fff;
+}
+
