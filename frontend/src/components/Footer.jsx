@@ -21,14 +21,6 @@ const Footer = () => {
       </footer>
 
       <footer className="foter2">
-        <div>
-          <h3>Sobre nosotros</h3>
-          <p>En nuestra tienda Sanrio Star, nos apasiona llevarte lo mejor del universo Sanrio.</p>
-          <p>¡Nos encanta compartir la magia de Sanrio con cada uno de nuestros clientes!</p>
-        </div>
-      </footer>
-
-      <footer className="foter2">
         <h3>Redes</h3>
         <div className="social-icons">
           <a href="https://www.facebook.com/Sanrio" target="_blank" rel="noopener noreferrer">
@@ -40,6 +32,14 @@ const Footer = () => {
           <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
             <img src={instagramIcon} alt="Instagram" />
           </a>
+        </div>
+      </footer>
+
+      <footer className="foter2">
+        <div>
+          <h3>Sobre nosotros</h3>
+          <p>En nuestra tienda Sanrio Star, nos apasiona llevarte lo mejor del universo Sanrio.</p>
+          <p>¡Nos encanta compartir la magia de Sanrio con cada uno de nuestros clientes!</p>
         </div>
       </footer>
     </div>

@@ -11,7 +11,7 @@ import '../styles/Fondo.css';
 const Home = () => {
   return (
     <div className="home-container">
-      <Fondo /> {/* 🔹 Agregamos la sección con el fondo */}
+      <Fondo /> 
       <Carrusel />
       <Destacados />
       <Footer />

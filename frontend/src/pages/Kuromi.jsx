@@ -15,6 +15,8 @@ import balsamo from "../assets/img/balsamokuromi.jpg";
 import bolsa from "../assets/img/bolsakuromi.jpg";
 import lapicero from "../assets/img/lapizerokuromi.jpg";
 
+
+
 const productos = [
   { img: jabonera, title: "Jabonera Kuromi", desc: "Una jabonera con la imagen de Kuromi", price: "$12.000" },
   { img: peluche, title: "Peluche Kuromi", desc: "Un hermoso y adorable peluche de Kuromi", price: "$30.000" },
@@ -64,6 +66,7 @@ export default function Kuromi() {
         <p>Email: contacto@sanriostar.com</p>
         <p>Teléfono: +123 456 789</p>
         <p>© 2024 Sanrio Star</p>
+
       </footer>
     </div>
   );

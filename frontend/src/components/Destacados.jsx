@@ -11,25 +11,25 @@ const productos = [
     img: kuBolso,
     nombre: 'Bolso de Kuromi',
     precio: '$69.000',
-    link: '/Kuromi',
+    link: '/Productos',
   },
   {
     img: vasoMelody,
     nombre: 'Vaso My Melody',
     precio: '$25.000',
-    link: '/Melody',
+    link: '/Productos',
   },
   {
     img: cinaPeluche,
     nombre: 'Peluche Cinnamoroll',
     precio: '$38.000',
-    link: '/Cina',
+    link: '/Productos',
   },
   {
     img: poSandalias,
     nombre: 'Sandalias Pochaco',
     precio: '$18.000',
-    link: '/Pochaco',
+    link: '/Productos',
   },
 ];
 
