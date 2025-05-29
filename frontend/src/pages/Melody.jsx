@@ -40,7 +40,7 @@ export default function MyMelody() {
       </header>
 
       <h1>🌺 My Melody 🌺</h1>
-      <p className="tdescription-text">
+      <p className="description-text">
         Una conejita dulce y amable que siempre usa una capucha rosa.
         Le encanta hornear y pasar tiempo con sus amigos, especialmente en el bosque de Mary Land. 🌺
       </p>
@@ -51,7 +51,6 @@ export default function MyMelody() {
             <div className="product-card" key={i}>
               <img src={item.img} alt={item.title} />
               <h3>{item.title}</h3>
-              <p>{item.desc}</p>
               <div className="price">{item.price}</div>
               <button className="pretty-button">Agregar al carrito</button>
             </div>
@@ -59,7 +58,7 @@ export default function MyMelody() {
         </div>
       </section>
 
-      <footer className="footer">
+      <footer className="mymelody-theme footer">
         <h3>Contacto</h3>
         <p>Email: contacto@sanriostar.com</p>
         <p>Teléfono: +123 456 789</p>

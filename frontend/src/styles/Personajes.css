@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap');
 
+*{
+  font-family: 'Fredoka', 'Poppins', cursive;
+}
+
 body {
   margin: 0;
   font-family: 'Fredoka', 'Poppins', cursive;
@@ -25,8 +29,9 @@ body {
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
-  border: none;
+  border: 2px solid transparent;
   background: none;
+  transition: transform 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease;
 }
 
 .back-btn img {
@@ -38,8 +43,11 @@ body {
 }
 
 .back-btn:hover {
-  opacity: 0.85;
+  transform: rotate(10deg);
+  box-shadow: 0 0 10px 3px rgba(167, 167, 167, 0.377); 
+  opacity: 0.95;
 }
+
 
 /* Título y descripción */
 h1 {
@@ -60,51 +68,68 @@ h1 {
 /* Sección de productos */
 .product-section {
   flex: 1;
-  padding: 20px;
+  padding: 40px 20px;
 }
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 32px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
 .product-card {
-  background-color: #ffffff;
-  border-radius: 12px;
+  background-color: #dadada31;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s;
+  box-shadow: 0 8px 20px rgba(192, 179, 179, 0.692);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-.product-card:hover {
-  transform: translateY(-5px);
-}
-.product-card img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-}
-.product-card h3 {
-  color: #222248;
-  margin: 10px 16px 0;
-}
-.product-card p {
-  color: #4d4d7a;
-  font-size: 0.85rem;
-  margin: 4px 16px;
-}
-.product-card .price {
-  font-weight: bold;
-  color: #1c1c42;
-  margin: 8px 16px 0;
+  cursor: pointer;
 }
 
-/* Botón general */
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.product-card img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover img {
+  transform: scale(1.05);
+}
+
+.product-card h3 {
+  font-size: 1.1rem;
+  margin: 16px;
+  font-family: "Poppins", sans-serif;
+}
+
+.product-card p {
+  color: #6e598f;
+  font-size: 0.9rem;
+  margin: 0 16px 8px;
+  font-family: "Poppins", sans-serif;
+}
+
+.product-card .price {
+  font-weight: 600;
+  margin: 0 16px 16px;
+  font-size: 1rem;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Botón general */ 
 .pretty-button {
   background: linear-gradient(to right, #6a79e6, #a7b8ff);
   color: #1f1f3d;
@@ -143,42 +168,50 @@ h1 {
 
 /* ======= Hello Kitty Theme ======= */
 .hellokitty-theme {
-  background-color: #ffe4ec; /* rosado pastel */
+  background-color: #d94c4c; /* rojo base, igual que el footer */
 }
 
 .hellokitty-theme h1 {
-  color: #d50000; /* rojo fuerte */
+  color: #fff0f0; /* casi blanco con un toque rosado */
 }
 
 .hellokitty-theme .description-text {
-  color: #f48fb1; /* rosado suave */
+  color: #ffe0e0; /* rosado muy claro para buen contraste */
 }
 
 .hellokitty-theme .product-card h3 {
-  color: #c2185b; /* rosa fuerte */
+  color: #ffffff; /* blanco puro para destacar */
 }
 
 .hellokitty-theme .product-card p {
-  color: #ad1457;
+  color: #f8bcbc; /* rosado claro */
 }
 
 .hellokitty-theme .product-card .price {
-  color: #880e4f;
+  color: #ffd6d6; /* rosa claro pastel */
 }
 
 .hellokitty-theme .pretty-button {
-  background: linear-gradient(to right, #f48fb1, #d50000);
+  background: linear-gradient(to right, #ff7b7b, #b83232); /* degradado coral a rojo oscuro */
   color: white;
 }
 
 .hellokitty-theme .pretty-button:hover {
-  background: linear-gradient(to right, #d50000, #a00000);
+  background: linear-gradient(to right, #ffaaaa, #942525); /* rosado claro a rojo profundo */
 }
 
 .hellokitty-theme .footer {
-  background-color: #ffc1d0;
-  color: #880e4f;
+  background-color: #f38a8a; /* mismo rojo del fondo */
+  color: #fff0f0; /* contraste claro */
+  border-radius: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-top: 3px dashed #942525;
+  border-bottom: 3px dashed #942525;
+  text-align: center;
 }
+
 
 /* ======= Cinnamoroll Theme ======= */
 .cinnamoroll-theme {
@@ -217,6 +250,13 @@ h1 {
 .cinnamoroll-theme .footer {
   background-color: #bbe1fa;
   color: #0077b6;
+  border-radius: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-top: 3px dashed #4f5b62;
+  border-bottom: 3px dashed #4f5b62;
+  text-align: center;
 }
 
 /* ======= Pochaco Theme ======= */
@@ -256,6 +296,13 @@ h1 {
 .pochaco-theme .footer {
   background-color: #a3d2ca;
   color: #1a3f3e;
+ border-radius: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-top: 3px dashed #4f5b62;
+  border-bottom: 3px dashed #4f5b62;
+  text-align: center;
 }
 
 /* ======= Keroppi Theme ======= */
@@ -295,11 +342,18 @@ h1 {
 .keroppi-theme .footer {
   background-color: #bce5a6;
   color: #2a5235;
+  border-radius: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-top: 3px dashed #4f5b62;
+  border-bottom: 3px dashed #4f5b62;
+  text-align: center;
 }
 
 /* ======= Kuromi Theme ======= */
 .kuromi-theme {
-  background-color: #4d0d43; /* fondo general oscuro */
+  background-color: #4d0d43; /* fondo general oscuro de Kuromi */
 }
 
 .kuromi-theme h1 {
@@ -307,19 +361,7 @@ h1 {
 }
 
 .kuromi-theme .description-text {
-  color: #e0b3ff; /* malva claro para descripción */
-}
-
-.kuromi-theme .product-card {
-  background-color: #481a50; /* fondo oscuro para cada tarjeta */
-  border: 1px solid #2f1433;
-  border-radius: 12px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.kuromi-theme .product-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 12px #a472d4;
+  color: #ffffff;
 }
 
 .kuromi-theme .product-card h3 {
@@ -332,44 +374,42 @@ h1 {
 
 .kuromi-theme .product-card .price {
   color: #f7c8ff; /* precio más claro para contraste */
-  font-weight: bold;
 }
 
 .kuromi-theme .pretty-button {
-  background: linear-gradient(to right, #5d3b8c, #a472d4);
+  background: linear-gradient(to right, #5d3b8c, #a472d4); /* degradado Kuromi */
   color: #fff;
-  border: none;
-  border-radius: 20px;
-  padding: 10px 20px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .kuromi-theme .pretty-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 10px #c084fc;
-  background: linear-gradient(to right, #6f4da3, #d4a5f9);
+  background: linear-gradient(to right, #6f4da3, #d4a5f9); /* hover Kuromi */
 }
 
 .kuromi-theme .footer {
   background-color: #2f1433;
   color: #e2c6ff;
-  padding: 20px;
+  border-radius: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-top: 3px dashed #a472d4;
+  border-bottom: 3px dashed #a472d4;
   text-align: center;
-  border-top: 1px solid #3a1f4f;
 }
+
 
 
 /* ======= My Melody Theme ======= */
 .mymelody-theme {
-  background-color: #fff0f5;
+  background-color: #f5bdd0;
 }
 
 .mymelody-theme h1 {
-  color: #ff69b4;
+  color: #ffffff;
 }
 
 .mymelody-theme .description-text {
-  color: #d46a9b;
+  color: #ffffff;
 }
 
 .mymelody-theme .product-card h3 {
@@ -394,87 +434,118 @@ h1 {
 }
 
 .mymelody-theme .footer {
-  background-color: #ffe3ed;
+  background-color: #d48da5;
   color: #8a1c5c;
+  border-radius: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-top: 3px dashed #4f5b62;
+  border-bottom: 3px dashed #4f5b62;
+  text-align: center;
 }
+
 
 /* ======= Pompompurin Theme ======= */
 .pompom-theme {
-  background-color: #fff8e1; /* crema pastel */
+  background-color: #fff6dc; /* crema más clara y suave */
 }
 
 .pompom-theme h1 {
-  color: #a1887f; /* marrón suave */
+  color: #c7953e; /* dorado caramelo */
 }
 
 .pompom-theme .description-text {
-  color: #5d4037;
+  color: #7b4b25; /* marrón medio */
 }
 
 .pompom-theme .product-card h3 {
-  color: #3e2723;
+  color: #5c3312; /* marrón más oscuro para títulos */
 }
 
 .pompom-theme .product-card p {
-  color: #6d4c41;
+  color: #8c5b2e; /* marrón cálido */
 }
 
 .pompom-theme .product-card .price {
-  color: #8d6e63;
+  color: #a66f38; /* tono dulce y tostado */
+  font-weight: bold;
 }
 
 .pompom-theme .pretty-button {
-  background: linear-gradient(to right, #ffe0b2, #ffcc80);
-  color: #4e342e;
+  background: linear-gradient(to right, #ffe5a3, #ffcb7e); /* amarillo cálido */
+  color: #4e2e1f; /* marrón oscuro para contraste */
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .pompom-theme .pretty-button:hover {
-  background: linear-gradient(to right, #ffcc80, #ffb74d);
+  background: linear-gradient(to right, #ffcb7e, #f5b04c); /* más dorado */
+  box-shadow: 0 0 10px #f5c074;
+  transform: scale(1.05);
 }
 
 .pompom-theme .footer {
-  background-color: #ffecb3;
-  color: #4e342e;
+  background-color: #fff0c2; /* crema suave */
+  color: #5a3b1d;
+  border-radius: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-top: 3px dashed #c89f6d;
+  border-bottom: 3px dashed #c89f6d;
+  text-align: center;
 }
+
 
 /* ======= Chococat Theme ======= */
 .chococat-theme {
-  background-color: #fffde7; /* amarillo pastel */
+  background-color: #1e1e2f;
 }
 
 .chococat-theme h1 {
-  color: #ffca28; /* amarillo más fuerte */
+  color: #00bcd4;
 }
 
 .chococat-theme .description-text {
-  color: #6b4c00; /* café oscuro */
+  color: #b0bec5;
 }
 
 .chococat-theme .product-card h3 {
-  color: #ffb300; /* amarillo fuerte */
+  color: #ffd600;
 }
 
 .chococat-theme .product-card p {
-  color: #8d6e63; /* café */
+  color: #cfd8dc;
 }
 
 .chococat-theme .product-card .price {
-  color: #6b4c00;
+  color: #26c6da;
 }
 
 .chococat-theme .pretty-button {
-  background: linear-gradient(to right, #ffd54f, #ffb300);
-  color: #4e342e;
+  background: linear-gradient(to right, #26c6da, #00acc1);
+  color: white;
 }
 
 .chococat-theme .pretty-button:hover {
-  background: linear-gradient(to right, #ffb300, #ffa000);
+  background: linear-gradient(to right, #00acc1, #00838f);
 }
 
 .chococat-theme .footer {
-  background-color: #fff8e1;
-  color: #6b4c00;
+  background-color: #263238;
+  color: #cfd8dc;
+  border-radius: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-top: 3px dashed #4f5b62;
+  border-bottom: 3px dashed #4f5b62;
+  text-align: center;
 }
+
 
 /* ======= Baxmaru Theme ======= */
 .baxmaru-theme {
@@ -482,38 +553,53 @@ h1 {
 }
 
 .baxmaru-theme h1 {
-  color: #000000; /* negro */
+  color: #ffffff; /* blanco para mayor contraste */
 }
 
 .baxmaru-theme .description-text {
-  color: #1b263b;
+  color: #c0d6e4; /* azul claro para destacar sobre fondo oscuro */
 }
 
 .baxmaru-theme .product-card h3 {
-  color: #2e4057;
+  color: #a8c0d4; /* título más claro */
 }
 
 .baxmaru-theme .product-card p {
-  color: #415a77;
+  color: #c7d9eb; /* texto en azul muy claro */
 }
 
 .baxmaru-theme .product-card .price {
-  color: #778da9;
+  color: #e3f2fd; /* precio en azul casi blanco */
+  font-weight: bold;
 }
 
 .baxmaru-theme .pretty-button {
   background: linear-gradient(to right, #1b263b, #415a77);
-  color: #e0e0e0;
+  color: #ffffff; /* blanco para legibilidad */
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .baxmaru-theme .pretty-button:hover {
   background: linear-gradient(to right, #415a77, #778da9);
+  box-shadow: 0 0 10px #8eaecf;
+  transform: scale(1.05);
 }
 
 .baxmaru-theme .footer {
   background-color: #1b263b;
-  color: #e0e0e0;
+  color: #f0f4f8; /* texto más claro */
+  border-radius: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-top: 3px dashed #8ba3b5;
+  border-bottom: 3px dashed #8ba3b5;
+  text-align: center;
 }
+
 
 /*   animaciones  */
 

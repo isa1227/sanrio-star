@@ -1,4 +1,5 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
+import ScrollToTop from "./components/ScrollToTop";
 import { useEffect } from 'react';
 import axios from 'axios';
 
@@ -55,6 +56,7 @@ function App() {
   return (
     <>
       {!hideNavbar && <Navbar />}
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
        <Route path="/auth" element={<Auth />} />

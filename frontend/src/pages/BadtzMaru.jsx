@@ -32,7 +32,7 @@ const productos = [
 
 export default function BadtzMaru() {
   return (
-    <div className="character-page">
+    <div className="character-page baxmaru-theme">
       <header>
         <a href="/" className="back-btn">
           <img src={backImg} alt="Volver al inicio" />
@@ -50,7 +50,6 @@ export default function BadtzMaru() {
             <div className="product-card" key={i}>
               <img src={item.img} alt={item.title} />
               <h3>{item.title}</h3>
-              <p>{item.desc}</p>
               <div className="price">{item.price}</div>
               <button className="pretty-button">Agregar al carrito</button>
             </div>

@@ -51,7 +51,7 @@ export default function Cinnamoroll() {
             <div className="product-card" key={i}>
               <img src={item.img} alt={item.title} />
               <h3>{item.title}</h3>
-              <p>{item.desc}</p>
+              
               <div className="price">{item.price}</div>
               <button className="pretty-button">Agregar al carrito</button>
             </div>

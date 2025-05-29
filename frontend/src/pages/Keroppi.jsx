@@ -13,6 +13,7 @@ import organizador from "../assets/img/keORGANIZADOR.jpg";
 import lonchera from "../assets/img/keLONCHERA.jpg";
 import cepillo from "../assets/img/cepillokeropi.jpg";
 import llavero from "../assets/img/llaverokeropi.jpg";
+import { Scripts } from "react-router-dom";
 
 const productos = [
   { img: peluches, title: "Muñecos Keroppi", desc: "Tres adorables muñecos de peluche de Keroppi para tu colección.", price: "$78.000" },
@@ -50,7 +51,7 @@ export default function Keroppi() {
             <div className="product-card" key={i}>
               <img src={item.img} alt={item.title} />
               <h3>{item.title}</h3>
-              <p>{item.desc}</p>
+              
               <div className="price">{item.price}</div>
               <button className="pretty-button">Agregar al carrito</button>
             </div>
@@ -67,3 +68,5 @@ export default function Keroppi() {
     </div>
   );
 }
+
+
