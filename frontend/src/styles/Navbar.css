@@ -2,13 +2,15 @@
 .navbar {
   width: 90%;
   margin: 15px auto;
-  background-color: #2d0346;
+  background-color: #3b0f3b;
   border-radius: 20px;
   padding: 5px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 
+  0 8px 16px hsl(278, 46%, 34%), 
+  0 -8px 16px hsl(278, 46%, 34%);
 }
 
 .navbar img {
