@@ -1,0 +1,292 @@
+.factura-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 20px;
+}
+
+.factura {
+  width: 350px;
+  background-image: url('../assets/img/factura2.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 2px solid #5d3b8c;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(93, 59, 140, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fondo blanco suave en todo el contenido */
+.factura-contenido {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  color: #333;
+}
+
+/* Título principal */
+.titulo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #5d3b8c;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Productos */
+.productos-lista {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.producto-item {
+  background: rgba(255, 255, 255, 0.6);
+  border-left: 5px solid #c084fc;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.producto-nombre {
+  font-weight: bold;
+  color: #5d3b8c;
+  margin-bottom: 4px;
+}
+
+.producto-detalle {
+  font-size: 14px;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Total */
+.total {
+  text-align: right;
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  color: #000;
+}
+
+/* Botones */
+.botones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.boton-descargar {
+  background-color: #7c3aed;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.boton-descargar:hover {
+  background-color: #6b21a8;
+}
+
+.boton-comprar {
+  background-color: #ec4899;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.boton-comprar:hover {
+  background-color: #db2777;
+}
+
+/* Decoración piquitos */
+.piquitos {
+  display: flex;
+  justify-content: space-between;
+  height: 8px;
+  margin-bottom: 4px;
+}
+
+.triangulo {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 8px solid #c4b5fd;
+}
+
+.superior .triangulo {
+  transform: rotate(180deg);
+}
+
+.inferior .triangulo {
+  transform: rotate(0deg);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(90, 45, 125, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #f4e1ff;
+  padding: 2rem;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  color: #5a2d7d;
+  position: relative;
+}
+
+.modal h2 {
+  margin: 1rem 0;
+  font-size: 1.6rem;
+}
+
+.modal input,
+.modal select {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.7rem;
+  border-radius: 10px;
+  border: 2px solid #d3a5ff;
+  background: #fff8ff;
+  font-size: 1rem;
+}
+
+.modal-botones {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.modal-botones button {
+  flex: 1;
+  padding: 0.6rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background-color: #ba68c8;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.modal-botones button:hover {
+  background-color: #9c27b0;
+}
+
+.modal-imagen {
+  width: 120px;
+  margin: 0 auto 1rem;
+  display: block;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(90, 45, 125, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #f4e1ff;
+  padding: 2rem;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  color: #5a2d7d;
+  position: relative;
+}
+
+.modal h2 {
+  margin: 1rem 0;
+  font-size: 1.6rem;
+}
+
+.modal input,
+.modal select {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.7rem;
+  border-radius: 10px;
+  border: 2px solid #d3a5ff;
+  background: #fff8ff;
+  font-size: 1rem;
+}
+
+.modal-botones {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.modal-botones button {
+  flex: 1;
+  padding: 0.6rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background-color: #ba68c8;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.modal-botones button:hover {
+  background-color: #9c27b0;
+}
+
+.modal-imagen {
+  width: 120px;
+  margin: 0 auto 1rem;
+  display: block;
+}
+
+.mensaje-exito {
+  margin-top: 20px;
+  background-color: #e1bee7;
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  color: #4a148c;
+  font-weight: bold;
+  font-size: 1.2rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
