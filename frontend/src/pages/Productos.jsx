@@ -9,15 +9,13 @@ const Productos = () => {
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
   const [mensaje, setMensaje] = useState('');
 
-  // Mostrar mensaje después de iniciar sesión
   useEffect(() => {
     const mensajeAuth = localStorage.getItem("mensajeAuth");
     if (mensajeAuth) {
       setMensaje(mensajeAuth);
       localStorage.removeItem("mensajeAuth");
 
-    
-    const timer = setTimeout(() => setMensaje(''), 5000);
+      const timer = setTimeout(() => setMensaje(''), 5000);
       return () => clearTimeout(timer);
     }
   }, []);
@@ -86,15 +84,15 @@ const Productos = () => {
             ))}
           </aside>
 
-          <div style={{ flex: 1 }}>
-            {/* Mostrar mensaje global aquí también */}
+          {/* Contenido principal con corrección aplicada */}
+          <div style={{ flex: 1, minWidth: 0 }}>
             {mensaje && (
               <div className="mensaje-carrito">
                 {mensaje}
               </div>
             )}
 
-            <div className="container">
+            <div className="containerr">
               {productosFiltrados.map((p) => (
                 <div className="card" key={p.id}>
                   <img
