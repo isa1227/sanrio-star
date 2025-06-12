@@ -5,10 +5,10 @@ import logo from "../assets/img/logo.png";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
 
   const handleLogout = () => {
-    localStorage.removeItem("usuarioLogueado");
+    localStorage.removeItem("usuario");
     localStorage.setItem("mensajeLogout", "🔒 Has cerrado sesión correctamente");
     navigate('/auth');
   };
@@ -24,10 +24,18 @@ const Navbar = () => {
         <Link to="/productos" title="Productos">🛍️</Link>
         <Link to="/carrito" title="Carrito">🛒</Link>
         <a href="#contacto" title="Contacto">📞</a>
+        {usuario?.rol_id === 2 && (
+          <Link to="/admin" title="Panel Administrador">🛠️</Link>
+        )}
 
         {usuario ? (
           <>
-            <span className="usuario-nombre">{usuario.nombre_usuario}</span>
+           {usuario && (
+  <span className="text-white font-bold">
+    {usuario.nombre_usuario} ({usuario.nombre_rol})
+  </span>
+)}
+
             <button className="logout-button" onClick={handleLogout}>🚪 Cerrar sesión</button>
           </>
         ) : (

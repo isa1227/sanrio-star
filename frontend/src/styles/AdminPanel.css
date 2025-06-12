@@ -1,0 +1,71 @@
+.admin-panel {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: 'Fredoka', sans-serif;
+  color: #003366;
+}
+
+.admin-panel h1 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #004080;
+}
+
+.admin-panel form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: #e6f2ff;
+  padding: 1.5rem;
+  border-radius: 20px;
+  margin-bottom: 2rem;
+}
+
+.admin-panel input,
+.admin-panel select {
+  padding: 0.7rem;
+  border-radius: 10px;
+  border: 1px solid #007acc;
+  font-size: 1rem;
+}
+
+.admin-panel button {
+  padding: 0.7rem;
+  background-color: #007acc;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.admin-panel button:hover {
+  background-color: #005f99;
+}
+
+.admin-panel table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #f2f9ff;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.admin-panel th,
+.admin-panel td {
+  border: 1px solid #b3d9ff;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.admin-panel th {
+  background-color: #007acc;
+  color: white;
+}
+
+.admin-panel td {
+  background-color: #e6f2ff;
+}

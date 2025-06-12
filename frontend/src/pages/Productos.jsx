@@ -24,9 +24,9 @@ const Productos = () => {
     filtro === 'todos' ? productos : productos.filter(p => p.categoria === filtro);
 
   const agregarAlCarrito = (producto) => {
-    const usuarioLogueado = localStorage.getItem("usuarioLogueado");
+    const usuario = localStorage.getItem("usuario");
 
-    if (!usuarioLogueado) {
+    if (!usuario) {
       setMensaje('⚠️ Debes iniciar sesión para agregar productos al carrito');
       setTimeout(() => setMensaje(''), 3000);
       return;
