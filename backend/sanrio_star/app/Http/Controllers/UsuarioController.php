@@ -48,4 +48,9 @@ class UsuarioController extends Controller
         Usuario::destroy($id);
         return response()->json(null, 204);
     }
+    public function getRoles()
+{
+    return response()->json(DB::table('roles')->get());
+}
+
 }

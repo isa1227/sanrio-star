@@ -5,8 +5,13 @@ import Factura from "../components/Factura";
 const CarritoPage = () => {
   const [carrito, setCarrito] = useState([]);
 
+<<<<<<< HEAD
   useEffect(() => {
     const usuario = localStorage.getItem("usuarioLogueado");
+=======
+useEffect(() => {
+  const usuario = localStorage.getItem("usuario");
+>>>>>>> 803689d006426e437d5b69421a7a1927361f9919
 
     if (!usuario) {
       setCarrito([]);

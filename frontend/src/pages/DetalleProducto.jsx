@@ -11,9 +11,9 @@ const DetalleProducto = () => {
   if (!producto) return <p className="text-center text-red-500">Producto no encontrado.</p>;
 
   const agregarAlCarrito = () => {
-    const usuarioLogueado = localStorage.getItem("usuarioLogueado");
+    const usuario = localStorage.getItem("usuario");
 
-    if (!usuarioLogueado) {
+    if (!usuario) {
       setMensaje('⚠️ Debes iniciar sesión para agregar productos al carrito');
       setTimeout(() => setMensaje(''), 3000);
       return;

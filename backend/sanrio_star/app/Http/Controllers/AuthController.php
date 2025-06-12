@@ -37,25 +37,29 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'correo' => 'required|string|email',
-            'contrasena' => 'required|string',
-        ]);
+{
+    $validator = Validator::make($request->all(), [
+        'correo' => 'required|string|email',
+        'contrasena' => 'required|string',
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => 'Datos inválidos'], 400);
-        }
-
-        $usuario = Usuario::where('correo', $request->correo)->first();
-
-        if (!$usuario || !Hash::check($request->contrasena, $usuario->contrasena)) {
-            return response()->json(['error' => 'Credenciales incorrectas'], 401);
-        }
-
-        return response()->json([
-            'mensaje' => 'Inicio de sesión exitoso',
-            'usuario' => $usuario
-        ]);
+    if ($validator->fails()) {
+        return response()->json(['error' => 'Datos inválidos'], 400);
     }
+
+    $usuario = Usuario::join('roles', 'usuarios.rol_id', '=', 'roles.rol_id')
+        ->where('correo', $request->correo)
+        ->select('usuarios.*', 'roles.nombre_rol')
+        ->first();
+
+    if (!$usuario || !Hash::check($request->contrasena, $usuario->contrasena)) {
+        return response()->json(['error' => 'Credenciales incorrectas'], 401);
+    }
+
+    return response()->json([
+        'mensaje' => 'Inicio de sesión exitoso',
+        'usuario' => $usuario
+    ]);
+}
+
 }

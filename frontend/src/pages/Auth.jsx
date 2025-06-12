@@ -15,7 +15,6 @@ const Auth = () => {
 
   const navigate = useNavigate();
 
-  // Mostrar solo mensaje de logout (en /auth)
   useEffect(() => {
     const mensajeLogout = localStorage.getItem("mensajeLogout");
     if (mensajeLogout) {
@@ -27,7 +26,6 @@ const Auth = () => {
     }
   }, []);
 
-  // Enviar formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
     const endpoint = isLogin
@@ -49,9 +47,9 @@ const Auth = () => {
       }
 
       if (isLogin) {
-        localStorage.setItem("usuarioLogueado", JSON.stringify(data.usuario));
+        localStorage.setItem("usuario", JSON.stringify(data.usuario));
         localStorage.setItem("mensajeAuth", "✅ Inicio de sesión exitoso");
-        navigate('/productos'); // Mostrará el mensaje allá
+        navigate('/productos');
       } else {
         alert('✅ Registro exitoso');
         setIsLogin(true);
@@ -65,7 +63,6 @@ const Auth = () => {
 
   return (
     <div className="auth-container">
-      {/* Imagen a la izquierda */}
       <div
         className="auth-image"
         style={{
@@ -76,7 +73,6 @@ const Auth = () => {
         }}
       ></div>
 
-      {/* Formulario */}
       <div className="auth-form">
         <h2>{isLogin ? 'Iniciar Sesión' : 'Registrarse'}</h2>
 

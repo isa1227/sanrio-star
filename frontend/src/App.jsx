@@ -1,8 +1,9 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import ScrollToTop from "./components/ScrollToTop";
 import { useEffect } from 'react';
 import axios from 'axios';
 
+import AdminPanel from './pages/AdminPanel';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Auth from './pages/Auth';
@@ -19,6 +20,11 @@ import Keroppi from './pages/Keroppi';
 import Chococat from './pages/Chococat'; 
 import HelloKitty from './pages/Kitty';
 import './index.css';
+
+const PrivateRoute = ({ children }) => {
+  const usuario = JSON.parse(localStorage.getItem('usuario'));
+  return usuario?.rol_id === 2 ? children : <Navigate to="/" />;
+};
 
 function App() {
   const location = useLocation();
@@ -58,21 +64,30 @@ function App() {
       {!hideNavbar && <Navbar />}
       <ScrollToTop />
       <Routes>
-        <Route path="/" element={<Home />} />
-       <Route path="/auth" element={<Auth />} />
-        <Route path="/productos" element={<Productos />} />
-        <Route path="/productos/:id" element={<DetalleProducto />} />
-        <Route path="/carrito" element={<CarritoPage />} />
-        <Route path="/kuromi" element={<Kuromi />} />
-        <Route path="/cinnamoroll" element={<Cinnamoroll />} />
-        <Route path="/mymelody" element={<MyMelody />} />
-        <Route path="/badtzmaru" element={<BadtzMaru />} />
-        <Route path="/pochaco" element={<Pochaco />} />
-        <Route path="/pompom" element={<Pompom />} />
-        <Route path="/keroppi" element={<Keroppi />} />
-        <Route path="/chococat" element={<Chococat />} />
-        <Route path="/kitty" element={<HelloKitty />} />
-      </Routes>
+  <Route path="/" element={<Home />} />
+  <Route path="/auth" element={<Auth />} />
+  <Route path="/productos" element={<Productos />} />
+  <Route path="/productos/:id" element={<DetalleProducto />} />
+  <Route path="/carrito" element={<CarritoPage />} />
+  <Route path="/kuromi" element={<Kuromi />} />
+  <Route path="/cinnamoroll" element={<Cinnamoroll />} />
+  <Route path="/mymelody" element={<MyMelody />} />
+  <Route path="/badtzmaru" element={<BadtzMaru />} />
+  <Route path="/pochaco" element={<Pochaco />} />
+  <Route path="/pompom" element={<Pompom />} />
+  <Route path="/keroppi" element={<Keroppi />} />
+  <Route path="/chococat" element={<Chococat />} />
+  <Route path="/kitty" element={<HelloKitty />} />
+  <Route
+    path="/admin"
+    element={
+      <PrivateRoute>
+        <AdminPanel />
+      </PrivateRoute>
+    }
+  />
+</Routes>
+
     </>
   );
 }
