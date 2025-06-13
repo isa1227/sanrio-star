@@ -58,3 +58,13 @@
   height: auto;
   object-fit: cover;
 }
+
+.btn-vaciar-carrito {
+  background-color: #f87171;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
