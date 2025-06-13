@@ -6,7 +6,7 @@ const CarritoPage = () => {
   const [carrito, setCarrito] = useState([]);
 
   useEffect(() => {
-    const usuario = localStorage.getItem("usuarioLogueado") || localStorage.getItem("usuario");
+    const usuario = localStorage.getItem("usuario") || localStorage.getItem("usuario");
 
     if (!usuario) {
       setCarrito([]);

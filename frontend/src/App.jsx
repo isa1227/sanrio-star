@@ -44,7 +44,7 @@ function App() {
 
   // 🔄 Llamada al backend al cargar el sitio
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/mensaje')
+    axios.get('http://localhost:5173/api/mensaje')
       .then(res => {
         console.log('✅ Backend respondió correctamente:', res.data);
       })

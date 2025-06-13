@@ -4,7 +4,7 @@ import '../styles/AdminPanel.css';
 
 const AdminPanel = () => {
   const navigate = useNavigate();
-  const usuarioLogueado = JSON.parse(localStorage.getItem("usuario"));
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
 
   const [usuarios, setUsuarios] = useState([]);
   const [usuarioForm, setUsuarioForm] = useState({
@@ -26,7 +26,7 @@ const AdminPanel = () => {
 
   // Protección: Solo administradores pueden entrar
   useEffect(() => {
-    if (!usuarioLogueado || usuarioLogueado.rol_id !== 2) {
+    if (!usuario || usuario.rol_id !== 2) {
       navigate("/");
     }
   }, []);
