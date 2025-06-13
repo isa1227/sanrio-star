@@ -237,6 +237,29 @@ body {
   }
 }
 
+.footer-productos {
+  width: 100%;
+  background-color: #2d0346;
+  color: white;
+  text-align: center;
+  padding: 30px 0;
+  font-family: 'Fredoka', 'Poppins', cursive;
+  margin-top: 60px;
+  box-shadow: 0 -4px 12px rgba(126, 32, 155, 0.4);
+}
+
+.footer-productos-titulo {
+  margin: 0 0 10px 0;
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+.footer-productos-texto {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #dddddd;
+}
+
 
 
 

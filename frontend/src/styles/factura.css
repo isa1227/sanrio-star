@@ -1,3 +1,4 @@
+/* ============ CONTENEDOR PRINCIPAL ============ */
 .factura-container {
   display: flex;
   flex-direction: column;
@@ -5,9 +6,9 @@
   padding: 20px;
 }
 
+/* ============ FACTURA GENERAL ============ */
 .factura {
   width: 350px;
-  background-image: url('../assets/img/factura2.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -18,7 +19,7 @@
   overflow: hidden;
 }
 
-/* Fondo blanco suave en todo el contenido */
+/* ============ CONTENIDO DE FACTURA ============ */
 .factura-contenido {
   padding: 20px;
   background: rgba(255, 255, 255, 0.6);
@@ -35,7 +36,7 @@
   text-align: center;
 }
 
-/* Productos */
+/* ============ LISTA DE PRODUCTOS ============ */
 .productos-lista {
   margin-top: 20px;
   display: flex;
@@ -63,7 +64,7 @@
   flex-direction: column;
 }
 
-/* Total */
+/* Total a pagar */
 .total {
   text-align: right;
   margin-top: 20px;
@@ -75,12 +76,12 @@
   color: #000;
 }
 
-/* Botones */
+/* ============ BOTONES ============ */
 .botones {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  margin-top: 10px;
+  margin-bottom: 30px;
 }
 
 .boton-descargar {
@@ -107,36 +108,16 @@
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s ease;
+  margin-top: 20px;
 }
 
 .boton-comprar:hover {
   background-color: #db2777;
 }
 
-/* Decoración piquitos */
-.piquitos {
-  display: flex;
-  justify-content: space-between;
-  height: 8px;
-  margin-bottom: 4px;
-}
 
-.triangulo {
-  width: 0;
-  height: 0;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-top: 8px solid #c4b5fd;
-}
 
-.superior .triangulo {
-  transform: rotate(180deg);
-}
-
-.inferior .triangulo {
-  transform: rotate(0deg);
-}
-
+/* ============ MODAL ============ */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -151,51 +132,76 @@
 }
 
 .modal {
-  background: #f4e1ff;
+  background-image: url("../assets/img/factura2.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   padding: 2rem;
   border-radius: 16px;
   width: 90%;
-  max-width: 500px;
+  max-width: 450px;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
-  text-align: center;
   color: #5a2d7d;
   position: relative;
+  backdrop-filter: blur(4px);
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .modal h2 {
   margin: 1rem 0;
   font-size: 1.6rem;
+  text-align: center;
+  color: #3c0753;
+  font-weight: bold;
 }
 
+.modal label {
+  display: block;
+  margin: 0.5rem 0 0.2rem;
+  font-weight: bold;
+  font-size: 0.95rem;
+  color: #000000;
+  text-align: center;
+}
+
+/* Campos de entrada */
 .modal input,
 .modal select {
   width: 100%;
   margin-bottom: 1rem;
-  padding: 0.7rem;
-  border-radius: 10px;
-  border: 2px solid #d3a5ff;
-  background: #fff8ff;
+  padding: 0.6rem;
+  border-radius: 12px;
+  border: 2px solid #e3c8ff;
+  background: rgba(255, 255, 255, 0.8);
   font-size: 1rem;
+  box-sizing: border-box;
+  color: #3c0753;
 }
 
+/* Botones del modal */
 .modal-botones {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
   margin-top: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
 }
 
 .modal-botones button {
   flex: 1;
-  padding: 0.6rem;
-  border-radius: 10px;
+  min-width: 130px;
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
-  background-color: #ba68c8;
+  background-color: #c084fc;
   color: white;
   font-weight: bold;
   font-size: 1rem;
   transition: background-color 0.2s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
 .modal-botones button:hover {
@@ -208,77 +214,7 @@
   display: block;
 }
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(90, 45, 125, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal {
-  background: #f4e1ff;
-  padding: 2rem;
-  border-radius: 16px;
-  width: 90%;
-  max-width: 500px;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
-  text-align: center;
-  color: #5a2d7d;
-  position: relative;
-}
-
-.modal h2 {
-  margin: 1rem 0;
-  font-size: 1.6rem;
-}
-
-.modal input,
-.modal select {
-  width: 100%;
-  margin-bottom: 1rem;
-  padding: 0.7rem;
-  border-radius: 10px;
-  border: 2px solid #d3a5ff;
-  background: #fff8ff;
-  font-size: 1rem;
-}
-
-.modal-botones {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.modal-botones button {
-  flex: 1;
-  padding: 0.6rem;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  background-color: #ba68c8;
-  color: white;
-  font-weight: bold;
-  font-size: 1rem;
-  transition: background-color 0.2s ease;
-}
-
-.modal-botones button:hover {
-  background-color: #9c27b0;
-}
-
-.modal-imagen {
-  width: 120px;
-  margin: 0 auto 1rem;
-  display: block;
-}
-
+/* ============ MENSAJE DE COMPRA ============ */
 .mensaje-exito {
   margin-top: 20px;
   background-color: #e1bee7;
@@ -290,3 +226,20 @@
   font-size: 1.2rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
+
+/* ============ MENSAJE DE ÉXITO ============ */
+
+.mensaje-exito {
+  background-color: #e9d5ff;
+  color: #4c1d95;
+  padding: 16px 24px;
+  margin: 30px auto 0;
+  width: fit-content;
+  max-width: 90%;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-align: center;
+}
+

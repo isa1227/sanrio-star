@@ -353,50 +353,53 @@ h1 {
 
 /* ======= Kuromi Theme ======= */
 .kuromi-theme {
-  background-color: #4d0d43; /* fondo general oscuro de Kuromi */
+  background-color: #2a022a; /* fondo general más oscuro */
 }
 
 .kuromi-theme h1 {
-  color: #c8a2c8; /* lila suave para el título */
+  color: #d1a1e3; /* lila pálido con buena visibilidad sobre fondo oscuro */
 }
 
 .kuromi-theme .description-text {
-  color: #ffffff;
+  color: #f2e6ff; /* casi blanco pero con tono lila */
 }
 
 .kuromi-theme .product-card h3 {
-  color: #c084fc; /* título en lila suave */
+  color: #bf7ff2; /* lila más intenso y oscuro */
 }
 
 .kuromi-theme .product-card p {
-  color: #d4a5f9; /* texto en tono lila claro */
+  color: #e2b6ff; /* texto más suave pero menos claro */
 }
 
 .kuromi-theme .product-card .price {
-  color: #f7c8ff; /* precio más claro para contraste */
+  color: #ffdcfa; /* tono claro, pero más equilibrado con el fondo */
 }
 
 .kuromi-theme .pretty-button {
-  background: linear-gradient(to right, #5d3b8c, #a472d4); /* degradado Kuromi */
+  background: linear-gradient(to right, #4b006e, #823e9c); /* degradado oscuro Kuromi */
   color: #fff;
+  border: 1px solid #d9a0ff;
+  border-radius: 1rem;
+  padding: 0.5rem 1.2rem;
+  transition: background 0.3s ease;
 }
 
 .kuromi-theme .pretty-button:hover {
-  background: linear-gradient(to right, #6f4da3, #d4a5f9); /* hover Kuromi */
+  background: linear-gradient(to right, #5e1a7a, #a24bcf); /* hover con más brillo */
 }
 
 .kuromi-theme .footer {
-  background-color: #2f1433;
-  color: #e2c6ff;
+  background-color: #1a001f;
+  color: #d8b3f7;
   border-radius: 1.5rem;
   margin-top: 2rem;
   margin-bottom: 2rem;
   padding: 1rem;
-  border-top: 3px dashed #a472d4;
-  border-bottom: 3px dashed #a472d4;
+  border-top: 3px dashed #b072c2;
+  border-bottom: 3px dashed #b072c2;
   text-align: center;
 }
-
 
 
 /* ======= My Melody Theme ======= */

@@ -20,6 +20,8 @@
   border-radius: 10px;
   width: 200px;
   text-align: center;
+  position: relative;
+
 }
 
 .card img {
@@ -51,3 +53,61 @@
   gap: 1.5rem;
 }
 
+.checkbox-circulo {
+  position: absolute;
+  bottom: 12px;       /* distancia desde la parte inferior */
+  right: 12px;        /* distancia desde el borde derecho */
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  appearance: none;
+  background-color: #ccc; /* gris claro */
+  border: 2px solid #ccc;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: white;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2); /* sombra ligera */
+}
+
+/* Cuando está seleccionado */
+.checkbox-circulo:checked {
+  background-color: #a78bfa; /* morado */
+  border-color: #a78bfa;
+}
+
+/* Chulito ✓ */
+.checkbox-circulo:checked::after {
+  content: "✓";
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.footer-carrito {
+  width: 100%;
+  background-color: #2d0346;
+  color: white;
+  text-align: center;
+  padding: 30px 0;
+  font-family: 'Fredoka', 'Poppins', cursive;
+  margin-top: 60px;
+  box-shadow: 0 -4px 12px rgba(126, 32, 155, 0.4);
+}
+
+.footer-carrito-titulo {
+  margin: 0 0 10px 0;
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+.footer-carrito-texto {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #dddddd;
+}
