@@ -26,7 +26,9 @@ const Factura = ({ productos }) => {
 
   const calcularTotal = () => {
     return productos.reduce((total, producto) => {
-      const precioLimpio = Number(producto.precio.replace(/[^0-9]/g, ""));
+      const precioLimpio = producto.precio
+        ? Number(producto.precio.toString().replace(/[^0-9]/g, ""))
+        : 0;
       const cantidad = Number(producto.cantidad) || 1;
       return total + precioLimpio * cantidad;
     }, 0);
@@ -55,8 +57,6 @@ const Factura = ({ productos }) => {
   return (
     <div className="factura-container">
       <div className="botones">
-        
-
         <button onClick={() => setMostrarFactura((prev) => !prev)} className="boton-comprar">
           {mostrarFactura ? "Ocultar Factura" : "Ver Factura"}
         </button>
@@ -79,8 +79,6 @@ const Factura = ({ productos }) => {
             backgroundRepeat: "no-repeat",
           }}
         >
-          
-
           <div className="factura-contenido">
             <h2 className="titulo">Factura #</h2>
             <p>Fecha: {new Date().toLocaleDateString()}</p>
@@ -92,18 +90,25 @@ const Factura = ({ productos }) => {
 
             <div className="productos-lista">
               {productos.map((producto, index) => {
-                const precioLimpio = Number(producto.precio.replace(/[^0-9]/g, ""));
-                const cantidad = Number(producto.cantidad) || 1;
-                return (
-                  <div key={index} className="producto-item">
-                    <div className="producto-nombre">{producto.nombre}</div>
-                    <div className="producto-detalle">
-                      <span>Cantidad: {cantidad}</span>
-                      <span>Precio: {formatoMoneda(precioLimpio)}</span>
-                    </div>
-                  </div>
-                );
-              })}
+  const nombreProducto = producto?.nombre || "Producto sin nombre";
+  const imagen = producto?.imagen;
+  const cantidad = Number(producto.cantidad) || 1;
+  const precioLimpio = producto.precio
+    ? Number(producto.precio.toString().replace(/[^0-9]/g, ""))
+    : 0;
+
+  return (
+    <div key={index} className="producto-item">
+      
+      <div className="producto-nombre">{nombreProducto}</div>
+      <div className="producto-detalle">
+        <span>Cantidad: {cantidad}</span>
+        <span>Precio: {formatoMoneda(precioLimpio)}</span>
+      </div>
+    </div>
+  );
+})}
+
             </div>
 
             <p className="total">Total: {formatoMoneda(calcularTotal())}</p>
@@ -112,11 +117,11 @@ const Factura = ({ productos }) => {
       )}
 
       <button
-          onClick={() => setMostrarModal(true)}
-          className={`boton-comprar ${mostrarModal ? "sin-fondo" : ""}`}
-        >
-          Comprar
-        </button>
+        onClick={() => setMostrarModal(true)}
+        className={`boton-comprar ${mostrarModal ? "sin-fondo" : ""}`}
+      >
+        Comprar
+      </button>
 
       {mostrarModal && (
         <div className="modal-overlay">
@@ -159,10 +164,7 @@ const Factura = ({ productos }) => {
             />
 
             <label>Método de pago:</label>
-            <select
-              value={metodoPago}
-              onChange={(e) => setMetodoPago(e.target.value)}
-            >
+            <select value={metodoPago} onChange={(e) => setMetodoPago(e.target.value)}>
               <option value="">Selecciona...</option>
               <option value="Tarjeta">Tarjeta</option>
               <option value="Nequi">Nequi</option>

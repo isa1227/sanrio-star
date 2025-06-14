@@ -89,6 +89,32 @@
   font-size: 16px;
 }
 
+/* CAJITA*/
+
+.input-cantidad {
+  width: 50px;
+  padding: 4px;
+  border: 1px solid #d8b4fe;
+  border-radius: 6px;
+  background-color: #fdf4ff;
+  color: #7e22ce;
+  font-weight: 500;
+  text-align: center;
+  outline: none;
+  transition: all 0.2s ease;
+  margin: 0 auto;
+  display: block;
+  box-shadow: 0 1px 4px rgba(167, 139, 250, 0.2);
+}
+
+.input-cantidad:focus {
+  border-color: #c084fc;
+  box-shadow: 0 0 4px rgba(192, 132, 252, 0.4);
+}
+
+
+/* FOOTER */
+
 .footer-carrito {
   width: 100%;
   background-color: #2d0346;
@@ -111,3 +137,4 @@
   font-size: 1rem;
   color: #dddddd;
 }
+

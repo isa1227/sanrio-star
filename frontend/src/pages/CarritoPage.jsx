@@ -86,20 +86,21 @@ const CarritoPage = () => {
 
                     <label style={{ color: 'white' }}>Cantidad:</label>
                     <input
-                      type="number"
-                      min="1"
-                      value={item.cantidad}
-                      onChange={(e) => {
-                        const nuevaCantidad = parseInt(e.target.value) || 1;
-                        setCarrito((prev) => {
-                          const nuevo = [...prev];
-                          nuevo[index].cantidad = nuevaCantidad;
-                          localStorage.setItem("carrito", JSON.stringify(nuevo));
-                          return nuevo;
-                        });
-                      }}
-                      style={{ width: '60px', textAlign: 'center' }}
-                    />
+  type="number"
+  min="1"
+  value={item.cantidad}
+  onChange={(e) => {
+    const nuevaCantidad = parseInt(e.target.value) || 1;
+    setCarrito((prev) => {
+      const nuevo = [...prev];
+      nuevo[index].cantidad = nuevaCantidad;
+      localStorage.setItem("carrito", JSON.stringify(nuevo));
+      return nuevo;
+    });
+  }}
+  className="input-cantidad"
+/>
+
                   </div>
                 ))}
               </div>
@@ -115,12 +116,12 @@ const CarritoPage = () => {
       </div>
 
       {/* Footer personalizado para carrito */}
-      <footer className="footer-carrito">
-        <h3 className="footer-carrito-titulo">Contacto</h3>
-        <p className="footer-carrito-texto">Email: contacto@sanriostar.com</p>
-        <p className="footer-carrito-texto">Teléfono: +123 456 789</p>
-        <p className="footer-carrito-texto">© 2024 Sanrio Star</p>
-      </footer>
+      <footer id="contacto" className="footer-carrito">
+  <h3 className="footer-carrito-titulo">Contacto</h3>
+  <p className="footer-carrito-texto">Email: contacto@sanriostar.com</p>
+  <p className="footer-carrito-texto">Teléfono: +123 456 789</p>
+  <p className="footer-carrito-texto">© 2024 Sanrio Star</p>
+</footer>
     </>
   );
 };

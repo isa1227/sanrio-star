@@ -120,7 +120,7 @@ const Productos = () => {
         </div>
       )}
 
-<footer className="footer-productos">
+<footer id="contacto"  className="footer-productos">
   <h3 className="footer-productos-titulo">Contacto</h3>
   <p className="footer-productos-texto">Email: contacto@sanriostar.com</p>
   <p className="footer-productos-texto">Teléfono: +123 456 789</p>
