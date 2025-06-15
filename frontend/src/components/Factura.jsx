@@ -14,6 +14,7 @@ const Factura = ({ productos }) => {
   const [direccion, setDireccion] = useState("");
   const [metodoPago, setMetodoPago] = useState("");
   const [compraConfirmada, setCompraConfirmada] = useState(false);
+  const [mostrarMensaje, setMostrarMensaje] = useState(false); // 🔹 nuevo estado para el mensaje
 
   const descargarFactura = () => {
     html2canvas(facturaRef.current).then((canvas) => {
@@ -26,9 +27,8 @@ const Factura = ({ productos }) => {
 
   const calcularTotal = () => {
     return productos.reduce((total, producto) => {
-      const precioLimpio = producto.precio
-        ? Number(producto.precio.toString().replace(/[^0-9]/g, ""))
-        : 0;
+      const precioTexto = producto?.precio || producto?.price || "0";
+      const precioLimpio = Number(precioTexto.toString().replace(/[^\d]/g, "")) || 0;
       const cantidad = Number(producto.cantidad) || 1;
       return total + precioLimpio * cantidad;
     }, 0);
@@ -41,13 +41,20 @@ const Factura = ({ productos }) => {
     }).format(valor);
 
   const validarFormulario = () => {
-    if (!nombre.trim() || !telefono.trim() || !direccion.trim() || !metodoPago) {
+    if (
+      !nombre.trim() ||
+      !telefono.trim() ||
+      !direccion.trim() ||
+      !metodoPago
+    ) {
       alert("Por favor completa todos los campos.");
       return false;
     }
 
     if (!/^\d{7,15}$/.test(telefono)) {
-      alert("El teléfono debe contener solo números y tener entre 7 y 15 dígitos.");
+      alert(
+        "El teléfono debe contener solo números y tener entre 7 y 15 dígitos."
+      );
       return false;
     }
 
@@ -57,7 +64,10 @@ const Factura = ({ productos }) => {
   return (
     <div className="factura-container">
       <div className="botones">
-        <button onClick={() => setMostrarFactura((prev) => !prev)} className="boton-comprar">
+        <button
+          onClick={() => setMostrarFactura((prev) => !prev)}
+          className="boton-comprar"
+        >
           {mostrarFactura ? "Ocultar Factura" : "Ver Factura"}
         </button>
 
@@ -83,32 +93,47 @@ const Factura = ({ productos }) => {
             <h2 className="titulo">Factura #</h2>
             <p>Fecha: {new Date().toLocaleDateString()}</p>
 
-            {nombre && <p><strong>Nombre:</strong> {nombre}</p>}
-            {telefono && <p><strong>Teléfono:</strong> {telefono}</p>}
-            {direccion && <p><strong>Dirección:</strong> {direccion}</p>}
-            {metodoPago && <p><strong>Método de pago:</strong> {metodoPago}</p>}
+            {nombre && (
+              <p>
+                <strong>Nombre:</strong> {nombre}
+              </p>
+            )}
+            {telefono && (
+              <p>
+                <strong>Teléfono:</strong> {telefono}
+              </p>
+            )}
+            {direccion && (
+              <p>
+                <strong>Dirección:</strong> {direccion}
+              </p>
+            )}
+            {metodoPago && (
+              <p>
+                <strong>Método de pago:</strong> {metodoPago}
+              </p>
+            )}
 
             <div className="productos-lista">
               {productos.map((producto, index) => {
-  const nombreProducto = producto?.nombre || "Producto sin nombre";
-  const imagen = producto?.imagen;
-  const cantidad = Number(producto.cantidad) || 1;
-  const precioLimpio = producto.precio
-    ? Number(producto.precio.toString().replace(/[^0-9]/g, ""))
-    : 0;
+                const nombreProducto =
+                  producto?.nombre || producto?.title || "Producto sin nombre";
+                const cantidad = Number(producto.cantidad) || 1;
+                const precioBruto = producto?.precio || producto?.price || "0";
+                const precioLimpio = Number(
+                  precioBruto.toString().replace(/[^0-9]/g, "")
+                );
 
-  return (
-    <div key={index} className="producto-item">
-      
-      <div className="producto-nombre">{nombreProducto}</div>
-      <div className="producto-detalle">
-        <span>Cantidad: {cantidad}</span>
-        <span>Precio: {formatoMoneda(precioLimpio)}</span>
-      </div>
-    </div>
-  );
-})}
-
+                return (
+                  <div key={index} className="producto-item">
+                    <div className="producto-nombre">{nombreProducto}</div>
+                    <div className="producto-detalle">
+                      <span>Cantidad: {cantidad}</span>
+                      <span>Precio: {formatoMoneda(precioLimpio)}</span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
 
             <p className="total">Total: {formatoMoneda(calcularTotal())}</p>
@@ -122,6 +147,11 @@ const Factura = ({ productos }) => {
       >
         Comprar
       </button>
+
+      {/* 🔸 Mostrar mensaje de éxito */}
+      {mostrarMensaje && (
+        <div className="mensaje-exito">¡Compra realizada con éxito!</div>
+      )}
 
       {mostrarModal && (
         <div className="modal-overlay">
@@ -164,7 +194,10 @@ const Factura = ({ productos }) => {
             />
 
             <label>Método de pago:</label>
-            <select value={metodoPago} onChange={(e) => setMetodoPago(e.target.value)}>
+            <select
+              value={metodoPago}
+              onChange={(e) => setMetodoPago(e.target.value)}
+            >
               <option value="">Selecciona...</option>
               <option value="Tarjeta">Tarjeta</option>
               <option value="Nequi">Nequi</option>
@@ -179,6 +212,12 @@ const Factura = ({ productos }) => {
                     setCompraConfirmada(true);
                     setMostrarModal(false);
                     setMostrarFactura(true);
+                    setMostrarMensaje(true);
+
+                    // Ocultar mensaje a los 5 segundos
+                    setTimeout(() => {
+                      setMostrarMensaje(false);
+                    }, 5000);
                   }
                 }}
               >

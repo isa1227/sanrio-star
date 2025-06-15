@@ -1,6 +1,5 @@
 .lol {
-
-width: 85%;
+  width: 85%;
   margin: 3rem auto;
   padding: 16rem 3rem;
 
@@ -15,8 +14,24 @@ width: 85%;
   align-items: center;
   justify-content: center;
 
-
   border-top-left-radius: 30px;
-border-top-right-radius: 30px;
+  border-top-right-radius: 30px;
+}
 
+/* Responsive tablet */
+@media (max-width: 768px) {
+  .lol {
+    padding: 10rem 2rem;
+    width: 90%;
+  }
+}
+
+/* Responsive celular */
+@media (max-width: 480px) {
+  .lol {
+    padding: 6rem 1.5rem;
+    width: 95%;
+    flex-direction: column;
+    text-align: center;
+  }
 }

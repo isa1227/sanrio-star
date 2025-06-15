@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/Personajes.css";
 
 import backImg from "../assets/img/pom.png";
@@ -16,33 +16,120 @@ import medias from "../assets/img/mediaspompom.jpg";
 import morral from "../assets/img/morralpompom.jpg";
 
 const productos = [
-  { img: peluche, title: "Muñeco Pompompurin", desc: "Un adorable muñeco de peluche de Pompompurin para tu colección.", price: "$37.000" },
-  { img: monedero, title: "Monedero de Pompompurin", desc: "Monedero de Pompompurin para guardar tus pequeños tesoros.", price: "$12.000" },
-  { img: bolso, title: "Bolso Pompompurin", desc: "Bolso de Pompompurin, ideal para salir con estilo.", price: "$45.000" },
-  { img: pinzas, title: "Pinzas Pompompurin", desc: "Unas lindas pinzas para el cabello de Pompompurin.", price: "$12.000" },
-  { img: squishy, title: "Squishy Pompompurin", desc: "Un bonito squishy de Pompompurin para manejar tu estrés o ansiedad.", price: "$15.000" },
-  { img: taza, title: "Taza Pompompurin", desc: "Una taza de Pompompurin para disfrutar de tu café o té.", price: "$28.000" },
-  { img: cortaUnas, title: "Corta uñas Pompompurin", desc: "Unas corta uñas de Pompompurin para cuidar tus uñas.", price: "$10.000" },
-  { img: termo, title: "Termo Pompompurin", desc: "Un lindo termo para llevar a la escuela o al trabajo.", price: "$12.000" },
-  { img: organizador, title: "Organizador Pompompurin", desc: "Un bonito organizador para tu escritorio o mesa de trabajo.", price: "$23.000" },
-  { img: funda, title: "Funda de Pompompurin", desc: "Funda de Pompompurin para tu celular.", price: "$38.000" },
-  { img: medias, title: "Medias de Pompompurin", desc: "Set de 3 pares de medias para el diario.", price: "$15.000" },
-  { img: morral, title: "Morral Pompompurin", desc: "Un grande y espacioso morral para el colegio.", price: "$90.000" },
+  {
+    img: peluche,
+    title: "Muñeco Pompompurin",
+    desc: "Un adorable muñeco de peluche de Pompompurin para tu colección.",
+    price: "$37.000",
+  },
+  {
+    img: monedero,
+    title: "Monedero de Pompompurin",
+    desc: "Monedero de Pompompurin para guardar tus pequeños tesoros.",
+    price: "$12.000",
+  },
+  {
+    img: bolso,
+    title: "Bolso Pompompurin",
+    desc: "Bolso de Pompompurin, ideal para salir con estilo.",
+    price: "$45.000",
+  },
+  {
+    img: pinzas,
+    title: "Pinzas Pompompurin",
+    desc: "Unas lindas pinzas para el cabello de Pompompurin.",
+    price: "$12.000",
+  },
+  {
+    img: squishy,
+    title: "Squishy Pompompurin",
+    desc: "Un bonito squishy de Pompompurin para manejar tu estrés o ansiedad.",
+    price: "$15.000",
+  },
+  {
+    img: taza,
+    title: "Taza Pompompurin",
+    desc: "Una taza de Pompompurin para disfrutar de tu café o té.",
+    price: "$28.000",
+  },
+  {
+    img: cortaUnas,
+    title: "Corta uñas Pompompurin",
+    desc: "Unas corta uñas de Pompompurin para cuidar tus uñas.",
+    price: "$10.000",
+  },
+  {
+    img: termo,
+    title: "Termo Pompompurin",
+    desc: "Un lindo termo para llevar a la escuela o al trabajo.",
+    price: "$12.000",
+  },
+  {
+    img: organizador,
+    title: "Organizador Pompompurin",
+    desc: "Un bonito organizador para tu escritorio o mesa de trabajo.",
+    price: "$23.000",
+  },
+  {
+    img: funda,
+    title: "Funda de Pompompurin",
+    desc: "Funda de Pompompurin para tu celular.",
+    price: "$38.000",
+  },
+  {
+    img: medias,
+    title: "Medias de Pompompurin",
+    desc: "Set de 3 pares de medias para el diario.",
+    price: "$15.000",
+  },
+  {
+    img: morral,
+    title: "Morral Pompompurin",
+    desc: "Un grande y espacioso morral para el colegio.",
+    price: "$90.000",
+  },
 ];
 
 export default function Pompom() {
+  const [mensajeVisible, setMensajeVisible] = useState(false);
+  const [productoAgregado, setProductoAgregado] = useState("");
+  const agregarAlCarrito = (producto) => {
+    const carritoExistente = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    // Adaptar las propiedades
+    const nuevoProducto = {
+      imagen: producto.img,
+      nombre: producto.title,
+      descripcion: producto.desc,
+      precio: producto.price,
+      cantidad: 1,
+    };
+
+    const nuevoCarrito = [...carritoExistente, nuevoProducto];
+    localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
+    setProductoAgregado(`${producto.title} agregado al carrito 🛒`);
+    setMensajeVisible(true);
+    setTimeout(() => setMensajeVisible(false), 3000);
+  };
   return (
     <div className="character-page pompom-theme">
       <header>
         <a href="/" className="back-btn">
           <img src={backImg} alt="Volver al inicio" />
         </a>
+        <a href="/carrito" className="floating-cart-btn">
+          🛒 Carrito
+        </a>
       </header>
+
+      {mensajeVisible && (
+        <div className="mensaje-pompompurin">{productoAgregado}</div>
+      )}
 
       <h1>🍮 Pompompurin 🍮</h1>
       <p className="description-text">
-        Un perrito Golden Retriever de color crema con una boina marrón. Le encanta dormir, 
-        comer pudín y pasar tiempo con sus amigos.🍮
+        Un perrito Golden Retriever de color crema con una boina marrón. Le
+        encanta dormir, comer pudín y pasar tiempo con sus amigos.🍮
       </p>
 
       <section className="product-section">
@@ -51,9 +138,14 @@ export default function Pompom() {
             <div className="product-card" key={i}>
               <img src={item.img} alt={item.title} />
               <h3>{item.title}</h3>
-              
+
               <div className="price">{item.price}</div>
-              <button className="pretty-button">Agregar al carrito</button>
+              <button
+                className="pretty-button"
+                onClick={() => agregarAlCarrito(item)}
+              >
+                Agregar al carrito
+              </button>
             </div>
           ))}
         </div>
