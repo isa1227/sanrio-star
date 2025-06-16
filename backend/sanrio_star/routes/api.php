@@ -5,6 +5,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\RolController;
+use Illuminate\Support\Facades\DB;
+
+Route::get('/roles', function () {
+    return response()->json(DB::table('roles')->get());
+});
+
+
+
 
 // Ruta de prueba
 Route::get('/mensaje', function () {
@@ -25,8 +33,6 @@ Route::get('/productos/{id}', [ProductoController::class, 'show']);
 Route::put('/productos/{id}', [ProductoController::class, 'update']);
 Route::delete('/productos/{id}', [ProductoController::class, 'destroy']);
 
-// Roles
-Route::get('/roles', [RolController::class, 'index']);
 
 use App\Http\Controllers\AuthController;
 Route::post('/login', [AuthController::class, 'login']);

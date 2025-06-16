@@ -3,14 +3,14 @@
   max-width: 1000px;
   margin: 0 auto;
   font-family: 'Fredoka', sans-serif;
-  color: #003366;
+  color: #7e209b;
 }
 
 .admin-panel h1 {
   font-size: 2rem;
   text-align: center;
   margin-bottom: 2rem;
-  color: #004080;
+  color: #7e209b;
 }
 
 .admin-panel form {
@@ -21,29 +21,31 @@
   padding: 1.5rem;
   border-radius: 20px;
   margin-bottom: 2rem;
+  color:black;
 }
 
 .admin-panel input,
 .admin-panel select {
   padding: 0.7rem;
   border-radius: 10px;
-  border: 1px solid #007acc;
+  border: 1px solid #7e209b;
   font-size: 1rem;
+  color:black;
 }
 
 .admin-panel button {
   padding: 0.7rem;
-  background-color: #007acc;
+  background-color: #7e209b;
   border: none;
   border-radius: 10px;
-  color: white;
+  color: rgb(0, 0, 0);
   font-size: 1rem;
   cursor: pointer;
   transition: background 0.3s;
 }
 
 .admin-panel button:hover {
-  background-color: #005f99;
+  background-color: #7e209b;
 }
 
 .admin-panel table {
@@ -56,14 +58,14 @@
 
 .admin-panel th,
 .admin-panel td {
-  border: 1px solid #b3d9ff;
+  border: 1px solid #2d0346;
   padding: 0.75rem;
   text-align: left;
 }
 
 .admin-panel th {
-  background-color: #007acc;
-  color: white;
+  background-color: #7e209b;
+  color: rgb(0, 0, 0);
 }
 
 .admin-panel td {
