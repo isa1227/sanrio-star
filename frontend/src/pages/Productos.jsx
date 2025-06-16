@@ -8,6 +8,7 @@ const Productos = () => {
   const [filtro, setFiltro] = useState('todos');
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
   const [mensaje, setMensaje] = useState('');
+  const [cantidad, setCantidad] = useState(1); // NUEVO
 
   useEffect(() => {
     const mensajeAuth = localStorage.getItem("mensajeAuth");
@@ -33,7 +34,7 @@ const Productos = () => {
     }
 
     const carritoActual = JSON.parse(localStorage.getItem("carrito")) || [];
-    const nuevoCarrito = [...carritoActual, producto];
+    const nuevoCarrito = [...carritoActual, { ...producto, cantidad }]; // AÑADIR cantidad
     localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
     setMensaje('✅ Producto agregado al carrito');
     setTimeout(() => setMensaje(''), 3000);
@@ -61,7 +62,12 @@ const Productos = () => {
               </div>
               <p className="price">{productoSeleccionado.precio}</p>
               <div className="actions">
-                <input type="number" defaultValue={1} min={1} />
+                <input
+                  type="number"
+                  min={1}
+                  value={cantidad}
+                  onChange={(e) => setCantidad(parseInt(e.target.value))}
+                />
                 <button onClick={() => agregarAlCarrito(productoSeleccionado)}>Agregar al carrito</button>
                 <button onClick={() => setProductoSeleccionado(null)}>Volver</button>
               </div>
@@ -84,7 +90,7 @@ const Productos = () => {
             ))}
           </aside>
 
-          {/* Contenido principal con corrección aplicada */}
+          {/* Contenido principal */}
           <div style={{ flex: 1, minWidth: 0 }}>
             {mensaje && (
               <div className="mensaje-carrito">
@@ -98,18 +104,29 @@ const Productos = () => {
                   <img
                     src={p.imagen}
                     alt={p.nombre}
-                    onClick={() => setProductoSeleccionado(p)}
+                    onClick={() => {
+                      setProductoSeleccionado(p);
+                      setCantidad(1); // Reiniciar cantidad al entrar al detalle
+                    }}
                     style={{ cursor: 'pointer' }}
                   />
                   <h3>{p.nombre}</h3>
                   <p className="price">{p.precio}</p>
-                  <button onClick={() => agregarAlCarrito(p)}>COMPRAR</button>
+                  <button onClick={() => agregarAlCarrito({ ...p, cantidad: 1 })}>COMPRAR</button>
                 </div>
               ))}
             </div>
           </div>
         </div>
       )}
+
+<footer id="contacto"  className="footer-productos">
+  <h3 className="footer-productos-titulo">Contacto</h3>
+  <p className="footer-productos-texto">Email: contacto@sanriostar.com</p>
+  <p className="footer-productos-texto">Teléfono: +123 456 789</p>
+  <p className="footer-productos-texto">© 2024 Sanrio Star</p>
+</footer>
+
     </>
   );
 };

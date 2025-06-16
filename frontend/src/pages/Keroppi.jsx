@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/Personajes.css";
 
 import backImg from "../assets/img/ke.jpeg";
@@ -16,33 +16,114 @@ import llavero from "../assets/img/llaverokeropi.jpg";
 import { Scripts } from "react-router-dom";
 
 const productos = [
-  { img: peluches, title: "Muñecos Keroppi", desc: "Tres adorables muñecos de peluche de Keroppi para tu colección.", price: "$78.000" },
-  { img: cosmetiquera, title: "Cosmetiquera Keroppi", desc: "Cosmetiquera de Keroppi para llevar tus productos de belleza en cualquier lugar.", price: "$20.000" },
-  { img: bolso, title: "Bolso Keroppi", desc: "Bolso de mano con el diseño de Keroppi, ideal para salir con estilo.", price: "$34.000" },
-  { img: sandalias, title: "Sandalias Keroppi", desc: "Unas hermosas sandalias de Keroppi para disfrutar del verano.", price: "$18.000" },
-  { img: cuaderno, title: "Cuaderno Keroppi", desc: "Un cuaderno de Keroppi para escribir tus pensamientos y recuerdos.", price: "$20.000" },
-  { img: funda, title: "Funda para cama de Keroppi", desc: "Una funda para cama de Keroppi para dormir con tu personaje favorito.", price: "$46.000" },
-  { img: kit, title: "Kit estudiantil de Keroppi", desc: "Un kit estudiantil de Keroppi para aprender a manejar su rana.", price: "$70.000" },
-  { img: organizador, title: "Organizador de Keroppi", desc: "Un organizador de Keroppi para llevar tus cosas en orden.", price: "$25.000" },
-  { img: lonchera, title: "Lonchera de Keroppi", desc: "Una lonchera de Keroppi para llevar tus alimentos en un lugar seguro.", price: "$45.000" },
-  { img: cepillo, title: "Set para lavado dental Keroppi", desc: "Un necesario set para tus pequeños a la hora del cepillado.", price: "$30.000" },
-  { img: llavero, title: "Llavero Keroppi", desc: "Un lindo llavero para tus bolsos o llaves.", price: "$15.000" },
+  {
+    img: peluches,
+    title: "Muñecos Keroppi",
+    desc: "Tres adorables muñecos de peluche de Keroppi para tu colección.",
+    price: "$78.000",
+  },
+  {
+    img: cosmetiquera,
+    title: "Cosmetiquera Keroppi",
+    desc: "Cosmetiquera de Keroppi para llevar tus productos de belleza en cualquier lugar.",
+    price: "$20.000",
+  },
+  {
+    img: bolso,
+    title: "Bolso Keroppi",
+    desc: "Bolso de mano con el diseño de Keroppi, ideal para salir con estilo.",
+    price: "$34.000",
+  },
+  {
+    img: sandalias,
+    title: "Sandalias Keroppi",
+    desc: "Unas hermosas sandalias de Keroppi para disfrutar del verano.",
+    price: "$18.000",
+  },
+  {
+    img: cuaderno,
+    title: "Cuaderno Keroppi",
+    desc: "Un cuaderno de Keroppi para escribir tus pensamientos y recuerdos.",
+    price: "$20.000",
+  },
+  {
+    img: funda,
+    title: "Funda para cama de Keroppi",
+    desc: "Una funda para cama de Keroppi para dormir con tu personaje favorito.",
+    price: "$46.000",
+  },
+  {
+    img: kit,
+    title: "Kit estudiantil de Keroppi",
+    desc: "Un kit estudiantil de Keroppi para aprender a manejar su rana.",
+    price: "$70.000",
+  },
+  {
+    img: organizador,
+    title: "Organizador de Keroppi",
+    desc: "Un organizador de Keroppi para llevar tus cosas en orden.",
+    price: "$25.000",
+  },
+  {
+    img: lonchera,
+    title: "Lonchera de Keroppi",
+    desc: "Una lonchera de Keroppi para llevar tus alimentos en un lugar seguro.",
+    price: "$45.000",
+  },
+  {
+    img: cepillo,
+    title: "Set para lavado dental Keroppi",
+    desc: "Un necesario set para tus pequeños a la hora del cepillado.",
+    price: "$30.000",
+  },
+  {
+    img: llavero,
+    title: "Llavero Keroppi",
+    desc: "Un lindo llavero para tus bolsos o llaves.",
+    price: "$15.000",
+  },
 ];
 
 export default function Keroppi() {
+  const [mensajeVisible, setMensajeVisible] = useState(false);
+  const [productoAgregado, setProductoAgregado] = useState("");
+  const agregarAlCarrito = (producto) => {
+    const carritoExistente = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    // Adaptar las propiedades
+    const nuevoProducto = {
+      imagen: producto.img,
+      nombre: producto.title,
+      descripcion: producto.desc,
+      precio: producto.price,
+      cantidad: 1,
+    };
+
+    const nuevoCarrito = [...carritoExistente, nuevoProducto];
+    localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
+    setProductoAgregado(`${producto.title} agregado al carrito 🛒`);
+    setMensajeVisible(true);
+    setTimeout(() => setMensajeVisible(false), 3000);
+  };
   return (
     <div className="character-page keroppi-theme">
       <header>
         <a href="/" className="back-btn circular-button">
           <img src={backImg} alt="Volver al inicio" />
         </a>
-        <div className="wave-bottom"></div>
+        <a href="/carrito" className="floating-cart-btn">
+          🛒 Carrito
+        </a>
       </header>
+
+      {mensajeVisible && (
+        <div className="mensaje-keroppi">{productoAgregado}</div>
+      )}
 
       <h1>🐸 Keroppi 🐸</h1>
       <p className="description-text">
-        Una ranita alegre con grandes ojos. Vive en el estanque Donut con su familia. 
-        Es aventurero y le encantan los retos y la diversión.🐸
+        Una ranita alegre con grandes ojos. Vive en el estanque Donut con su
+        familia. Es aventurero y le encantan los retos y la diversión.🐸
       </p>
 
       <section className="product-section">
@@ -51,9 +132,14 @@ export default function Keroppi() {
             <div className="product-card" key={i}>
               <img src={item.img} alt={item.title} />
               <h3>{item.title}</h3>
-              
+
               <div className="price">{item.price}</div>
-              <button className="pretty-button">Agregar al carrito</button>
+              <button
+                className="pretty-button"
+                onClick={() => agregarAlCarrito(item)}
+              >
+                Agregar al carrito
+              </button>
             </div>
           ))}
         </div>
@@ -68,5 +154,3 @@ export default function Keroppi() {
     </div>
   );
 }
-
-

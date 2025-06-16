@@ -15,7 +15,7 @@ const Footer = () => {
 
       <footer id="contacto" className="foter">
         <h3>Contacto</h3>
-        <p>Email: contacto@sanriosatar.com</p>
+        <p>Email: contacto@sanriostar.com</p>
         <p>Teléfono: +123 456 789</p>
         <p>© 2024 Sanrio Star</p>
       </footer>
@@ -29,7 +29,7 @@ const Footer = () => {
           <a href="https://web.whatsapp.com/" target="_blank" rel="noopener noreferrer">
             <img src={whatsappIcon} alt="WhatsApp" />
           </a>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.instagram.com/sanrio/" target="_blank" rel="noopener noreferrer">
             <img src={instagramIcon} alt="Instagram" />
           </a>
         </div>

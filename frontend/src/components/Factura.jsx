@@ -2,16 +2,19 @@ import React, { useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import "../styles/factura.css";
 import fondoFactura from "../assets/img/factura.jpg";
+import fondoModal from "../assets/img/factura2.jpg";
 
 const Factura = ({ productos }) => {
   const facturaRef = useRef();
 
   const [mostrarModal, setMostrarModal] = useState(false);
+  const [mostrarFactura, setMostrarFactura] = useState(true);
   const [nombre, setNombre] = useState("");
   const [telefono, setTelefono] = useState("");
   const [direccion, setDireccion] = useState("");
   const [metodoPago, setMetodoPago] = useState("");
   const [compraConfirmada, setCompraConfirmada] = useState(false);
+  const [mostrarMensaje, setMostrarMensaje] = useState(false); // 🔹 nuevo estado para el mensaje
 
   const descargarFactura = () => {
     html2canvas(facturaRef.current).then((canvas) => {
@@ -23,10 +26,12 @@ const Factura = ({ productos }) => {
   };
 
   const calcularTotal = () => {
-    return productos.reduce(
-      (total, producto) => total + producto.precio * (producto.cantidad || 1),
-      0
-    );
+    return productos.reduce((total, producto) => {
+      const precioTexto = producto?.precio || producto?.price || "0";
+      const precioLimpio = Number(precioTexto.toString().replace(/[^\d]/g, "")) || 0;
+      const cantidad = Number(producto.cantidad) || 1;
+      return total + precioLimpio * cantidad;
+    }, 0);
   };
 
   const formatoMoneda = (valor) =>
@@ -35,85 +40,133 @@ const Factura = ({ productos }) => {
       currency: "COP",
     }).format(valor);
 
+  const validarFormulario = () => {
+    if (
+      !nombre.trim() ||
+      !telefono.trim() ||
+      !direccion.trim() ||
+      !metodoPago
+    ) {
+      alert("Por favor completa todos los campos.");
+      return false;
+    }
+
+    if (!/^\d{7,15}$/.test(telefono)) {
+      alert(
+        "El teléfono debe contener solo números y tener entre 7 y 15 dígitos."
+      );
+      return false;
+    }
+
+    return true;
+  };
+
   return (
     <div className="factura-container">
-      <div
-        className="factura"
-        ref={facturaRef}
-        style={{
-          backgroundImage: `url(${fondoFactura})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div className="piquitos superior">
-          {[...Array(20)].map((_, i) => (
-            <div key={i} className="triangulo superior"></div>
-          ))}
-        </div>
-
-        <div className="factura-contenido">
-          <h2 className="titulo">Factura #000123</h2>
-          <p>Fecha: {new Date().toLocaleDateString()}</p>
-
-          {/* Datos del comprador */}
-          {nombre && <p><strong>Nombre:</strong> {nombre}</p>}
-          {telefono && <p><strong>Teléfono:</strong> {telefono}</p>}
-          {direccion && <p><strong>Dirección:</strong> {direccion}</p>}
-          {metodoPago && <p><strong>Método de pago:</strong> {metodoPago}</p>}
-
-          <div className="productos-lista">
-            {productos.map((producto, index) => (
-              <div key={index} className="producto-item">
-                <div className="producto-nombre">{producto.nombre}</div>
-                <div className="producto-detalle">
-                  <span>Cantidad: {producto.cantidad || 1}</span>
-                  <span>
-                    Precio: {formatoMoneda(producto.precio)} | Total:{" "}
-                    {formatoMoneda(
-                      producto.precio * (producto.cantidad || 1)
-                    )}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <p className="total">Total: {formatoMoneda(calcularTotal())}</p>
-        </div>
-
-        <div className="piquitos inferior">
-          {[...Array(20)].map((_, i) => (
-            <div key={i} className="triangulo inferior"></div>
-          ))}
-        </div>
-      </div>
-
       <div className="botones">
-        <button onClick={descargarFactura} className="boton-descargar">
-          Descargar
+        <button
+          onClick={() => setMostrarFactura((prev) => !prev)}
+          className="boton-comprar"
+        >
+          {mostrarFactura ? "Ocultar Factura" : "Ver Factura"}
         </button>
-        <button onClick={() => setMostrarModal(true)} className="boton-comprar">
-          Comprar
-        </button>
+
+        {compraConfirmada && (
+          <button onClick={descargarFactura} className="boton-descargar">
+            Descargar
+          </button>
+        )}
       </div>
 
-      {compraConfirmada && (
-        <div className="mensaje-exito">
-          🎉 ¡Gracias por tu compra, {nombre}! Te contactaremos pronto.
+      {mostrarFactura && (
+        <div
+          className="factura"
+          ref={facturaRef}
+          style={{
+            backgroundImage: `url(${fondoFactura})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <div className="factura-contenido">
+            <h2 className="titulo">Factura #</h2>
+            <p>Fecha: {new Date().toLocaleDateString()}</p>
+
+            {nombre && (
+              <p>
+                <strong>Nombre:</strong> {nombre}
+              </p>
+            )}
+            {telefono && (
+              <p>
+                <strong>Teléfono:</strong> {telefono}
+              </p>
+            )}
+            {direccion && (
+              <p>
+                <strong>Dirección:</strong> {direccion}
+              </p>
+            )}
+            {metodoPago && (
+              <p>
+                <strong>Método de pago:</strong> {metodoPago}
+              </p>
+            )}
+
+            <div className="productos-lista">
+              {productos.map((producto, index) => {
+                const nombreProducto =
+                  producto?.nombre || producto?.title || "Producto sin nombre";
+                const cantidad = Number(producto.cantidad) || 1;
+                const precioBruto = producto?.precio || producto?.price || "0";
+                const precioLimpio = Number(
+                  precioBruto.toString().replace(/[^0-9]/g, "")
+                );
+
+                return (
+                  <div key={index} className="producto-item">
+                    <div className="producto-nombre">{nombreProducto}</div>
+                    <div className="producto-detalle">
+                      <span>Cantidad: {cantidad}</span>
+                      <span>Precio: {formatoMoneda(precioLimpio)}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <p className="total">Total: {formatoMoneda(calcularTotal())}</p>
+          </div>
         </div>
       )}
 
-      {/* Modal */}
+      <button
+        onClick={() => setMostrarModal(true)}
+        className={`boton-comprar ${mostrarModal ? "sin-fondo" : ""}`}
+      >
+        Comprar
+      </button>
+
+      {/* 🔸 Mostrar mensaje de éxito */}
+      {mostrarMensaje && (
+        <div className="mensaje-exito">¡Compra realizada con éxito!</div>
+      )}
+
       {mostrarModal && (
         <div className="modal-overlay">
-          <div className="modal">
-            <img
-              src="https://i.pinimg.com/originals/e3/98/91/e39891a389edfe28202fdd0fd9b6824d.png"
-              alt="Decoración"
-              className="modal-imagen"
-            />
+          <div
+            className="modal"
+            style={{
+              backgroundImage: `url(${fondoModal})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              padding: "20px",
+              borderRadius: "12px",
+              color: "#000",
+            }}
+          >
             <h2>Finalizar Compra</h2>
 
             <label>Nombre completo:</label>
@@ -155,8 +208,17 @@ const Factura = ({ productos }) => {
               <button onClick={() => setMostrarModal(false)}>Cancelar</button>
               <button
                 onClick={() => {
-                  setCompraConfirmada(true);
-                  setMostrarModal(false);
+                  if (validarFormulario()) {
+                    setCompraConfirmada(true);
+                    setMostrarModal(false);
+                    setMostrarFactura(true);
+                    setMostrarMensaje(true);
+
+                    // Ocultar mensaje a los 5 segundos
+                    setTimeout(() => {
+                      setMostrarMensaje(false);
+                    }, 5000);
+                  }
                 }}
               >
                 Confirmar Compra
