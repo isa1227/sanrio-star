@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import '../styles/auth.css';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const AuthForm = () => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Evita que recargue la página
+    e.preventDefault();
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/register', {
+      const response = await fetch(`${API_URL}/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

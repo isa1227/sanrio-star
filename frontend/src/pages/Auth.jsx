@@ -26,11 +26,13 @@ const Auth = () => {
     }
   }, []);
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const endpoint = isLogin
-      ? 'http://127.0.0.1:8000/api/login'
-      : 'http://127.0.0.1:8000/api/register';
+  ? `${API_URL}/login`
+  : `${API_URL}/register`;
 
     try {
       const response = await fetch(endpoint, {

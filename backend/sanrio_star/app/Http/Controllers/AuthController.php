@@ -26,8 +26,10 @@ class AuthController extends Controller
     'nombre_usuario' => $request->nombre_usuario,
     'correo' => $request->correo,
     'contrasena' => Hash::make($request->contrasena),
-    'rol_id' => 1, 
+    'rol_id' => 1,
+    'ultima_actualizacion' => now(), // ⏰ registra la fecha/hora actual
 ]);
+
 
 
         return response()->json([
