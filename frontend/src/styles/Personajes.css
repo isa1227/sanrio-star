@@ -613,6 +613,29 @@ h1 {
   gap: 10px;
 }
 
+.scroll-top-btn-keroppi {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background-color: #e0f8e0; /* verde pastel */
+  color: #2e7d32; /* verde oscuro */
+  border: 2px solid #a5d6a7;
+  border-radius: 50%;
+  padding: 12px 15px;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.scroll-top-btn-keroppi:hover {
+  background-color: #c5e1a5;
+  transform: scale(1.1);
+  color: #1b5e20;
+}
+
+
 /* ======= My Melody Theme ======= */
 .mymelody-theme {
   background-color: #f295be;
