@@ -1086,3 +1086,25 @@ h1 {
   align-items: center;
   gap: 10px;
 }
+
+.scroll-top-btn-badtz {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #333; /* oscuro como su actitud */
+  color: #ffff00; /* toque amarillo como su pico */
+  border: none;
+  border-radius: 50%;
+  padding: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease, background-color 0.3s;
+  z-index: 9999;
+}
+
+.scroll-top-btn-badtz:hover {
+  background-color: #222;
+  transform: scale(1.1) rotate(-5deg);
+}
+
