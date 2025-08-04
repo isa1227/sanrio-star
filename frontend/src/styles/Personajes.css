@@ -268,7 +268,7 @@ h1 {
 
 /* ======= Cinnamoroll Theme ======= */
 .cinnamoroll-theme {
-  background-color: #d0f0fd;
+  background-color: #abdbe7;
   /* azul pastel */
 }
 
@@ -344,6 +344,30 @@ h1 {
   align-items: center;
   gap: 10px;
 }
+
+.scroll-top-btn-cinnamoroll {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #6ec1e4;
+  color: #005577;
+  border: none;
+  border-radius: 50%;
+  padding: 15px;
+  font-size: 24px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s;
+  z-index: 9999;
+}
+
+.scroll-top-btn-cinnamoroll:hover {
+  background-color: #91b5ce;
+  transform: scale(1.1);
+}
+
+
+
 
 /* ======= Hello Kitty Theme ======= */
 .hellokitty-theme {
