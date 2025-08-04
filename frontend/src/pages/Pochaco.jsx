@@ -156,6 +156,14 @@ export default function Pochaco() {
         <p>Email: contacto@sanriostar.com</p>
         <p>Teléfono: +123 456 789</p>
         <p>© 2024 Sanrio Star</p>
+
+        <button
+        className="scroll-top-btn-pochaco"
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
+          🐾
+        </button>
+
       </footer>
     </div>
   );

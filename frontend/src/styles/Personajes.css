@@ -510,6 +510,29 @@ h1 {
   gap: 10px;
 }
 
+.scroll-top-btn-pochaco {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background-color: #ffffff;
+  color: #247878;
+  border: 2px solid #76bcb2; 
+  border-radius: 50%;
+  padding: 10px 14px;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.scroll-top-btn-pochaco:hover {
+  background-color: #ffe4f3;
+  transform: scale(1.1);
+  color: #c2185b;
+}
+
+
 
 /* ======= Keroppi Theme ======= */
 .keroppi-theme {
