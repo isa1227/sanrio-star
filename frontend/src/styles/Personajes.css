@@ -225,6 +225,27 @@ h1 {
   text-align: center;
 }
 
+.scroll-top-btn-kuromi {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #2a003f; 
+  color: #ffb6ec; 
+  border: 2px solid #ffb6ec;
+  border-radius: 50%;
+  padding: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(255, 182, 236, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s;
+  z-index: 9999;
+}
+
+.scroll-top-btn-kuromi:hover {
+  transform: scale(1.2) rotate(-10deg);
+  box-shadow: 0 0 20px rgba(255, 182, 236, 0.8);
+}
+
 /*boton de carrito*/
 
 .kuromi-theme .floating-cart-btn {
