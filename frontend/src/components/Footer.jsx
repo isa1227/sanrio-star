@@ -42,6 +42,14 @@ const Footer = () => {
           <p>¡Nos encanta compartir la magia de Sanrio con cada uno de nuestros clientes!</p>
         </div>
       </footer>
+
+      <button
+        className="scroll-top-btn"
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      >
+        ↑
+      </button>
+
     </div>
   );
 };
