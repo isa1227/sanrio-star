@@ -267,3 +267,24 @@ body {
   font-size: 1rem;
   color: #dddddd;
 }
+
+.scroll-top-btn-general {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #2d0346;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 15px 18px;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  z-index: 999;
+}
+
+.scroll-top-btn-general:hover {
+  transform: scale(1.15);
+  background-color: #7e209b;
+}

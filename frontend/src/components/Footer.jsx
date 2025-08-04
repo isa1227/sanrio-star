@@ -43,12 +43,12 @@ const Footer = () => {
         </div>
       </footer>
 
-      <button
-        className="scroll-top-btn"
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-      >
-        ↑
-      </button>
+    <button
+    className="scroll-top-btn-general"
+    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+  >
+    ⭐
+  </button>
 
     </div>
   );

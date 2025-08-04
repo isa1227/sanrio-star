@@ -127,6 +127,13 @@ const Productos = () => {
   <p className="footer-productos-texto">© 2024 Sanrio Star</p>
 </footer>
 
+  <button
+    className="scroll-top-btn-general"
+    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+  >
+    ⭐
+  </button>
+
     </>
   );
 };
