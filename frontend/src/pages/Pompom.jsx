@@ -157,6 +157,14 @@ export default function Pompom() {
         <p>Teléfono: +123 456 789</p>
         <p>© 2024 Sanrio Star</p>
       </footer>
+
+      <button
+      className="scroll-top-btn-pompom"
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      >
+        🎩
+      </button>
+
     </div>
   );
 }

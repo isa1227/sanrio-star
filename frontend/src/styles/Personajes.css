@@ -793,6 +793,29 @@ h1 {
   gap: 10px;
 }
 
+.scroll-top-btn-pompom {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background-color: #fff8e1; /* fondo crema suave */
+  color: #5d4037; /* marrón oscuro */
+  border: 2px solid #fdd835; /* amarillo pastel */
+  border-radius: 50%;
+  padding: 12px 15px;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.scroll-top-btn-pompom:hover {
+  background-color: #ffe082;
+  color: #4e342e;
+  transform: scale(1.1);
+}
+
+
 /* ======= Chococat Theme ======= */
 .chococat-theme {
   background-color: #1e1e2f;
