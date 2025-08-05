@@ -3,7 +3,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import { useEffect } from 'react';
 import axios from 'axios';
 
-import AdminPanel from './pages/AdminPanel';
+import AdminPanel from './components/AdminPanel';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Auth from './pages/Auth';

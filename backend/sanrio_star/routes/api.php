@@ -36,3 +36,6 @@ Route::post('/productos', [ProductoController::class, 'store']);
 Route::get('/productos/{id}', [ProductoController::class, 'show']);
 Route::put('/productos/{id}', [ProductoController::class, 'update']);
 Route::delete('/productos/{id}', [ProductoController::class, 'destroy']);
+
+Route::apiResource('productos', ProductoController::class);
+Route::apiResource('usuarios', UsuarioController::class);

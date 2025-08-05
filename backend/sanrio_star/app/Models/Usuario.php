@@ -12,8 +12,6 @@ class Usuario extends Model
     'nombre_usuario',
     'correo',
     'contrasena',
-    'direccion_envio',
-    'direccion_facturacion',
     'rol_id',
     'ultima_actualizacion',
 ];

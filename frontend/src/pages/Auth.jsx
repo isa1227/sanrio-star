@@ -30,9 +30,10 @@ const Auth = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const endpoint = isLogin
-  ? `${API_URL}/login`
-  : `${API_URL}/register`;
+   const endpoint = isLogin
+  ? '/api/login'
+  : '/api/register';
+
 
     try {
       const response = await fetch(endpoint, {

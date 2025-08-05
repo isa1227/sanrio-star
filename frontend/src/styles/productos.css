@@ -73,7 +73,6 @@ body {
   justify-content: space-between;
   margin-bottom: 20px;
   height: 380px;
-  /* 👈 nuevo: altura fija */
 }
 
 .card:hover {
