@@ -87,11 +87,6 @@ const ProductList = () => {
                   <span className="price">${producto.precio}</span>
                 </div>
                 
-                {producto.cantidad_minima && (
-                  <p className="stock-info">
-                    Stock mínimo: {producto.cantidad_minima}
-                  </p>
-                )}
                 
                 <button className="add-to-cart-btn">
                   Agregar al carrito

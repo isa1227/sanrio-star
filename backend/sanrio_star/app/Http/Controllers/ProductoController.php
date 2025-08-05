@@ -32,8 +32,6 @@ class ProductoController extends Controller
             'descripcion'     => 'required|string',
             'precio'          => 'required|numeric',
             'categoria_id'    => 'required|integer',
-            'cantidad_minima' => 'nullable|integer',
-            'cantidad_maxima' => 'nullable|integer',
             'imagen'          => 'required|image|max:2048',
         ]);
 
@@ -45,8 +43,6 @@ class ProductoController extends Controller
             'descripcion'     => $request->descripcion,
             'precio'          => $request->precio,
             'categoria_id'    => $request->categoria_id,
-            'cantidad_minima' => $request->cantidad_minima,
-            'cantidad_maxima' => $request->cantidad_maxima,
             'url_imagen'      => $rutaImagen,
             'ultima_actualizacion' => now()
         ]);
@@ -80,8 +76,6 @@ class ProductoController extends Controller
                 'descripcion'     => $request->descripcion,
                 'precio'          => $request->precio,
                 'categoria_id'    => $request->categoria_id,
-                'cantidad_minima' => $request->cantidad_minima,
-                'cantidad_maxima' => $request->cantidad_maxima,
                 'url_imagen'      => $rutaImagen,
                 'ultima_actualizacion' => now()
             ]);

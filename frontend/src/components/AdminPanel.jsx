@@ -34,6 +34,7 @@ const AdminPanel = () => {
     try {
       await axios.delete(`http://localhost:8000/api/productos/${id}`);
       fetchProductos();
+      setSelectedProducto(null);
     } catch (err) {
       console.error("Error al eliminar producto:", err);
     }
@@ -43,6 +44,7 @@ const AdminPanel = () => {
     try {
       await axios.delete(`http://localhost:8000/api/usuarios/${id}`);
       fetchUsuarios();
+      setSelectedUsuario(null);
     } catch (err) {
       console.error("Error al eliminar usuario:", err);
     }
@@ -73,6 +75,14 @@ const AdminPanel = () => {
           />
           <TableComponent
             data={productos}
+            columns={[
+              { key: "producto_id", label: "ID" },
+              { key: "nombre_producto", label: "Nombre" },
+              { key: "descripcion", label: "Descripción" },
+              { key: "precio", label: "Precio" },
+              { key: "categoria_id", label: "Categoría" },
+              { key: "url_imagen", label: "Imagen" },
+            ]}
             onEdit={setSelectedProducto}
             onDelete={handleDeleteProducto}
           />
@@ -92,6 +102,14 @@ const AdminPanel = () => {
           />
           <TableComponent
             data={usuarios}
+            columns={[
+              { key: "id", label: "ID" },
+              { key: "nombre", label: "Nombre" },
+              { key: "email", label: "Correo electrónico" },
+              { key: "rol_id", label: "Rol" },
+              { key: "direccion", label: "Dirección" },
+              { key: "telefono", label: "Teléfono" },
+            ]}
             onEdit={setSelectedUsuario}
             onDelete={handleDeleteUsuario}
           />

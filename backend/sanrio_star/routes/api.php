@@ -39,3 +39,9 @@ Route::delete('/productos/{id}', [ProductoController::class, 'destroy']);
 
 Route::apiResource('productos', ProductoController::class);
 Route::apiResource('usuarios', UsuarioController::class);
+
+
+Route::get('/categorias', function () {
+    return DB::table('categorias_productos')->get();
+});
+

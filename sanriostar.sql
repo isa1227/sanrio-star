@@ -206,15 +206,13 @@ CREATE TABLE `productos` (
   `descripcion` varchar(100) DEFAULT NULL,
   `precio` decimal(10,2) NOT NULL,
   `categoria_id` tinyint(4) DEFAULT NULL,
-  `cantidad_minima` int(11) DEFAULT 0,
-  `cantidad_maxima` int(11) DEFAULT 0,
   `url_imagen` varchar(255) DEFAULT NULL,
   `ultima_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 
-INSERT INTO `productos` (`producto_id`, `nombre_producto`, `descripcion`, `precio`, `categoria_id`, `cantidad_minima`, `cantidad_maxima`, `url_imagen`, `ultima_actualizacion`) VALUES
+INSERT INTO `productos` (`producto_id`, `nombre_producto`, `descripcion`, `precio`, `categoria_id`, `url_imagen`, `ultima_actualizacion`) VALUES
 (1, 'Jabonera Kuromi', 'Una jabonera con la imagen de Kuromi', 12000.00, NULL, 0, 0, 'jabonera.jpg', '2025-08-03 05:22:26'),
 (2, 'Peluche Kuromi', 'Un hermoso y adorable peluche de Kuromi', 30000.00, NULL, 0, 0, 'peluche.jpg', '2025-08-03 05:22:26'),
 (3, 'Bolso Kuromi', 'Bolso de Kuromi, ideal para salir con estilo.', 69000.00, NULL, 0, 0, 'bolso.jpg', '2025-08-03 05:22:26'),
