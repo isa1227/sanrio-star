@@ -98,7 +98,7 @@
   position: fixed;
   bottom: 30px;
   right: 30px;
-  background-color: #2d0346;
+  background-color: #440040;
   color: white;
   border: none;
   border-radius: 50%;
@@ -112,5 +112,7 @@
 
 .scroll-top-btn-general:hover {
   transform: scale(1.15);
-  background-color: #7e209b;
+  background-color: #440040;
+;
+;
 }

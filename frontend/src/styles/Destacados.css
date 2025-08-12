@@ -10,7 +10,7 @@
 .destacados h2 {
   font-size: 2rem;
   margin-bottom: 1.5rem;
-  color: #8e44ad; /* morado principal */
+  color: #ffffff; /* morado principal */
 }
 
 .tarjetas-productos {
@@ -58,8 +58,8 @@
 
 .tarjeta .btn {
   display: inline-block;
-  background-color: #8e44ad; /* morado */
-  color: white;
+  background-color: #440040; /* morado */
+  color: rgb(255, 255, 255);
   padding: 0.4rem 0.8rem;
   border-radius: 8px;
   text-decoration: none;
