@@ -30,7 +30,7 @@ body {
 .sidebar {
   width: 120px;
   /* Más angosto */
-  background-color: #2d0346;
+  background-color: #440040;
   padding: 15px;
   border-radius: 10px;
   height: fit-content;
@@ -53,6 +53,7 @@ body {
   padding: 10px;
   cursor: pointer;
   border-radius: 5px;
+  color: white;
 }
 
 .sidebar button.activo {
@@ -65,8 +66,8 @@ body {
   border-radius: 12px;
   overflow: hidden;
   box-shadow:
-    0 8px 16px hsl(278, 46%, 34%),
-    0 -8px 16px hsl(278, 46%, 34%);
+    0 8px 16px hsl(279, 79%, 17%),
+    0 -8px 16px hsl(279, 79%, 17%);
   transition: transform 0.2s;
   display: flex;
   flex-direction: column;
@@ -105,8 +106,8 @@ body {
 }
 
 .card button {
-  background: #7e209b;
-  color: #000000;
+  background: #440040;
+  color: #ffffff;
   border: none;
   border-radius: 20px;
   padding: 10px 16px;
@@ -160,8 +161,8 @@ body {
   border-radius: 15px;
   padding: 20px;
   box-shadow:
-    0 8px 16px hsl(278, 51%, 53%),
-    0 -8px 16px hsl(278, 51%, 53%);
+      0 8px 16px hsl(279, 79%, 17%),
+    0 -8px 16px hsl(279, 79%, 17%);
   max-width: 900px;
   margin: 60px auto 0 auto;
   /* Aumenta el espacio arriba */
@@ -187,7 +188,7 @@ body {
 .product-info h1 {
   font-size: 24px;
   margin-bottom: 10px;
-  color: #7e209b;
+  color: #ffffff;
 }
 
 .info-grid {
@@ -204,6 +205,7 @@ body {
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 15px;
+  color: white;
 }
 
 .actions {
@@ -220,7 +222,8 @@ body {
 }
 
 .actions button {
-  background-color: #7e209b;
+  background-color: #440040;
+  color:white;
   border: none;
   padding: 10px 15px;
   border-radius: 20px;
@@ -229,7 +232,7 @@ body {
 
 .actions button:hover {
   background-color: #b0bccf;
-  color: #000;
+  color: #ffffff;
 }
 
 @media (max-width: 1024px) {
