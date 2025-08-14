@@ -8,6 +8,18 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
+
+    public function buscar(Request $request)
+{
+    $q = $request->query('q', '');
+
+    $productos = \App\Models\Producto::where('nombre', 'LIKE', "%$q%")
+        ->orWhere('descripcion', 'LIKE', "%$q%")
+        ->get();
+
+    return response()->json($productos);
+}
+
     public function index()
     {
         $productos = DB::table('productos')->get();

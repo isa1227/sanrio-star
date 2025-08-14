@@ -1,0 +1,130 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Fredoka', 'Poppins', sans-serif;
+}
+
+/* Contenedor principal */
+.buscar-container {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 30px 20px;
+  border-radius: 25px;
+  text-align: center;
+}
+
+/* Título */
+.buscar-title {
+    color: #000000;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 50px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+.buscar-title span {
+  color: #000000;
+  font-style: italic;
+}
+
+/* Grid de productos */
+.productos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+}
+
+/* Tarjeta de producto */
+.producto-card {
+  position: relative;
+  border-radius: 20px 5px 20px 5px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 20px rgba(68,0,64,0.2);
+}
+
+.producto-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(68,0,64,0.35);
+}
+
+/* Imagen */
+.producto-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.producto-card:hover img {
+  transform: scale(1.05);
+}
+
+/* Overlay de info */
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(68,0,64,0.85);
+  color: #fff;
+  padding: 15px;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  text-align: left;
+}
+
+.producto-card:hover .overlay {
+  transform: translateY(0);
+}
+
+.overlay h3 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.overlay p {
+  font-size: 0.85rem;
+  margin-bottom: 5px;
+}
+
+.overlay .precio {
+  font-weight: bold;
+  color: #FFD700;
+}
+
+/* Botón */
+.add-btn {
+  display: block;
+  width: 100%;
+  padding: 8px 0;
+  background: linear-gradient(135deg, #440040, #7D3EFF);
+  border: none;
+  border-radius: 15px;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.add-btn:hover {
+  background: linear-gradient(135deg, #7D3EFF, #440040);
+  transform: scale(1.05);
+}
+
+
+
+/* ================= MEDIA QUERIES ================= */
+@media (max-width: 1024px) {
+  .producto-card img { height: 150px; }
+}
+
+@media (max-width: 767px) {
+  .productos-grid { grid-template-columns: 1fr; }
+  .producto-card img { height: 120px; }
+  .buscar-title { font-size: 1.8rem; margin-bottom: 30px; }
+}

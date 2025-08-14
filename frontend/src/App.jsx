@@ -21,6 +21,9 @@ import Chococat from './pages/Chococat';
 import HelloKitty from './pages/Kitty';
 import './index.css';
 
+// 🔎 Ya no importamos SearchBar aquí
+import Buscar from "./pages/Buscar";   
+
 const PrivateRoute = ({ children }) => {
   const usuario = JSON.parse(localStorage.getItem('usuario'));
   return usuario?.rol_id === 2 ? children : <Navigate to="/" />;
@@ -61,33 +64,39 @@ function App() {
 
   return (
     <>
+      {/* Navbar solo cuando no está oculto */}
       {!hideNavbar && <Navbar />}
+      
       <ScrollToTop />
+      
       <Routes>
-  <Route path="/" element={<Home />} />
-  <Route path="/auth" element={<Auth />} />
-  <Route path="/productos" element={<Productos />} />
-  <Route path="/productos/:id" element={<DetalleProducto />} />
-  <Route path="/carrito" element={<CarritoPage />} />
-  <Route path="/kuromi" element={<Kuromi />} />
-  <Route path="/cinnamoroll" element={<Cinnamoroll />} />
-  <Route path="/mymelody" element={<MyMelody />} />
-  <Route path="/badtzmaru" element={<BadtzMaru />} />
-  <Route path="/pochaco" element={<Pochaco />} />
-  <Route path="/pompom" element={<Pompom />} />
-  <Route path="/keroppi" element={<Keroppi />} />
-  <Route path="/chococat" element={<Chococat />} />
-  <Route path="/kitty" element={<HelloKitty />} />
-  <Route
-    path="/admin"
-    element={
-      <PrivateRoute>
-        <AdminPanel />
-      </PrivateRoute>
-    }
-  />
-</Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path="/productos" element={<Productos />} />
+        <Route path="/productos/:id" element={<DetalleProducto />} />
+        <Route path="/carrito" element={<CarritoPage />} />
+        <Route path="/kuromi" element={<Kuromi />} />
+        <Route path="/cinnamoroll" element={<Cinnamoroll />} />
+        <Route path="/mymelody" element={<MyMelody />} />
+        <Route path="/badtzmaru" element={<BadtzMaru />} />
+        <Route path="/pochaco" element={<Pochaco />} />
+        <Route path="/pompom" element={<Pompom />} />
+        <Route path="/keroppi" element={<Keroppi />} />
+        <Route path="/chococat" element={<Chococat />} />
+        <Route path="/kitty" element={<HelloKitty />} />
 
+        {/* 🔎 Nueva ruta para resultados de búsqueda */}
+        <Route path="/buscar" element={<Buscar />} />
+
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute>
+              <AdminPanel />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
     </>
   );
 }
