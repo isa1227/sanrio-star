@@ -9,6 +9,8 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\AuthController;
 
+Route::get('/productos/buscar', [ProductoController::class, 'buscar']);
+
 // Ruta de prueba
 Route::get('/mensaje', function () {
     return response()->json(['mensaje' => 'Hola desde Laravel 🐷']);
