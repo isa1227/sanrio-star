@@ -21,8 +21,9 @@ import Chococat from './pages/Chococat';
 import HelloKitty from './pages/Kitty';
 import './index.css';
 
-// 🔎 Ya no importamos SearchBar aquí
-import Buscar from "./pages/Buscar";   
+// 🔎 
+import Buscar from './pages/Buscar';
+
 
 const PrivateRoute = ({ children }) => {
   const usuario = JSON.parse(localStorage.getItem('usuario'));
@@ -86,7 +87,8 @@ function App() {
         <Route path="/kitty" element={<HelloKitty />} />
 
         {/* 🔎 Nueva ruta para resultados de búsqueda */}
-        <Route path="/buscar" element={<Buscar />} />
+       <Route path="/buscar" element={<Buscar />} />
+
 
         <Route
           path="/admin"

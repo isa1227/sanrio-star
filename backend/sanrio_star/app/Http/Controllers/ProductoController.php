@@ -13,12 +13,14 @@ class ProductoController extends Controller
 {
     $q = $request->query('q', '');
 
-    $productos = \App\Models\Producto::where('nombre', 'LIKE', "%$q%")
+    $productos = \App\Models\Producto::where('nombre_producto', 'LIKE', "%$q%")
         ->orWhere('descripcion', 'LIKE', "%$q%")
         ->get();
 
+
     return response()->json($productos);
 }
+
 
     public function index()
     {
