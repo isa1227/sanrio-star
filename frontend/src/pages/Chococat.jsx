@@ -1,116 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios"; 
 import "../styles/Personajes.css";
-
 import backImg from "../assets/img/iconchococat.jpg";
-import bolso from "../assets/img/bolsocat.jpg";
-import billetera from "../assets/img/billeteracat.jpg";
-import cosmetiquera from "../assets/img/cosmetiqueracat.jpg";
-import crema from "../assets/img/cremacat.jpg";
-import llavero from "../assets/img/llaverocat.jpg";
-import libreta from "../assets/img/libretacat.jpg";
-import funda from "../assets/img/fundacat.jpg";
-import taza from "../assets/img/tazacat.jpg";
-import kit from "../assets/img/kitcat.jpg";
-import peluche from "../assets/img/peluchecat.jpg";
-import armario from "../assets/img/armariocat.jpg";
-import lapicero from "../assets/img/lapicerocat.jpg";
-
-const productos = [
-  {
-    img: bolso,
-    title: "Bolso de Chococat",
-    desc: "Un bonito bolso pequeño de Chococat",
-    price: "$48.000",
-  },
-  {
-    img: billetera,
-    title: "Billetera Chococat",
-    desc: "Una billetera adorable para llevar tu dinero",
-    price: "$15.000",
-  },
-  {
-    img: cosmetiquera,
-    title: "Cosmetiquera Chococat",
-    desc: "Amplia y cómoda cosmetiquera para tu maquillaje",
-    price: "$44.000",
-  },
-  {
-    img: crema,
-    title: "Crema corporal Chococat",
-    desc: "Crema humectante y suave con olor a chocolate",
-    price: "$28.000",
-  },
-  {
-    img: llavero,
-    title: "Llavero Chococat",
-    desc: "Un bonito y pequeño llavero",
-    price: "$12.000",
-  },
-  {
-    img: libreta,
-    title: "Libreta Chococat",
-    desc: "Una pequeña pero bonita libreta para tus apuntes",
-    price: "$29.000",
-  },
-  {
-    img: funda,
-    title: "Funda Chococat",
-    desc: "Una preciosa funda para tu teléfono",
-    price: "$38.000",
-  },
-  {
-    img: taza,
-    title: "Taza Chococat",
-    desc: "Una bonita taza para tu café en las mañanas",
-    price: "$69.000",
-  },
-  {
-    img: kit,
-    title: "Kit Chococat",
-    desc: "Pequeño kit para el colegio",
-    price: "$60.000",
-  },
-  {
-    img: peluche,
-    title: "Peluche Chococat",
-    desc: "Tierno peluche de Chococat con camarita",
-    price: "$56.000",
-  },
-  {
-    img: armario,
-    title: "Armario Chococat",
-    desc: "Un armario para organizar tus cositas",
-    price: "$100.000",
-  },
-  {
-    img: lapicero,
-    title: "Lapicero Chococat",
-    desc: "Lapicero color negro",
-    price: "$9.000",
-  },
-];
 
 export default function Chococat() {
+  const [productos, setProductos] = useState([]);
   const [mensajeVisible, setMensajeVisible] = useState(false);
   const [productoAgregado, setProductoAgregado] = useState("");
+  const [productoSeleccionado, setProductoSeleccionado] = useState(null); // estado para modal
+
+  // Traer productos desde la BD
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/productos/personaje/chococat")
+      .then((res) => setProductos(res.data))
+      .catch((err) => console.error("Error al cargar productos:", err));
+  }, []);
+
+  // Agregar al carrito
   const agregarAlCarrito = (producto) => {
     const carritoExistente = JSON.parse(localStorage.getItem("carrito")) || [];
-
-    // Adaptar las propiedades
     const nuevoProducto = {
-      imagen: producto.img,
-      nombre: producto.title,
-      descripcion: producto.desc,
-      precio: producto.price,
-      cantidad: 1,
+      producto_id: producto.producto_id,
+      nombre: producto.nombre_producto,
+      descripcion: producto.descripcion,
+      precio: producto.precio,
+      imagen: `src/assets/img//${producto.url_imagen}`,
+      cantidad: producto.cantidad || 1,
     };
-
     const nuevoCarrito = [...carritoExistente, nuevoProducto];
     localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
-    setProductoAgregado(`${producto.title} agregado al carrito 🛒`);
+
+    setProductoAgregado(`${nuevoProducto.nombre} agregado al carrito 🛒`);
     setMensajeVisible(true);
     setTimeout(() => setMensajeVisible(false), 3000);
   };
+
   return (
     <div className="character-page chococat-theme">
       <header>
@@ -135,22 +60,95 @@ export default function Chococat() {
 
       <section className="product-section">
         <div className="product-grid">
-          {productos.map((item, i) => (
-            <div className="product-card" key={i}>
-              <img src={item.img} alt={item.title} />
-              <h3>{item.title}</h3>
+          {productos.length > 0 ? (
+            productos.map((item) => (
+              <div
+                className="product-card"
+                key={item.producto_id}
+                onClick={() => setProductoSeleccionado(item)} // abrir modal al click
+                style={{ cursor: "pointer" }}
+              >
+                <img
+                  src={`src/assets/img/${item.url_imagen}`}
+                  alt={item.nombre_producto}
+                />
+                <h3>{item.nombre_producto}</h3>
+                <p>{item.descripcion}</p>
+                <div className="price">${item.precio}</div>
+                <button
+                  className="pretty-button"
+                  onClick={(e) => {
+                    e.stopPropagation(); // evitar que abra modal al agregar
+                    agregarAlCarrito(item);
+                  }}
+                >
+                  Agregar al carrito
+                </button>
+              </div>
+            ))
+          ) : (
+            <p>No hay productos disponibles</p>
+          )}
+        </div>
+      </section>
 
-              <div className="price">{item.price}</div>
+      {/* Modal detallado */}
+      {productoSeleccionado && (
+        <div
+          className="modal-overlay-chococat"
+          onClick={() => setProductoSeleccionado(null)}
+        >
+          <div
+            className="modal-content-detailed-chococat"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="modal-close-chococat"
+              onClick={() => setProductoSeleccionado(null)}
+            >
+              ✖
+            </button>
+
+            <div className="modal-product-gallery-chococat">
+              <img
+                src={`src/assets/img/${productoSeleccionado.url_imagen}`}
+                alt={productoSeleccionado.nombre_producto}
+              />
+            </div>
+
+            <div className="modal-product-info-chococat">
+              <h2>{productoSeleccionado.nombre_producto}</h2>
+              <p className="modal-description-chococat">{productoSeleccionado.descripcion}</p>
+              <p className="modal-price-chococat">Precio: ${productoSeleccionado.precio}</p>
+              <p className="modal-stock-chococat">
+                Stock: {productoSeleccionado.stock || "Disponible"}
+              </p>
+
+              <div className="quantity-selector-chococat">
+                <label className="cantidad-modal">Cantidad:</label>
+                <input
+                  type="number"
+                  min="1"
+                  defaultValue="1"
+                  id="cantidadInput-chococat"
+                />
+              </div>
+
               <button
-                className="pretty-button"
-                onClick={() => agregarAlCarrito(item)}
+                className="pretty-button-chococat"
+                onClick={() => {
+                  const cantidad = parseInt(document.getElementById("cantidadInput-chococat").value);
+                  const productoConCantidad = { ...productoSeleccionado, cantidad };
+                  agregarAlCarrito(productoConCantidad);
+                  setProductoSeleccionado(null);
+                }}
               >
                 Agregar al carrito
               </button>
             </div>
-          ))}
+          </div>
         </div>
-      </section>
+      )}
 
       <footer className="footer">
         <h3>Contacto</h3>
@@ -159,15 +157,12 @@ export default function Chococat() {
         <p>© 2024 Sanrio Star</p>
       </footer>
 
-<button
-  className="scroll-top-btn-chococat"
-  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
->
-  🐱
-</button>
-
-
-
+      <button
+        className="scroll-top-btn-chococat"
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      >
+        🐱
+      </button>
     </div>
   );
 }

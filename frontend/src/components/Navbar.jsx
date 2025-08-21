@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../styles/Navbar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from "../assets/img/logo.png";
@@ -6,21 +6,11 @@ import logo from "../assets/img/logo.png";
 const Navbar = () => {
   const navigate = useNavigate();
   const usuario = JSON.parse(localStorage.getItem("usuario"));
-  const [query, setQuery] = useState("");
 
   const handleLogout = () => {
     localStorage.removeItem("usuario");
     localStorage.setItem("mensajeLogout", "🔒 Has cerrado sesión correctamente");
     navigate('/auth');
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const q = query.trim();
-    if (!q) return;
-    navigate(`/buscar?q=${encodeURIComponent(q)}`);
-    // opcional: limpiar input
-    // setQuery("");
   };
 
   return (
@@ -29,18 +19,6 @@ const Navbar = () => {
       <Link to="/" className="nav-logo">
         <img src={logo} alt="Logo Sanrio" />
       </Link>
-
-      {/* 🔎 Buscador centrado */}
-      <form onSubmit={handleSearch} className="nav-search" role="search" aria-label="Buscar productos">
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Buscar productos..."
-          aria-label="Buscar productos"
-        />
-        <button type="submit" aria-label="Buscar">🔍</button>
-      </form>
 
       <div className="nav-links">
         <Link to="/productos" title="Productos">🛍️</Link>

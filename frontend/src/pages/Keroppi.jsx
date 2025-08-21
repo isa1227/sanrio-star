@@ -1,110 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "../styles/Personajes.css";
-
 import backImg from "../assets/img/ke.jpeg";
-import peluches from "../assets/img/kePELUCHES.jpg";
-import cosmetiquera from "../assets/img/keCOSMETIQUERA.jpg";
-import bolso from "../assets/img/keBOLSO.jpg";
-import sandalias from "../assets/img/keSANDALIAS.jpg";
-import cuaderno from "../assets/img/keCUADERNO.jpg";
-import funda from "../assets/img/keFUNDA.jpg";
-import kit from "../assets/img/keKIT.jpg";
-import organizador from "../assets/img/keORGANIZADOR.jpg";
-import lonchera from "../assets/img/keLONCHERA.jpg";
-import cepillo from "../assets/img/cepillokeropi.jpg";
-import llavero from "../assets/img/llaverokeropi.jpg";
-import { Scripts } from "react-router-dom";
-
-const productos = [
-  {
-    img: peluches,
-    title: "Muñecos Keroppi",
-    desc: "Tres adorables muñecos de peluche de Keroppi para tu colección.",
-    price: "$78.000",
-  },
-  {
-    img: cosmetiquera,
-    title: "Cosmetiquera Keroppi",
-    desc: "Cosmetiquera de Keroppi para llevar tus productos de belleza en cualquier lugar.",
-    price: "$20.000",
-  },
-  {
-    img: bolso,
-    title: "Bolso Keroppi",
-    desc: "Bolso de mano con el diseño de Keroppi, ideal para salir con estilo.",
-    price: "$34.000",
-  },
-  {
-    img: sandalias,
-    title: "Sandalias Keroppi",
-    desc: "Unas hermosas sandalias de Keroppi para disfrutar del verano.",
-    price: "$18.000",
-  },
-  {
-    img: cuaderno,
-    title: "Cuaderno Keroppi",
-    desc: "Un cuaderno de Keroppi para escribir tus pensamientos y recuerdos.",
-    price: "$20.000",
-  },
-  {
-    img: funda,
-    title: "Funda para cama de Keroppi",
-    desc: "Una funda para cama de Keroppi para dormir con tu personaje favorito.",
-    price: "$46.000",
-  },
-  {
-    img: kit,
-    title: "Kit estudiantil de Keroppi",
-    desc: "Un kit estudiantil de Keroppi para aprender a manejar su rana.",
-    price: "$70.000",
-  },
-  {
-    img: organizador,
-    title: "Organizador de Keroppi",
-    desc: "Un organizador de Keroppi para llevar tus cosas en orden.",
-    price: "$25.000",
-  },
-  {
-    img: lonchera,
-    title: "Lonchera de Keroppi",
-    desc: "Una lonchera de Keroppi para llevar tus alimentos en un lugar seguro.",
-    price: "$45.000",
-  },
-  {
-    img: cepillo,
-    title: "Set para lavado dental Keroppi",
-    desc: "Un necesario set para tus pequeños a la hora del cepillado.",
-    price: "$30.000",
-  },
-  {
-    img: llavero,
-    title: "Llavero Keroppi",
-    desc: "Un lindo llavero para tus bolsos o llaves.",
-    price: "$15.000",
-  },
-];
 
 export default function Keroppi() {
   const [mensajeVisible, setMensajeVisible] = useState(false);
+  const [productos, setProductos] = useState([]);
   const [productoAgregado, setProductoAgregado] = useState("");
-  const agregarAlCarrito = (producto) => {
-    const carritoExistente = JSON.parse(localStorage.getItem("carrito")) || [];
+  const [productoSeleccionado, setProductoSeleccionado] = useState(null); // estado para modal
 
-    // Adaptar las propiedades
-    const nuevoProducto = {
-      imagen: producto.img,
-      nombre: producto.title,
-      descripcion: producto.desc,
-      precio: producto.price,
-      cantidad: 1,
+  // Traer productos de la BD
+  useEffect(() => {
+    const fetchProductos = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:8000/api/productos/personaje/keroppi"
+        );
+        setProductos(res.data);
+      } catch (err) {
+        console.error("Error al obtener productos:", err);
+      }
     };
+    fetchProductos();
+  }, []);
 
-    const nuevoCarrito = [...carritoExistente, nuevoProducto];
-    localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
-    setProductoAgregado(`${producto.title} agregado al carrito 🛒`);
+  // Agregar al carrito
+  const agregarAlCarrito = (producto) => {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    const existe = carrito.find(
+      (item) => item.producto_id === producto.producto_id
+    );
+
+    if (existe) {
+      carrito = carrito.map((item) =>
+        item.producto_id === producto.producto_id
+          ? { ...item, cantidad: item.cantidad + (producto.cantidad || 1) }
+          : item
+      );
+    } else {
+      const nuevoProducto = {
+        producto_id: producto.producto_id,
+        nombre: producto.nombre_producto,
+        descripcion: producto.descripcion,
+        precio: producto.precio,
+        imagen: `src/assets/img/${producto.url_imagen}`,
+        cantidad: producto.cantidad || 1,
+      };
+      carrito.push(nuevoProducto);
+    }
+
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+
+    setProductoAgregado(`${producto.nombre_producto} agregado al carrito 🛒`);
     setMensajeVisible(true);
     setTimeout(() => setMensajeVisible(false), 3000);
   };
+
   return (
     <div className="character-page keroppi-theme">
       <header>
@@ -123,27 +75,109 @@ export default function Keroppi() {
       <h1>🐸 Keroppi 🐸</h1>
       <p className="description-text">
         Una ranita alegre con grandes ojos. Vive en el estanque Donut con su
-        familia. Es aventurero y le encantan los retos y la diversión.🐸
+        familia. Es aventurero y le encantan los retos y la diversión. 🐸
       </p>
 
       <section className="product-section">
         <div className="product-grid">
-          {productos.map((item, i) => (
-            <div className="product-card" key={i}>
-              <img src={item.img} alt={item.title} />
-              <h3>{item.title}</h3>
+          {productos.length > 0 ? (
+            productos.map((item) => (
+              <div
+                className="product-card"
+                key={item.producto_id}
+                onClick={() => setProductoSeleccionado(item)}
+                style={{ cursor: "pointer" }}
+              >
+                <img
+                  src={`src/assets/img/${item.url_imagen}`}
+                  alt={item.nombre_producto}
+                />
+                <h3>{item.nombre_producto}</h3>
+                <p>{item.descripcion}</p>
+                <div className="price">${item.precio}</div>
+                <button
+                  className="pretty-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    agregarAlCarrito(item);
+                  }}
+                >
+                  Agregar al carrito
+                </button>
+              </div>
+            ))
+          ) : (
+            <p>Cargando productos...</p>
+          )}
+        </div>
+      </section>
 
-              <div className="price">{item.price}</div>
+      {/* Modal detallado */}
+      {productoSeleccionado && (
+        <div
+          className="modal-overlay-keroppi"
+          onClick={() => setProductoSeleccionado(null)}
+        >
+          <div
+            className="modal-content-detailed-keroppi"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="modal-close-keroppi"
+              onClick={() => setProductoSeleccionado(null)}
+            >
+              ✖
+            </button>
+
+            <div className="modal-product-gallery-keroppi">
+              <img
+                src={`src/assets/img/${productoSeleccionado.url_imagen}`}
+                alt={productoSeleccionado.nombre_producto}
+              />
+            </div>
+
+            <div className="modal-product-info-keroppi">
+              <h2>{productoSeleccionado.nombre_producto}</h2>
+              <p className="modal-description-keroppi">
+                {productoSeleccionado.descripcion}
+              </p>
+              <p className="modal-price-keroppi">
+                Precio: ${productoSeleccionado.precio}
+              </p>
+              <p className="modal-stock-keroppi">
+                Stock: {productoSeleccionado.stock || "Disponible"}
+              </p>
+
+              <div className="quantity-selector-keroppi">
+                <label className="cantidad-modal">Cantidad:</label>
+                <input
+                  type="number"
+                  min="1"
+                  defaultValue="1"
+                  id="cantidadInput-keroppi"
+                />
+              </div>
+
               <button
-                className="pretty-button"
-                onClick={() => agregarAlCarrito(item)}
+                className="pretty-button-keroppi"
+                onClick={() => {
+                  const cantidad = parseInt(
+                    document.getElementById("cantidadInput-keroppi").value
+                  );
+                  const productoConCantidad = {
+                    ...productoSeleccionado,
+                    cantidad,
+                  };
+                  agregarAlCarrito(productoConCantidad);
+                  setProductoSeleccionado(null);
+                }}
               >
                 Agregar al carrito
               </button>
             </div>
-          ))}
+          </div>
         </div>
-      </section>
+      )}
 
       <footer className="footer">
         <h3>Contacto</h3>
@@ -153,13 +187,11 @@ export default function Keroppi() {
       </footer>
 
       <button
-      className="scroll-top-btn-keroppi"
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        className="scroll-top-btn-keroppi"
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       >
-      🐸
+        🐸
       </button>
-
-
     </div>
   );
 }

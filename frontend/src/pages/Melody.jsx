@@ -1,121 +1,65 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "../styles/Personajes.css";
-
 import backImg from "../assets/img/melo.png";
-import peluche from "../assets/img/meloPELUCHE.jpeg";
-import cuaderno from "../assets/img/meloCUADERNO.jpeg";
-import bolso from "../assets/img/meloBOLSO.jpg";
-import tenis from "../assets/img/meloZAPATOS.jpeg";
-import termo from "../assets/img/melodyTERMO.jpg";
-import cosmetiquera from "../assets/img/meloCOSMETIQUERA.jpg";
-import organizador from "../assets/img/meloORGANIZADOR.jpg";
-import peine from "../assets/img/meloPEINE.jpg";
-import reloj from "../assets/img/meloRELOJ.jpg";
-import audifonos from "../assets/img/audifonosmelody.jpg";
-import caja from "../assets/img/cajamelody.jpg";
-import cuaderno2 from "../assets/img/cuadernomelody.jpg";
-
-const productos = [
-  {
-    img: peluche,
-    title: "Muñeco My Melody",
-    desc: "Un adorable muñeco de peluche de My Melody para tu colección.",
-    price: "$40.000",
-  },
-  {
-    img: cuaderno,
-    title: "Cuaderno My Melody",
-    desc: "Cuaderno de notas con un diseño exclusivo de My Melody, perfecto para tus apuntes.",
-    price: "$15.000",
-  },
-  {
-    img: bolso,
-    title: "Bolso My Melody",
-    desc: "Bolso de mano con el diseño de My Melody, ideal para salir con estilo.",
-    price: "$34.000",
-  },
-  {
-    img: tenis,
-    title: "Tenis My Melody",
-    desc: "Unos tenis de My Melody para que puedas lucir con estilo.",
-    price: "$90.000",
-  },
-  {
-    img: termo,
-    title: "Termo My Melody",
-    desc: "Un termo de My Melody para mantener tus bebidas calientes o frías.",
-    price: "$22.000",
-  },
-  {
-    img: cosmetiquera,
-    title: "Cosmetiquera My Melody",
-    desc: "Una hermosa cosmetiquera de My Melody para tus productos de belleza.",
-    price: "$22.000",
-  },
-  {
-    img: organizador,
-    title: "Organizador My Melody",
-    desc: "Un organizador de My Melody para mantener tus pertenencias en orden.",
-    price: "$28.000",
-  },
-  {
-    img: peine,
-    title: "Peine My Melody",
-    desc: "Un peine de My Melody para cuidar de tu cabello.",
-    price: "$14.000",
-  },
-  {
-    img: reloj,
-    title: "Reloj My Melody",
-    desc: "Un reloj de My Melody para que puedas estar a la hora.",
-    price: "$30.000",
-  },
-  {
-    img: audifonos,
-    title: "Audífonos My Melody",
-    desc: "Audífonos super cute.",
-    price: "$50.000",
-  },
-  {
-    img: caja,
-    title: "Caja organizadora My Melody",
-    desc: "Una caja super cómoda para organizar tus pertenencias.",
-    price: "$35.000",
-  },
-  {
-    img: cuaderno2,
-    title: "Cuaderno My Melody",
-    desc: "Lindo cuaderno para el colegio.",
-    price: "$28.000",
-  },
-];
 
 export default function MyMelody() {
+  const [productos, setProductos] = useState([]);
   const [mensajeVisible, setMensajeVisible] = useState(false);
   const [productoAgregado, setProductoAgregado] = useState("");
+  const [productoSeleccionado, setProductoSeleccionado] = useState(null);
 
-  const agregarAlCarrito = (producto) => {
-    const carritoExistente = JSON.parse(localStorage.getItem("carrito")) || [];
-
-    // Adaptar las propiedades
-    const nuevoProducto = {
-      imagen: producto.img,
-      nombre: producto.title,
-      descripcion: producto.desc,
-      precio: producto.price,
-      cantidad: 1,
+  // Traer productos de la BD
+  useEffect(() => {
+    const fetchProductos = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:8000/api/productos/personaje/my%20melody"
+        );
+        setProductos(res.data);
+      } catch (err) {
+        console.error("Error al obtener productos:", err);
+      }
     };
+    fetchProductos();
+  }, []);
 
-    const nuevoCarrito = [...carritoExistente, nuevoProducto];
-    localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
-    setProductoAgregado(`${producto.title} agregado al carrito 🛒`);
+  // Agregar al carrito
+  const agregarAlCarrito = (producto) => {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    const existe = carrito.find(
+      (item) => item.producto_id === producto.producto_id
+    );
+
+    if (existe) {
+      carrito = carrito.map((item) =>
+        item.producto_id === producto.producto_id
+          ? { ...item, cantidad: item.cantidad + (producto.cantidad || 1) }
+          : item
+      );
+    } else {
+      const nuevoProducto = {
+        producto_id: producto.producto_id,
+        nombre: producto.nombre_producto,
+        descripcion: producto.descripcion,
+        precio: producto.precio,
+        imagen: `src/assets/img/${producto.url_imagen}`, // ajusta según tu ruta
+        cantidad: producto.cantidad || 1,
+      };
+      carrito.push(nuevoProducto);
+    }
+
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    setProductoAgregado(`${producto.nombre_producto} agregado al carrito 🛒`);
     setMensajeVisible(true);
     setTimeout(() => setMensajeVisible(false), 3000);
   };
+
   return (
     <div className="character-page mymelody-theme">
       <header>
-        <a href="/" className="back-btn">
+        <a href="/" className="back-btn circular-button">
           <img src={backImg} alt="Volver al inicio" />
         </a>
         <a href="/carrito" className="floating-cart-btn">
@@ -123,9 +67,7 @@ export default function MyMelody() {
         </a>
       </header>
 
-      {mensajeVisible && (
-        <div className="mensaje-mymelody">{productoAgregado}</div>
-      )}
+      {mensajeVisible && <div className="mensaje-mymelody">{productoAgregado}</div>}
 
       <h1>🌺 My Melody 🌺</h1>
       <p className="description-text">
@@ -136,37 +78,109 @@ export default function MyMelody() {
 
       <section className="product-section">
         <div className="product-grid">
-          {productos.map((item, i) => (
-            <div className="product-card" key={i}>
-              <img src={item.img} alt={item.title} />
-              <h3>{item.title}</h3>
+          {productos.length > 0 ? (
+            productos.map((item) => (
+              <div
+                className="product-card"
+                key={item.producto_id}
+                onClick={() => setProductoSeleccionado(item)}
+                style={{ cursor: "pointer" }}
+              >
+                <img
+                  src={`src/assets/img/${item.url_imagen}`}
+                  alt={item.nombre_producto}
+                />
+                <h3>{item.nombre_producto}</h3>
+                <p>{item.descripcion}</p>
+                <div className="price">${item.precio}</div>
+                <button
+                  className="pretty-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    agregarAlCarrito(item);
+                  }}
+                >
+                  Agregar al carrito
+                </button>
+              </div>
+            ))
+          ) : (
+            <p>Cargando productos</p>
+          )}
+        </div>
+      </section>
 
-              <div className="price">{item.price}</div>
+      {/* Modal detallado */}
+      {productoSeleccionado && (
+        <div
+          className="modal-overlay-mymelody"
+          onClick={() => setProductoSeleccionado(null)}
+        >
+          <div
+            className="modal-content-detailed-mymelody"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="modal-close-mymelody"
+              onClick={() => setProductoSeleccionado(null)}
+            >
+              ✖
+            </button>
+
+            <div className="modal-product-gallery-mymelody">
+              <img
+                src={`src/assets/img/${productoSeleccionado.url_imagen}`}
+                alt={productoSeleccionado.nombre_producto}
+              />
+            </div>
+
+            <div className="modal-product-info-mymelody">
+              <h2>{productoSeleccionado.nombre_producto}</h2>
+              <p className="modal-description-mymelody">{productoSeleccionado.descripcion}</p>
+              <p className="modal-price-mymelody">Precio: ${productoSeleccionado.precio}</p>
+              <p className="modal-stock-mymelody">
+                Stock: {productoSeleccionado.stock || "Disponible"}
+              </p>
+
+              <div className="quantity-selector-mymelody">
+                <label className="cantidad-modal">Cantidad:</label>
+                <input
+                  type="number"
+                  min="1"
+                  defaultValue="1"
+                  id="cantidadInput-mymelody"
+                />
+              </div>
+
               <button
-                className="pretty-button"
-                onClick={() => agregarAlCarrito(item)}
+                className="pretty-button-mymelody"
+                onClick={() => {
+                  const cantidad = parseInt(document.getElementById("cantidadInput-mymelody").value);
+                  const productoConCantidad = { ...productoSeleccionado, cantidad };
+                  agregarAlCarrito(productoConCantidad);
+                  setProductoSeleccionado(null);
+                }}
               >
                 Agregar al carrito
               </button>
             </div>
-          ))}
+          </div>
         </div>
-      </section>
+      )}
 
-      <footer className="mymelody-theme footer">
+      <footer className="footer mymelody-theme">
         <h3>Contacto</h3>
         <p>Email: contacto@sanriostar.com</p>
         <p>Teléfono: +123 456 789</p>
         <p>© 2024 Sanrio Star</p>
-      </footer>
 
         <button
-    className="scroll-top-btn-mymelody"
-    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-  >
-    🌸
-  </button>
-
+          className="scroll-top-btn-mymelody"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
+          🌸
+        </button>
+      </footer>
     </div>
   );
 }

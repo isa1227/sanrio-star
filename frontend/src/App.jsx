@@ -21,9 +21,6 @@ import Chococat from './pages/Chococat';
 import HelloKitty from './pages/Kitty';
 import './index.css';
 
-// 🔎 
-import Buscar from './pages/Buscar';
-
 
 const PrivateRoute = ({ children }) => {
   const usuario = JSON.parse(localStorage.getItem('usuario'));
@@ -85,10 +82,6 @@ function App() {
         <Route path="/keroppi" element={<Keroppi />} />
         <Route path="/chococat" element={<Chococat />} />
         <Route path="/kitty" element={<HelloKitty />} />
-
-        {/* 🔎 Nueva ruta para resultados de búsqueda */}
-       <Route path="/buscar" element={<Buscar />} />
-
 
         <Route
           path="/admin"

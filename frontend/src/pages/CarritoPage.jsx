@@ -13,12 +13,6 @@ const CarritoPage = () => {
   }, [seleccionados]);
 
   useEffect(() => {
-    const usuario = localStorage.getItem("usuario");
-    if (!usuario) {
-      setCarrito([]);
-      return;
-    }
-
     const carritoGuardado = JSON.parse(localStorage.getItem("carrito")) || [];
 
     const carritoConCantidad = carritoGuardado.map((item) => ({
@@ -34,8 +28,7 @@ const CarritoPage = () => {
     } else {
       const seleccionInicial = {};
       carritoConCantidad.forEach((item) => {
-        const id = item.nombre || item.title;
-        seleccionInicial[id] = true;
+        seleccionInicial[item.producto_id] = true; // ✅ usamos producto_id como clave
       });
       setSeleccionados(seleccionInicial);
     }
@@ -56,12 +49,12 @@ const CarritoPage = () => {
   };
 
   const productosSeleccionados = carrito.filter(
-    (item) => seleccionados[item.nombre || item.title]
+    (item) => seleccionados[item.producto_id]
   );
 
   const confirmarEliminacion = () => {
     const nuevoCarrito = carrito.filter(
-      (item) => (item.nombre || item.title) !== productoAEliminar
+      (item) => item.producto_id !== productoAEliminar
     );
     setCarrito(nuevoCarrito);
     localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
@@ -104,64 +97,58 @@ const CarritoPage = () => {
               </button>
 
               <div className="carrito-grid">
-                {carrito.map((item, index) => {
-                  const id = item.nombre || item.title;
-                  return (
-                    <div key={index} className="card relative">
-                      <input
-                        type="checkbox"
-                        checked={seleccionados[id] || false}
-                        onChange={() => toggleSeleccion(id)}
-                        className="checkbox-circulo"
-                      />
-                      <img
-                        src={item.imagen || item.img}
-                        alt={item.nombre || item.title}
-                      />
-                      <h3>{item.nombre || item.title}</h3>
-                      <p className="price">{item.precio || item.price}</p>
+                {carrito.map((item, index) => (
+                  <div key={item.producto_id} className="card relative">
+                    <input
+                      type="checkbox"
+                      checked={seleccionados[item.producto_id] || false}
+                      onChange={() => toggleSeleccion(item.producto_id)}
+                      className="checkbox-circulo"
+                    />
+                    <img src={item.imagen} alt={item.nombre} />
+                    <h3>{item.nombre}</h3>
+                    <p className="price">${item.precio}</p>
 
-                      <label style={{ color: "white" }}>Cantidad:</label>
-                      <input
-                        type="number"
-                        min="1"
-                        value={item.cantidad}
-                        onChange={(e) => {
-                          const nuevaCantidad = parseInt(e.target.value) || 1;
-                          setCarrito((prev) => {
-                            const nuevo = [...prev];
-                            nuevo[index].cantidad = nuevaCantidad;
-                            localStorage.setItem("carrito", JSON.stringify(nuevo));
-                            return nuevo;
-                          });
-                        }}
-                        className="input-cantidad"
-                      />
+                    <label style={{ color: "white" }}>Cantidad:</label>
+                    <input
+                      type="number"
+                      min="1"
+                      value={item.cantidad}
+                      onChange={(e) => {
+                        const nuevaCantidad = parseInt(e.target.value) || 1;
+                        setCarrito((prev) => {
+                          const nuevo = [...prev];
+                          nuevo[index].cantidad = nuevaCantidad;
+                          localStorage.setItem("carrito", JSON.stringify(nuevo));
+                          return nuevo;
+                        });
+                      }}
+                      className="input-cantidad"
+                    />
 
-                      <button
-                        onClick={() => {
-                          setProductoAEliminar(id);
-                          setMostrarConfirmacion(true);
-                        }}
-                        className="boton-eliminar"
-                        style={{
-                          position: "absolute",
-                          bottom: "-3px",
-                          left: "9px",
-                          backgroundColor: "#f87171",
-                          color: "white",
-                          border: "none",
-                          borderRadius: "6px",
-                          padding: "4px 8px",
-                          fontSize: "0.8rem",
-                          cursor: "pointer",
-                        }}
-                      >
-                        🗑️
-                      </button>
-                    </div>
-                  );
-                })}
+                    <button
+                      onClick={() => {
+                        setProductoAEliminar(item.producto_id);
+                        setMostrarConfirmacion(true);
+                      }}
+                      className="boton-eliminar"
+                      style={{
+                        position: "absolute",
+                        bottom: "-3px",
+                        left: "9px",
+                        backgroundColor: "#f87171",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "6px",
+                        padding: "4px 8px",
+                        fontSize: "0.8rem",
+                        cursor: "pointer",
+                      }}
+                    >
+                      🗑️
+                    </button>
+                  </div>
+                ))}
               </div>
             </>
           )}
@@ -202,5 +189,5 @@ const CarritoPage = () => {
     </>
   );
 };
-
+     
 export default CarritoPage;

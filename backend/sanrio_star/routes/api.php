@@ -9,7 +9,8 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\AuthController;
 
-Route::get('/productos/buscar', [ProductoController::class, 'buscar']);
+// Ruta para productos por personaje
+Route::get('/productos/personaje/{personaje}', [ProductoController::class, 'porPersonaje']);
 
 // Ruta de prueba
 Route::get('/mensaje', function () {
