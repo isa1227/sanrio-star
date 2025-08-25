@@ -19,5 +19,6 @@ class Producto extends Model
         'cantidad_minima',
         'cantidad_maxima',
         'url_imagen',
+        'personajes'
     ];
 }

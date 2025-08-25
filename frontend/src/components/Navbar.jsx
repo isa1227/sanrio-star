@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import '../styles/Navbar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from "../assets/img/logo.png";
@@ -16,7 +16,7 @@ const Navbar = () => {
   return (
     <div className="navbar">
       {/* Logo */}
-      <Link to="/">
+      <Link to="/" className="nav-logo">
         <img src={logo} alt="Logo Sanrio" />
       </Link>
 
@@ -30,12 +30,9 @@ const Navbar = () => {
 
         {usuario ? (
           <>
-           {usuario && (
-  <span className="text-white font-bold">
-    {usuario.nombre_usuario} ({usuario.nombre_rol})
-  </span>
-)}
-
+            <span className="usuario-nombre">
+              {usuario.nombre_usuario} ({usuario.nombre_rol})
+            </span>
             <button className="logout-button" onClick={handleLogout}>🚪 Cerrar sesión</button>
           </>
         ) : (

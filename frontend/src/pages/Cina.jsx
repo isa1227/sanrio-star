@@ -1,116 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "../styles/Personajes.css";
-
 import backImg from "../assets/img/c.webp";
-import peluche from "../assets/img/cinaPELUCHE.jpg";
-import cuaderno from "../assets/img/cinaCUADERNO.jpg";
-import kit from "../assets/img/cina.jfif";
-import camisa from "../assets/img/camisaCINNA.jpg";
-import chanclas from "../assets/img/cinaCHANCLAS.jpg";
-import cosmetiquera from "../assets/img/cinaCOSMETIQUERA.jpg";
-import taza from "../assets/img/cinaTAZA.jpg";
-import balsamo from "../assets/img/balsamocina.jpg";
-import libreta from "../assets/img/libretacina.jpg";
-import morral from "../assets/img/bolosocinna.jpg";
-import termo from "../assets/img/termocina.jpg";
-import gorra from "../assets/img/gorracina.jpg";
-
-const productos = [
-  {
-    img: peluche,
-    title: "Muñeco Cinnamoroll",
-    desc: "Un adorable muñeco de peluche de Cinnamoroll para tu colección.",
-    price: "$38.000",
-  },
-  {
-    img: cuaderno,
-    title: "Cuaderno Cinnamoroll",
-    desc: "Cuaderno de notas con un diseño exclusivo de Cinnamoroll, ideal para tus apuntes.",
-    price: "$20.000",
-  },
-  {
-    img: kit,
-    title: "Kit Cinnamoroll",
-    desc: "Kit completo de bolsos perfecto para estudiantes",
-    price: "$120.000",
-  },
-  {
-    img: camisa,
-    title: "Camiseta Cinnamoroll",
-    desc: "Una camiseta con estampado de Cinnamoroll, cómoda y moderna.",
-    price: "$28.000",
-  },
-  {
-    img: chanclas,
-    title: "Chanclas Cinnamoroll",
-    desc: "Unas hermosas chanclas con estampado de Cinnamoroll, cómodas y modernas.",
-    price: "$18.000",
-  },
-  {
-    img: cosmetiquera,
-    title: "Cosmetiquera Cinnamoroll",
-    desc: "Una cosmetiquera de Cinnamoroll, ideal para llevar tus productos de belleza.",
-    price: "$20.000",
-  },
-  {
-    img: taza,
-    title: "Taza Cinnamoroll",
-    desc: "Una taza perfecta para tu café.",
-    price: "$23.000",
-  },
-  {
-    img: balsamo,
-    title: "Bálsamo labial Cinnamoroll",
-    desc: "Un bálsamo para tus labios.",
-    price: "$5.000",
-  },
-  {
-    img: libreta,
-    title: "Libreta Cinnamoroll",
-    desc: "Una pequeña pero bonita libreta para tus apuntes.",
-    price: "$29.000",
-  },
-  {
-    img: morral,
-    title: "Morral Cinnamoroll",
-    desc: "Un hermoso morral perfecto para llevar tus cositas.",
-    price: "$58.000",
-  },
-  {
-    img: termo,
-    title: "Termo Cinnamoroll",
-    desc: "Un bonito bolso termo para estar hidratado.",
-    price: "$40.000",
-  },
-  {
-    img: gorra,
-    title: "Gorra Cinnamoroll",
-    desc: "Una gorra para los calores.",
-    price: "$20.000",
-  },
-];
 
 export default function Cinnamoroll() {
+  const [productos, setProductos] = useState([]);
   const [mensajeVisible, setMensajeVisible] = useState(false);
   const [productoAgregado, setProductoAgregado] = useState("");
+  const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+
+  // Traer productos
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/productos/personaje/Cinnamorol")
+      .then((response) => setProductos(response.data))
+      .catch((error) => console.error("Error al cargar productos de Cinnamoroll:", error));
+  }, []);
+
+  // Agregar al carrito
   const agregarAlCarrito = (producto) => {
-    const carritoExistente = JSON.parse(localStorage.getItem("carrito")) || [];
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-    // Adaptar las propiedades
-    const nuevoProducto = {
-      imagen: producto.img,
-      nombre: producto.title,
-      descripcion: producto.desc,
-      precio: producto.price,
-      cantidad: 1,
-    };
+    const existe = carrito.find((item) => item.producto_id === producto.producto_id);
 
-    const nuevoCarrito = [...carritoExistente, nuevoProducto];
-    localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
-    setProductoAgregado(`${producto.title} agregado al carrito 🛒`);
+    if (existe) {
+      carrito = carrito.map((item) =>
+        item.producto_id === producto.producto_id
+          ? { ...item, cantidad: item.cantidad + (producto.cantidad || 1) }
+          : item
+      );
+    } else {
+      const nuevoProducto = {
+        producto_id: producto.producto_id,
+        nombre: producto.nombre_producto,
+        descripcion: producto.descripcion,
+        precio: producto.precio,
+        imagen: `src/assets/img/${producto.url_imagen}`,
+        cantidad: producto.cantidad || 1,
+      };
+      carrito.push(nuevoProducto);
+    }
+
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    setProductoAgregado(`${producto.nombre_producto} agregado al carrito 🛒`);
     setMensajeVisible(true);
     setTimeout(() => setMensajeVisible(false), 3000);
   };
+
   return (
     <div className="character-page cinnamoroll-theme">
       <header>
@@ -122,34 +58,105 @@ export default function Cinnamoroll() {
         </a>
       </header>
 
-      {mensajeVisible && (
-        <div className="mensaje-cinnamoroll">{productoAgregado}</div>
-      )}
+      {mensajeVisible && <div className="mensaje-cinnamoroll">{productoAgregado}</div>}
 
       <h1>☁️ Cinnamoroll ☁️</h1>
       <p className="description-text">
         Un perrito blanco con orejas largas que le permiten volar. Tiene una
-        cola rizada como un rollito de canela. Es muy tierno y tímido.☁️
+        cola rizada como un rollito de canela. Es muy tierno y tímido. ☁️
       </p>
 
       <section className="product-section">
         <div className="product-grid">
-          {productos.map((item, i) => (
-            <div className="product-card" key={i}>
-              <img src={item.img} alt={item.title} />
-              <h3>{item.title}</h3>
+          {productos.length > 0 ? (
+            productos.map((item) => (
+              <div
+                className="product-card"
+                key={item.producto_id}
+                onClick={() => setProductoSeleccionado(item)}
+                style={{ cursor: "pointer" }}
+              >
+                <img
+                  src={`src/assets/img/${item.url_imagen}`}
+                  alt={item.nombre_producto}
+                />
+                <h3>{item.nombre_producto}</h3>
+                <p>{item.descripcion}</p>
+                <div className="price">${item.precio}</div>
+                <button
+                  className="pretty-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    agregarAlCarrito(item);
+                  }}
+                >
+                  Agregar al carrito
+                </button>
+              </div>
+            ))
+          ) : (
+            <p>Cargando productos...</p>
+          )}
+        </div>
+      </section>
 
-              <div className="price">{item.price}</div>
+      {/* Modal detallado */}
+      {productoSeleccionado && (
+        <div
+          className="modal-overlay-cinnamoroll"
+          onClick={() => setProductoSeleccionado(null)}
+        >
+          <div
+            className="modal-content-detailed-cinnamoroll"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="modal-close-cinnamoroll"
+              onClick={() => setProductoSeleccionado(null)}
+            >
+              ✖
+            </button>
+
+            <div className="modal-product-gallery-cinnamoroll">
+              <img
+                src={`src/assets/img//${productoSeleccionado.url_imagen}`}
+                alt={productoSeleccionado.nombre_producto}
+              />
+            </div>
+
+            <div className="modal-product-info-cinnamoroll">
+              <h2>{productoSeleccionado.nombre_producto}</h2>
+              <p className="modal-description-cinnamoroll">{productoSeleccionado.descripcion}</p>
+              <p className="modal-price-cinnamoroll">Precio: ${productoSeleccionado.precio}</p>
+              <p className="modal-stock-cinnamoroll">
+                Stock: {productoSeleccionado.stock || "Disponible"}
+              </p>
+
+              <div className="quantity-selector-cinnamoroll">
+                <label className="cantidad-modal">Cantidad:</label>
+                <input
+                  type="number"
+                  min="1"
+                  defaultValue="1"
+                  id="cantidadInput-cinnamoroll"
+                />
+              </div>
+
               <button
-                className="pretty-button"
-                onClick={() => agregarAlCarrito(item)}
+                className="pretty-button-cinnamoroll"
+                onClick={() => {
+                  const cantidad = parseInt(document.getElementById("cantidadInput-cinnamoroll").value);
+                  const productoConCantidad = { ...productoSeleccionado, cantidad };
+                  agregarAlCarrito(productoConCantidad);
+                  setProductoSeleccionado(null);
+                }}
               >
                 Agregar al carrito
               </button>
             </div>
-          ))}
+          </div>
         </div>
-      </section>
+      )}
 
       <footer className="footer">
         <h3>Contacto</h3>
@@ -158,13 +165,12 @@ export default function Cinnamoroll() {
         <p>© 2024 Sanrio Star</p>
       </footer>
 
-  <button
-    className="scroll-top-btn-cinnamoroll"
-    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-  >
-    ☁️
-  </button>
-
+      <button
+        className="scroll-top-btn-cinnamoroll"
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      >
+        ☁️
+      </button>
     </div>
   );
 }

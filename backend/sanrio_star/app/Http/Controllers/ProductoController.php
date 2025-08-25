@@ -8,12 +8,23 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
+    // 🔹 Obtener productos por personaje
+public function porPersonaje($personaje)
+{
+    // Buscar en la columna "personajes" que guardaste en minúsculas
+    return DB::table('productos')
+        ->where('personajes', strtolower($personaje))
+        ->get();
+}
+
+    // 🔹 Listar todos los productos
     public function index()
     {
         $productos = DB::table('productos')->get();
         return response()->json($productos);
     }
 
+    // 🔹 Mostrar un producto específico
     public function show($id)
     {
         $producto = DB::table('productos')->find($id);
@@ -25,6 +36,7 @@ class ProductoController extends Controller
         return response()->json($producto);
     }
 
+    // 🔹 Crear un nuevo producto
     public function store(Request $request)
     {
         $request->validate([
@@ -32,6 +44,7 @@ class ProductoController extends Controller
             'descripcion'     => 'required|string',
             'precio'          => 'required|numeric',
             'categoria_id'    => 'required|integer',
+            'personajes'      => 'nullable|string',
             'imagen'          => 'required|image|max:2048',
         ]);
 
@@ -43,6 +56,7 @@ class ProductoController extends Controller
             'descripcion'     => $request->descripcion,
             'precio'          => $request->precio,
             'categoria_id'    => $request->categoria_id,
+            'personajes'      => strtolower($request->personajes),
             'url_imagen'      => $rutaImagen,
             'ultima_actualizacion' => now()
         ]);
@@ -50,6 +64,7 @@ class ProductoController extends Controller
         return response()->json(['mensaje' => 'Producto creado', 'id' => $id, 'url_imagen' => $rutaImagen], 201);
     }
 
+    // 🔹 Actualizar un producto
     public function update(Request $request, $id)
     {
         $producto = DB::table('productos')->where('producto_id', $id)->first();
@@ -69,13 +84,14 @@ class ProductoController extends Controller
             $rutaImagen = $request->file('imagen')->store('productos', 'public');
         }
 
-        $actualizado = DB::table('productos')
+        DB::table('productos')
             ->where('producto_id', $id)
             ->update([
                 'nombre_producto' => $request->nombre_producto,
                 'descripcion'     => $request->descripcion,
                 'precio'          => $request->precio,
                 'categoria_id'    => $request->categoria_id,
+                'personajes'      => strtolower($request->personajes),
                 'url_imagen'      => $rutaImagen,
                 'ultima_actualizacion' => now()
             ]);
@@ -83,6 +99,7 @@ class ProductoController extends Controller
         return response()->json(['mensaje' => 'Producto actualizado']);
     }
 
+    // 🔹 Eliminar un producto
     public function destroy($id)
     {
         $producto = DB::table('productos')->where('producto_id', $id)->first();

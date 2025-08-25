@@ -21,7 +21,7 @@ body {
 
 /* Botón de volver */
 .back-btn {
-  position: absolute;
+  position: fixed;
   top: 20px;
   left: 20px;
   width: 80px;
@@ -32,6 +32,7 @@ body {
   border: 2px solid transparent;
   background: none;
   transition: transform 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease;
+  z-index: 1000;
 }
 
 .back-btn img {
@@ -43,6 +44,35 @@ body {
 }
 
 .back-btn:hover {
+  transform: rotate(10deg);
+  box-shadow: 0 0 10px 3px rgba(167, 167, 167, 0.377);
+  opacity: 0.95;
+}
+
+.circular-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  background: none;
+  transition: transform 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease;
+  z-index: 1000;
+}
+
+.circular-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.circular-button:hover {
   transform: rotate(10deg);
   box-shadow: 0 0 10px 3px rgba(167, 167, 167, 0.377);
   opacity: 0.95;
@@ -170,93 +200,113 @@ h1 {
 /* ======= Kuromi Theme ======= */
 .kuromi-theme {
   background-color: #2a022a;
-  /* fondo general más oscuro */
 }
 
 .kuromi-theme h1 {
   color: #d1a1e3;
-  /* lila pálido con buena visibilidad sobre fondo oscuro */
 }
 
 .kuromi-theme .description-text {
   color: #f2e6ff;
-  /* casi blanco pero con tono lila */
 }
 
 .kuromi-theme .product-card h3 {
   color: #bf7ff2;
-  /* lila más intenso y oscuro */
 }
 
 .kuromi-theme .product-card p {
   color: #e2b6ff;
-  /* texto más suave pero menos claro */
 }
 
 .kuromi-theme .product-card .price {
   color: #ffdcfa;
-  /* tono claro, pero más equilibrado con el fondo */
 }
 
 .kuromi-theme .pretty-button {
   background: linear-gradient(to right, #4b006e, #823e9c);
-  /* degradado oscuro Kuromi */
   color: #fff;
-  border: 1px solid #d9a0ff;
+  /* border: 1px solid #d9a0ff;
   border-radius: 1rem;
   padding: 0.5rem 1.2rem;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease; */
 }
 
 .kuromi-theme .pretty-button:hover {
-  background: linear-gradient(to right, #5e1a7a, #a24bcf);
-  /* hover con más brillo */
+  background: linear-gradient(to right, #a24bcf, #5e1a7a);
 }
 
 .kuromi-theme .footer {
-  background-color: #1a001f;
-  color: #d8b3f7;
-  border-radius: 1.5rem;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  padding: 1rem;
-  border-top: 3px dashed #b072c2;
-  border-bottom: 3px dashed #b072c2;
+  background: linear-gradient(135deg, #1a001f, #2a0033);
+  color: #f3d9ff;
+  border-radius: 2rem;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  max-width: 1200px;
+
+  border-top: 3px dashed #b266cc;
+  border-bottom: 3px dashed #b266cc;
+
   text-align: center;
+  font-family: "Comic Sans MS", "Poppins", cursive;
+  font-size: 1rem;
+  letter-spacing: 1px;
+
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4),
+              inset 0 0 12px rgba(178, 102, 204, 0.5);
+  transition: all 0.3s ease-in-out;
 }
+
+.kuromi-theme .footer:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5),
+  inset 0 0 18px rgba(178, 102, 204, 0.7);
+}
+
+.kuromi-theme .footer a {
+  color: #d8b3f7;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.kuromi-theme .footer a:hover {
+  color: #ffccff;
+  text-shadow: 0 0 6px #d8b3f7;
+}
+
 
 .scroll-top-btn-kuromi {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  background-color: #2a003f; 
-  color: #ffb6ec; 
-  border: 2px solid #ffb6ec;
+  background-color: #4b006e;
+  color: #ffb6ec;
+  border: none;
   border-radius: 50%;
   padding: 15px;
   font-size: 24px;
   cursor: pointer;
-  box-shadow: 0 0 12px rgba(255, 182, 236, 0.5);
-  transition: transform 0.3s ease, box-shadow 0.3s;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease, background-color 0.3s;
   z-index: 9999;
 }
 
 .scroll-top-btn-kuromi:hover {
-  transform: scale(1.2) rotate(-10deg);
-  box-shadow: 0 0 20px rgba(255, 182, 236, 0.8);
+  background-color: #823e9c;
+  transform: scale(1.1) rotate(5deg);
 }
 
 /*boton de carrito*/
 
 .kuromi-theme .floating-cart-btn {
-  background-color: #000000;
-  color: #ad63ad;
+  background-color: #823e9c; 
+  color: white;
 }
 
 .kuromi-theme .floating-cart-btn:hover {
-  background-color: #ffffff;
-  color: #2a022a;
-  border-color: #d1a1e3;
+  background-color: white;
+  color: #823e9c;
+  border-color: #823e9c;
 }
 
 /*mensaje de agregado al carrito*/
@@ -264,14 +314,14 @@ h1 {
 .mensaje-kuromi {
   position: fixed;
   top: 20px;
-  left: 37%;
-  transform: translateX(-37%);
+  left: 40%;
+  transform: translateX(-40%);
   background-color: #2d0346;
   color: #e1b2f7;
   padding: 15px 25px;
   border-radius: 15px;
   font-weight: bold;
-  box-shadow: 0 0 10px #fff;
+  box-shadow: 0 0 10px #d1a1e3;
   z-index: 9999;
   animation: aparecerDesaparecer 3s ease-in-out;
   display: flex;
@@ -279,71 +329,220 @@ h1 {
   gap: 10px;
 }
 
-@keyframes aparecerDesaparecer {
-  0% { opacity: 0; transform: translateY(-10px); }
-  10% { opacity: 1; transform: translateY(0); }
-  90% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-10px); }
+/* Overlay del modal */
+.modal-overlay-kuromi {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
 }
 
+.modal-content-detailed-kuromi {
+  background-color: #d3bee9; 
+  border-radius: 1rem;
+  max-width: 800px;
+  width: 95%;
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  position: relative;
+  flex-wrap: wrap;
+  border: 2px dashed #823e9c; 
+  box-shadow: 0 0 15px #bf7ff2; 
+}
+
+.modal-close-kuromi {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #4b2a5b;
+}
+
+.modal-close-kuromi:hover {
+  background-color: #d1a1e3;
+}
+
+.modal-product-gallery-kuromi {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.modal-product-gallery-kuromi img {
+  max-width: 250px;
+  min-width: 250px;
+  border-radius: 0.5rem;
+  border: 2px solid #823e9c;
+}
+
+.modal-product-info-kuromi {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-product-info-kuromi h2 {
+  color: #4b006e;
+}
+
+.modal-description-kuromi {
+  color: #3b3b3b;
+}
+
+.modal-price-kuromi {
+  font-weight: bold;
+  color: #2a022a;
+  font-size: 1.2rem;
+}
+
+.modal-stock-kuromi {
+  color: #823e9c;
+}
+
+.quantity-selector-kuromi {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantity-selector-kuromi input {
+  width: 60px;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.3rem;
+  border: 1px solid #823e9c;
+  background-color: #f2e6ff;
+  color: #4b006e;
+}
+
+/* botón agregar */
+.pretty-button-kuromi {
+  background: linear-gradient(to right, #4b006e, #823e9c);
+  color: #fff;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.pretty-button-kuromi:hover {
+  background: linear-gradient(to right, #a24bcf, #5e1a7a);
+}
+
+/*CANTIDAD PARA EL MODAL DE TODOS LOS PERSOANJES*/
+.cantidad-modal{
+  color: #000000;
+}
 
 /* ======= Cinnamoroll Theme ======= */
 .cinnamoroll-theme {
-  background-color: #abdbe7;
-  /* azul pastel */
+  background-color: #e0f7fa;
 }
 
 .cinnamoroll-theme h1 {
-  color: #6ec1e4;
-  /* azul pastel */
+  color: #0277bd;
 }
 
 .cinnamoroll-theme .description-text {
-  color: #4a4a4a;
+  color: #01579b;
+}
+
+.cinnamoroll-theme .product-card {
+  background-color: #b3e5fc;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
 .cinnamoroll-theme .product-card h3 {
-  color: #2c3e50;
+  color: #004d40;
 }
 
 .cinnamoroll-theme .product-card p {
-  color: #555;
+  color: #01579b;
 }
 
 .cinnamoroll-theme .product-card .price {
-  color: #1b98e0;
+  color: #0277bd;
+  font-weight: bold;
 }
 
 .cinnamoroll-theme .pretty-button {
-  background: linear-gradient(to right, #a2d5f2, #69a9e1);
-  color: #1e1e1e;
+  background: linear-gradient(to right, #b3e5fc, #81d4fa);
+  color: #01579b;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  font-weight: bold;
 }
 
 .cinnamoroll-theme .pretty-button:hover {
-  background: linear-gradient(to right, #3a86ff, #0077b6);
-}
-
-.cinnamoroll-theme .footer {
-  background-color: #bbe1fa;
-  color: #0077b6;
-  border-radius: 1.5rem;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  padding: 1rem;
-  border-top: 3px dashed #4f5b62;
-  border-bottom: 3px dashed #4f5b62;
-  text-align: center;
-}
-
-.cinnamoroll-theme .floating-cart-btn {
-  background-color: #a2dffc;
+  background: linear-gradient(to right, #4fc3f7, #0288d1);
   color: #ffffff;
 }
 
+.cinnamoroll-theme .footer {
+  background: linear-gradient(135deg, #b3e5fc, #81d4fa);
+  color: #004d40;
+  border-radius: 2rem;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  max-width: 1200px;
+
+  border-top: 3px dashed #0277bd;
+  border-bottom: 3px dashed #0277bd;
+
+  text-align: center;
+  font-family: "Comic Sans MS", "Poppins", cursive;
+  font-size: 1rem;
+  letter-spacing: 1px;
+
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2),
+              inset 0 0 12px rgba(2, 119, 189, 0.3);
+  transition: all 0.3s ease-in-out;
+}
+
+.cinnamoroll-theme .footer:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3),
+              inset 0 0 18px rgba(2, 119, 189, 0.5);
+}
+
+.cinnamoroll-theme .footer a {
+  color: #004d40;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.cinnamoroll-theme .footer a:hover {
+  color: #0277bd;
+  text-shadow: 0 0 6px #81d4fa;
+}
+
+
+.cinnamoroll-theme .floating-cart-btn {
+  background-color: #81d4fa;
+  color: #004d40;
+  border: none;
+}
+
 .cinnamoroll-theme .floating-cart-btn:hover {
-  background-color: #ffffff;
-  color: #89c9e8;
-  border-color: #89c9e8;
+  background-color: #4fc3f7;
+  color: #ffffff;
 }
 
 /*mensaje de agregado al carrito*/
@@ -383,11 +582,121 @@ h1 {
 }
 
 .scroll-top-btn-cinnamoroll:hover {
-  background-color: #91b5ce;
+  background-color: #0288d1;
+  color: #ffffff;
   transform: scale(1.1);
 }
 
+/* Modal de Cinnamoroll */
+.modal-overlay-cinnamoroll {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
 
+.modal-content-detailed-cinnamoroll {
+  background-color: #e0f7fa; /* azul pastel */
+  border-radius: 1rem;
+  max-width: 800px;
+  width: 95%;
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.modal-close-cinnamoroll {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #3b3b3b;
+}
+
+.modal-close-cinnamoroll:hover {
+  background-color: #b3e5fc;
+}
+
+.modal-product-gallery-cinnamoroll img {
+  max-width: 100%;
+  border-radius: 0.5rem;
+}
+
+.modal-product-info-cinnamoroll {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-product-info-cinnamoroll h2 {
+  color: #0277bd; /* azul oscuro */
+}
+
+.modal-description-cinnamoroll {
+  color: #01579b;
+}
+
+.modal-price-cinnamoroll {
+  font-weight: bold;
+  color: #004d40;
+  font-size: 1.2rem;
+}
+
+.modal-stock-cinnamoroll {
+  color: #0277bd;
+}
+
+.quantity-selector-cinnamoroll {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantity-selector-cinnamoroll input {
+  width: 60px;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.3rem;
+  border: 1px solid #0277bd;
+}
+
+.pretty-button-cinnamoroll {
+  background: linear-gradient(to right, #b3e5fc, #81d4fa);
+  color: #01579b;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.pretty-button-cinnamoroll:hover {
+  background: linear-gradient(to right, #4fc3f7, #0288d1);
+}
+
+.modal-product-gallery-cinnamoroll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.modal-product-gallery-cinanamonroll img {
+  max-width: 250px;
+  min-width: 250px;
+  border-radius: 0.5rem;
+}
 
 
 /* ======= Hello Kitty Theme ======= */
@@ -433,18 +742,44 @@ h1 {
 }
 
 .hellokitty-theme .footer {
-  background-color: #f38a8a;
-  /* mismo rojo del fondo */
+  background: linear-gradient(135deg, #f38a8a, #d94c4c);
   color: #fff0f0;
-  /* contraste claro */
-  border-radius: 1.5rem;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  padding: 1rem;
+  border-radius: 2rem;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  max-width: 1200px;
+
   border-top: 3px dashed #942525;
   border-bottom: 3px dashed #942525;
+
   text-align: center;
+  font-family: "Comic Sans MS", "Poppins", cursive;
+  font-size: 1rem;
+  letter-spacing: 1px;
+
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2),
+              inset 0 0 12px rgba(148, 37, 37, 0.3);
+  transition: all 0.3s ease-in-out;
 }
+
+.hellokitty-theme .footer:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3),
+              inset 0 0 18px rgba(148, 37, 37, 0.5);
+}
+
+.hellokitty-theme .footer a {
+  color: #fff0f0;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.hellokitty-theme .footer a:hover {
+  color: #ffcccc;
+  text-shadow: 0 0 6px #f38a8a;
+}
+
 
 .hellokitty-theme .floating-cart-btn {
   background-color: #f06292; /* rosa Hello Kitty */
@@ -497,16 +832,138 @@ h1 {
   transform: scale(1.1) rotate(5deg);
 }
 
+/* Modal de Hello Kitty */
+.modal-overlay-hellokitty {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7); /* fondo oscuro */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.modal-content-detailed-hellokitty {
+  background-color: #fff0f0; 
+  border-radius: 1rem;
+  max-width: 800px;
+  width: 95%;
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  position: relative;
+  flex-wrap: wrap;
+  border: 2px dashed #d94c4c; 
+  box-shadow: 0 0 15px #ffb6c1; 
+}
+
+.modal-close-hellokitty {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #b83232; 
+}
+
+.modal-close-hellokitty:hover {
+  background-color: #ffb6c1;
+}
+
+.modal-product-gallery-hellokitty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.modal-product-gallery-hellokitty img {
+  max-width: 250px;
+  min-width: 250px;
+  border-radius: 0.5rem;
+  border: 2px solid #f06292; /* rosa Hello Kitty */
+}
+
+.modal-product-info-hellokitty {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-product-info-hellokitty h2 {
+  color: #d94c4c; /* rosa fuerte */
+}
+
+.modal-description-hellokitty {
+  color: #c06767;
+}
+
+.modal-price-hellokitty {
+  font-weight: bold;
+  color: #942525;
+  font-size: 1.2rem;
+}
+
+.modal-stock-hellokitty {
+  color: #942525;
+}
+
+.quantity-selector-hellokitty {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantity-selector-hellokitty input {
+  width: 60px;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.3rem;
+  border: 1px solid #f06292; /* rosa Kitty */
+  background-color: #ffe0e0; /* rosado claro como descripción */
+  color: #942525;
+}
+
+.pretty-button-hellokitty {
+  background: linear-gradient(to right, #ff7b7b, #b83232); /* mismo degradado que .pretty-button */
+  color: #fff;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.pretty-button-hellokitty:hover {
+  background: linear-gradient(to right, #ffaaaa, #942525);
+}
+
+.modal-product-gallery-hellokitty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.modal-product-gallery-hellokitty img {
+  max-width: 250px;
+  min-width: 250px;
+  border-radius: 0.5rem;
+}
 
 /* ======= Pochaco Theme ======= */
 .pochaco-theme {
-  background-color: #d9f0e7;
-  /* verde pastel */
+  background-color: #d9f0e7; /* verde pastel */
 }
 
 .pochaco-theme h1 {
-  color: #3a9d9b;
-  /* verde azulado */
+  color: #3a9d9b; /* verde azulado */
 }
 
 .pochaco-theme .description-text {
@@ -526,50 +983,77 @@ h1 {
 }
 
 .pochaco-theme .pretty-button {
-  background: linear-gradient(to right, #77c9d4, #4aa6a7);
-  color: #1a3f3e;
+  background: linear-gradient(to right, #77c9d4, #4aa6a7); /* degradado verde agua */
+  color: white;
 }
 
 .pochaco-theme .pretty-button:hover {
-  background: linear-gradient(to right, #4aa6a7, #247878);
+  background: linear-gradient(to right, #a1e6dc, #247878); /* más claro a más oscuro */
 }
 
 .pochaco-theme .footer {
-  background-color: #a3d2ca;
+  background: linear-gradient(135deg, #a3d2ca, #75b9b5);
   color: #1a3f3e;
-  border-radius: 1.5rem;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  padding: 1rem;
-  border-top: 3px dashed #4f5b62;
-  border-bottom: 3px dashed #4f5b62;
+  border-radius: 2rem;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  max-width: 1200px;
+
+  border-top: 3px dashed #247878;
+  border-bottom: 3px dashed #247878;
+
   text-align: center;
+  font-family: "Comic Sans MS", "Poppins", cursive;
+  font-size: 1rem;
+  letter-spacing: 1px;
+
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2),
+              inset 0 0 12px rgba(36, 120, 120, 0.3);
+  transition: all 0.3s ease-in-out;
 }
 
+.pochaco-theme .footer:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3),
+              inset 0 0 18px rgba(36, 120, 120, 0.5);
+}
+
+.pochaco-theme .footer a {
+  color: #1a3f3e;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.pochaco-theme .footer a:hover {
+  color: #247878;
+  text-shadow: 0 0 6px #75b9b5;
+}
+
+
 .pochaco-theme .floating-cart-btn {
-  background-color: #a1d8d0; /* verde agua claro */
-  color: #ffffff;
+  background-color: #76bcb2; /* verde fuerte */
+  color: white;
 }
 
 .pochaco-theme .floating-cart-btn:hover {
-  background-color: #ffffff;
+  background-color: white;
   color: #76bcb2;
   border-color: #76bcb2;
 }
 
-/*mensaje de agregado al carrito*/
-
+/* mensaje de agregado al carrito */
 .mensaje-pochacco {
   position: fixed;
   top: 20px;
   left: 40%;
   transform: translateX(-40%);
-  background-color: #b5f3e7;
+  background-color: #b5f3e7; /* verde agua suave */
   color: #004d40;
   padding: 15px 25px;
   border-radius: 15px;
   font-weight: bold;
-  box-shadow: 0 0 10px #dcfefa;
+  box-shadow: 0 0 10px #c8fff5;
   z-index: 9999;
   animation: aparecerDesaparecer 3s ease-in-out;
   display: flex;
@@ -579,79 +1063,215 @@ h1 {
 
 .scroll-top-btn-pochaco {
   position: fixed;
-  bottom: 25px;
-  right: 25px;
-  background-color: #ffffff;
-  color: #247878;
-  border: 2px solid #76bcb2; 
+  bottom: 30px;
+  right: 30px;
+  background-color: #a1e6dc;
+  color: white;
+  border: none;
   border-radius: 50%;
-  padding: 10px 14px;
-  font-size: 22px;
+  padding: 15px;
+  font-size: 24px;
   cursor: pointer;
-  z-index: 1000;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, background-color 0.3s;
+  z-index: 9999;
 }
 
 .scroll-top-btn-pochaco:hover {
-  background-color: #ffe4f3;
-  transform: scale(1.1);
-  color: #c2185b;
+  background-color: #4aa6a7;
+  transform: scale(1.1) rotate(5deg);
 }
 
+/* Modal de Pochacco */
+.modal-overlay-pochaco {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7); /* fondo oscuro */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
 
+.modal-content-detailed-pochaco {
+  background-color: #e0f7f5; /* verde muy claro */
+  border-radius: 1rem;
+  max-width: 800px;
+  width: 95%;
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  position: relative;
+  flex-wrap: wrap;
+  border: 2px dashed #3a9d9b; /* borde verde azulado */
+  box-shadow: 0 0 15px #76bcb2;
+}
+
+.modal-close-pochaco {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #247878;
+}
+
+.modal-close-pochaco:hover {
+  background-color: #a1e6dc;
+}
+
+.modal-product-gallery-pochaco {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.modal-product-gallery-pochaco img {
+  max-width: 250px;
+  min-width: 250px;
+  border-radius: 0.5rem;
+  border: 2px solid #4aa6a7; /* borde verde */
+}
+
+.modal-product-info-pochaco {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-product-info-pochaco h2 {
+  color: #3a9d9b; /* verde azulado */
+}
+
+.modal-description-pochaco {
+  color: #2e7d7a;
+}
+
+.modal-price-pochaco {
+  font-weight: bold;
+  color: #1a4d4b;
+  font-size: 1.2rem;
+}
+
+.modal-stock-pochaco {
+  color: #1f5c59;
+}
+
+.quantity-selector-pochaco {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantity-selector-pochaco input {
+  width: 60px;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.3rem;
+  border: 1px solid #4aa6a7;
+  background-color: #d9f0e7;
+  color: #1a4d4b;
+}
+
+.pretty-button-pochaco {
+  background: linear-gradient(to right, #77c9d4, #4aa6a7);
+  color: #fff;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.pretty-button-pochaco:hover {
+  background: linear-gradient(to right, #a1e6dc, #247878);
+}
 
 /* ======= Keroppi Theme ======= */
 .keroppi-theme {
-  background-color: #d0f0c0;
-  /* verde pastel claro */
+  background-color: #d0f0c0; /* verde pastel claro */
 }
 
 .keroppi-theme h1 {
-  color: #3b7a57;
-  /* verde oscuro */
+  color: #2a5235; /* verde oscuro */
 }
 
 .keroppi-theme .description-text {
-  color: #2f5d43;
+  color: #3b7a57; /* verde medio */
 }
 
 .keroppi-theme .product-card h3 {
-  color: #2d5a3d;
+  color: #2d5a3d; /* verde fuerte */
 }
 
 .keroppi-theme .product-card p {
-  color: #3b7a57;
+  color: #4c8c5a; /* verde medio más suave */
 }
 
 .keroppi-theme .product-card .price {
-  color: #2a5235;
+  color: #2a5235; /* verde oscuro */
 }
 
 .keroppi-theme .pretty-button {
-  background: linear-gradient(to right, #a8d5a2, #78c257);
-  color: #2a5235;
+  background: linear-gradient(to right, #9be282, #4a802d); /* verde degradado */
+  color: white;
 }
 
 .keroppi-theme .pretty-button:hover {
-  background: linear-gradient(to right, #78c257, #4a802d);
+  background: linear-gradient(to right, #b8f59c, #2d5a3d);
 }
 
+/* Footer */
 .keroppi-theme .footer {
-  background-color: #bce5a6;
+  background: linear-gradient(135deg, #bce5a6, #9cd47f);
   color: #2a5235;
-  border-radius: 1.5rem;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  padding: 1rem;
-  border-top: 3px dashed #4f5b62;
-  border-bottom: 3px dashed #4f5b62;
+  border-radius: 2rem;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  max-width: 1200px;
+
+  border-top: 3px dashed #4a802d;
+  border-bottom: 3px dashed #4a802d;
+
   text-align: center;
+  font-family: "Comic Sans MS", "Poppins", cursive;
+  font-size: 1rem;
+  letter-spacing: 1px;
+
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2),
+              inset 0 0 12px rgba(74, 128, 45, 0.3);
+  transition: all 0.3s ease-in-out;
 }
 
+.keroppi-theme .footer:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3),
+              inset 0 0 18px rgba(74, 128, 45, 0.5);
+}
+
+.keroppi-theme .footer a {
+  color: #2a5235;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.keroppi-theme .footer a:hover {
+  color: #4a802d;
+  text-shadow: 0 0 6px #9cd47f;
+}
+
+
+/* Botón flotante carrito */
 .keroppi-theme .floating-cart-btn {
   background-color: #7ed957; /* verde brillante */
-  color: #ffffff;
+  color: white;
 }
 
 .keroppi-theme .floating-cart-btn:hover {
@@ -660,19 +1280,18 @@ h1 {
   border-color: #7ed957;
 }
 
-/*mensaje de agregado al carrito*/
-
+/* Mensaje agregado al carrito */
 .mensaje-keroppi {
   position: fixed;
   top: 20px;
   left: 40%;
   transform: translateX(-40%);
-  background-color: #b4f564;
+  background-color: #d4f8c4;
   color: #1f4c00;
   padding: 15px 25px;
   border-radius: 15px;
   font-weight: bold;
-  box-shadow: 0 0 10px #eaffd0;
+  box-shadow: 0 0 10px #c5f5a9;
   z-index: 9999;
   animation: aparecerDesaparecer 3s ease-in-out;
   display: flex;
@@ -680,109 +1299,245 @@ h1 {
   gap: 10px;
 }
 
+/* Botón scroll */
 .scroll-top-btn-keroppi {
   position: fixed;
-  bottom: 25px;
-  right: 25px;
-  background-color: #e0f8e0; /* verde pastel */
-  color: #2e7d32; /* verde oscuro */
-  border: 2px solid #a5d6a7;
+  bottom: 30px;
+  right: 30px;
+  background-color: #b4f564;
+  color: #2d5a3d;
+  border: none;
   border-radius: 50%;
-  padding: 12px 15px;
-  font-size: 22px;
+  padding: 15px;
+  font-size: 24px;
   cursor: pointer;
-  z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, background-color 0.3s;
+  z-index: 9999;
 }
 
 .scroll-top-btn-keroppi:hover {
-  background-color: #c5e1a5;
-  transform: scale(1.1);
-  color: #1b5e20;
+  background-color: #9ae89b;
+  transform: scale(1.1) rotate(5deg);
+  color: #1f4c00;
 }
 
+/* Modal Overlay */
+.modal-overlay-keroppi {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+/* Modal Content */
+.modal-content-detailed-keroppi {
+  background-color: #e6fbe0;
+  border-radius: 1rem;
+  max-width: 800px;
+  width: 95%;
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  position: relative;
+  flex-wrap: wrap;
+  border: 2px dashed #4a802d;
+  box-shadow: 0 0 15px #a5d6a7;
+}
+
+/* Botón cerrar */
+.modal-close-keroppi {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #2d5a3d;
+}
+
+.modal-close-keroppi:hover {
+  background-color: #bce5a6;
+}
+
+/* Galería de producto */
+.modal-product-gallery-keroppi {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.modal-product-gallery-keroppi img {
+  max-width: 250px;
+  min-width: 250px;
+  border-radius: 0.5rem;
+  border: 2px solid #7ed957;
+}
+
+/* Info producto */
+.modal-product-info-keroppi {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-product-info-keroppi h2 {
+  color: #2d5a3d;
+}
+
+.modal-description-keroppi {
+  color: #3b7a57;
+}
+
+.modal-price-keroppi {
+  font-weight: bold;
+  color: #1f4c00;
+  font-size: 1.2rem;
+}
+
+.modal-stock-keroppi {
+  color: #2a5235;
+}
+
+/* Selector cantidad */
+.quantity-selector-keroppi {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantity-selector-keroppi input {
+  width: 60px;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.3rem;
+  border: 1px solid #7ed957;
+  background-color: #e6fbe0;
+  color: #2d5a3d;
+}
+
+/* Botón dentro del modal */
+.pretty-button-keroppi {
+  background: linear-gradient(to right, #9be282, #4a802d);
+  color: white;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.pretty-button-keroppi:hover {
+  background: linear-gradient(to right, #b8f59c, #2d5a3d);
+}
 
 /* ======= My Melody Theme ======= */
 .mymelody-theme {
-  background-color: #f295be;
-  /* fondo general (oscuro) */
+  background-color: #ffe0f0; /* rosa pastel claro */
 }
 
 .mymelody-theme h1 {
-  color: #ffffff;
+  color: #d81b60; /* rosa fuerte */
 }
 
 .mymelody-theme .description-text {
-  color: #ffffff;
+  color: #880e4f; /* rosa vino */
 }
 
-.mymelody-theme .product-card {
-  background-color: #e36aa5;
-  /* tarjetas de tono medio */
-  border-radius: 1.5rem;
-  padding: 1rem;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-  /* sombra blanca suave */
+.mymelody-theme .product-card h3 {
+  color: #ffffff; /* blanco para destacar */
 }
 
-.mymelody-theme .product-card h3,
-.mymelody-theme .product-card p,
+.mymelody-theme .product-card p {
+  color: #f48fb1; /* rosado medio */
+}
+
 .mymelody-theme .product-card .price {
-  color: #ffffff;
+  color: #ec407a; /* rosa fuerte pastel */
 }
 
 .mymelody-theme .pretty-button {
-  background: linear-gradient(to right, #ffffff, #ffdef0);
-  color: #e36aa5;
-  font-weight: bold;
-  border-radius: 1rem;
-  padding: 0.5rem 1.2rem;
-  border: none;
+  background: linear-gradient(to right, #f48fb1, #d81b60);
+  color: #fff;
 }
 
 .mymelody-theme .pretty-button:hover {
-  background: linear-gradient(to right, #ffe3f0, #fff0f7);
-  color: #d64594;
+  background: linear-gradient(to right, #f8c7dc, #ad1457);
 }
 
+/* Footer */
 .mymelody-theme .footer {
-  background-color: #f8b9e1;
-  /* nuevo color más claro para el footer */
-  color: #8a1c5c;
-  border-radius: 1.5rem;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  padding: 1rem;
-  border-top: 3px dashed #4f5b62;
-  border-bottom: 3px dashed #4f5b62;
+  background: linear-gradient(135deg, #f8c7dc, #f48fb1);
+  color: #fff0f6;
+  border-radius: 2rem;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  max-width: 1200px;
+
+  border-top: 3px dashed #d81b60;
+  border-bottom: 3px dashed #d81b60;
+
   text-align: center;
+  font-family: "Comic Sans MS", "Poppins", cursive;
+  font-size: 1rem;
+  letter-spacing: 1px;
+
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2),
+              inset 0 0 12px rgba(216, 27, 96, 0.3);
+  transition: all 0.3s ease-in-out;
 }
 
+.mymelody-theme .footer:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3),
+              inset 0 0 18px rgba(216, 27, 96, 0.5);
+}
+
+.mymelody-theme .footer a {
+  color: #fff0f6;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.mymelody-theme .footer a:hover {
+  color: #d81b60;
+  text-shadow: 0 0 6px #f8c7dc;
+}
+
+
+/* Botón flotante carrito */
 .mymelody-theme .floating-cart-btn {
-  background-color: #ecb3c3;
-  color: #ffffff;
+  background-color: #ec407a;
+  color: white;
 }
 
 .mymelody-theme .floating-cart-btn:hover {
-  background-color: #ffffff;
-  color: #ecb3c3;
-  border-color: #f17ba1;
+  background-color: white;
+  color: #ec407a;
+  border-color: #ec407a;
 }
 
-/*texto de agregado al carrito*/
-
+/* Mensaje agregado al carrito */
 .mensaje-mymelody {
   position: fixed;
   top: 20px;
   left: 40%;
   transform: translateX(-40%);
-  background-color: #f8a9c3;
-  color: #fff;
+  background-color: #f8c7dc;
+  color: #ad1457;
   padding: 15px 25px;
   border-radius: 15px;
   font-weight: bold;
-  box-shadow: 0 0 10px #ffe0ec;
+  box-shadow: 0 0 10px #ffd6e8;
   z-index: 9999;
   animation: aparecerDesaparecer 3s ease-in-out;
   display: flex;
@@ -790,91 +1545,230 @@ h1 {
   gap: 10px;
 }
 
+/* Botón scroll */
 .scroll-top-btn-mymelody {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  background-color: #f9c5d1;
-  color: #fff;
+  background-color: #f48fb1;
+  color: white;
   border: none;
   border-radius: 50%;
   padding: 15px;
   font-size: 24px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, background-color 0.3s;
   z-index: 9999;
 }
 
 .scroll-top-btn-mymelody:hover {
-  background-color: #f5a6bc;
-  transform: scale(1.1);
+  background-color: #ec407a;
+  transform: scale(1.1) rotate(5deg);
 }
 
+/* Modal Overlay */
+.modal-overlay-mymelody {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+/* Modal Content */
+.modal-content-detailed-mymelody {
+  background-color: #fff0f6;
+  border-radius: 1rem;
+  max-width: 800px;
+  width: 95%;
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  position: relative;
+  flex-wrap: wrap;
+  border: 2px dashed #d81b60;
+  box-shadow: 0 0 15px #f8bcd5;
+}
+
+/* Botón cerrar */
+.modal-close-mymelody {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #ad1457;
+}
+
+.modal-close-mymelody:hover {
+  background-color: #f8c7dc;
+}
+
+/* Galería de producto */
+.modal-product-gallery-mymelody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.modal-product-gallery-mymelody img {
+  max-width: 250px;
+  min-width: 250px;
+  border-radius: 0.5rem;
+  border: 2px solid #ec407a;
+}
+
+/* Info producto */
+.modal-product-info-mymelody {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-product-info-mymelody h2 {
+  color: #d81b60;
+}
+
+.modal-description-mymelody {
+  color: #880e4f;
+}
+
+.modal-price-mymelody {
+  font-weight: bold;
+  color: #ad1457;
+  font-size: 1.2rem;
+}
+
+.modal-stock-mymelody {
+  color: #880e4f;
+}
+
+/* Selector cantidad */
+.quantity-selector-mymelody {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantity-selector-mymelody input {
+  width: 60px;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.3rem;
+  border: 1px solid #ec407a;
+  background-color: #ffe0f0;
+  color: #ad1457;
+}
+
+/* Botón dentro del modal */
+.pretty-button-mymelody {
+  background: linear-gradient(to right, #f48fb1, #d81b60);
+  color: #fff;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.pretty-button-mymelody:hover {
+  background: linear-gradient(to right, #f8c7dc, #ad1457);
+}
 
 /* ======= Pompompurin Theme ======= */
 .pompom-theme {
-  background-color: #fff6dc;
-  /* crema más clara y suave */
+  background-color: #fff6dc; /* crema base */
 }
 
 .pompom-theme h1 {
-  color: #c7953e;
-  /* dorado caramelo */
+  color: #c7953e; /* dorado caramelo */
 }
 
 .pompom-theme .description-text {
-  color: #7b4b25;
-  /* marrón medio */
+  color: #7b4b25; /* marrón medio */
 }
 
 .pompom-theme .product-card h3 {
-  color: #5c3312;
-  /* marrón más oscuro para títulos */
+  color: #5c3312; /* marrón oscuro */
 }
 
 .pompom-theme .product-card p {
-  color: #8c5b2e;
-  /* marrón cálido */
+  color: #8c5b2e; /* marrón cálido */
 }
 
 .pompom-theme .product-card .price {
-  color: #a66f38;
-  /* tono dulce y tostado */
+  color: #a66f38; /* dorado tostado */
   font-weight: bold;
 }
 
+/* Botones */
 .pompom-theme .pretty-button {
-  background: linear-gradient(to right, #ffe5a3, #ffcb7e);
-  /* amarillo cálido */
+  background: linear-gradient(to right, #ffe082, #ffb300);
   color: #4e2e1f;
-  /* marrón oscuro para contraste */
   border: none;
-  border-radius: 20px;
-  padding: 10px 20px;
+  border-radius: 0.5rem;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .pompom-theme .pretty-button:hover {
-  background: linear-gradient(to right, #ffcb7e, #f5b04c);
-  /* más dorado */
-  box-shadow: 0 0 10px #f5c074;
+  background: linear-gradient(to right, #ffecb3, #ff8f00);
+  box-shadow: 0 0 10px #ffe082;
   transform: scale(1.05);
 }
 
+/* Footer */
 .pompom-theme .footer {
-  background-color: #fff0c2;
-  /* crema suave */
+  background: linear-gradient(135deg, #fff0c2, #ffe082);
   color: #5a3b1d;
-  border-radius: 1.5rem;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  padding: 1rem;
+  border-radius: 2rem;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  max-width: 1200px;
+
   border-top: 3px dashed #c89f6d;
   border-bottom: 3px dashed #c89f6d;
+
   text-align: center;
+  font-family: "Comic Sans MS", "Poppins", cursive;
+  font-size: 1rem;
+  letter-spacing: 1px;
+
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2),
+              inset 0 0 12px rgba(200, 159, 109, 0.3);
+  transition: all 0.3s ease-in-out;
 }
 
+.pompom-theme .footer:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3),
+              inset 0 0 18px rgba(200, 159, 109, 0.5);
+}
+
+.pompom-theme .footer a {
+  color: #5a3b1d;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.pompom-theme .footer a:hover {
+  color: #c89f6d;
+  text-shadow: 0 0 6px #ffe082;
+}
+
+
+/* Botón flotante carrito */
 .pompom-theme .floating-cart-btn {
   background-color: #f9d66b; /* amarillo pastel */
   color: #5e3a00;
@@ -886,6 +1780,7 @@ h1 {
   border-color: #d4aa00;
 }
 
+/* Mensaje agregado al carrito */
 .mensaje-pompompurin {
   position: fixed;
   top: 20px;
@@ -904,36 +1799,153 @@ h1 {
   gap: 10px;
 }
 
+/* Scroll Top */
 .scroll-top-btn-pompom {
   position: fixed;
-  bottom: 25px;
-  right: 25px;
-  background-color: #fff8e1; /* fondo crema suave */
-  color: #5d4037; /* marrón oscuro */
-  border: 2px solid #fdd835; /* amarillo pastel */
+  bottom: 30px;
+  right: 30px;
+  background-color: #ffe082;
+  color: #5d4037;
+  border: none;
   border-radius: 50%;
-  padding: 12px 15px;
-  font-size: 22px;
+  padding: 15px;
+  font-size: 24px;
   cursor: pointer;
-  z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, background-color 0.3s;
+  z-index: 9999;
 }
 
 .scroll-top-btn-pompom:hover {
-  background-color: #ffe082;
+  background-color: #ffca28;
   color: #4e342e;
-  transform: scale(1.1);
+  transform: scale(1.1) rotate(5deg);
 }
 
+/* Modal Overlay */
+.modal-overlay-pompom {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+/* Modal Content */
+.modal-content-detailed-pompom {
+  background-color: #fff8e1;
+  border-radius: 1rem;
+  max-width: 800px;
+  width: 95%;
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  position: relative;
+  flex-wrap: wrap;
+  border: 2px dashed #c7953e;
+  box-shadow: 0 0 15px #ffe082;
+}
+
+/* Botón cerrar */
+.modal-close-pompom {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #a66f38;
+}
+
+.modal-close-pompom:hover {
+  background-color: #ffecb3;
+}
+
+/* Galería de producto */
+.modal-product-gallery-pompom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.modal-product-gallery-pompom img {
+  max-width: 250px;
+  min-width: 250px;
+  border-radius: 0.5rem;
+  border: 2px solid #f9d66b;
+}
+
+/* Info producto */
+.modal-product-info-pompom {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-product-info-pompom h2 {
+  color: #c7953e; /* dorado */
+}
+
+.modal-description-pompom {
+  color: #7b4b25;
+}
+
+.modal-price-pompom {
+  font-weight: bold;
+  color: #5c3312;
+  font-size: 1.2rem;
+}
+
+.modal-stock-pompom {
+  color: #8d6e63;
+}
+
+/* Selector cantidad */
+.quantity-selector-pompom {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantity-selector-pompom input {
+  width: 60px;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.3rem;
+  border: 1px solid #c89f6d;
+  background-color: #fffde7;
+  color: #5c3312;
+}
+
+/* Botón dentro del modal */
+.pretty-button-pompom {
+  background: linear-gradient(to right, #ffd54f, #ffb300);
+  color: #fff;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.pretty-button-pompom:hover {
+  background: linear-gradient(to right, #ffecb3, #ff8f00);
+}
 
 /* ======= Chococat Theme ======= */
 .chococat-theme {
-  background-color: #1e1e2f;
+  background-color: #1e1e2f; /* fondo oscuro */
 }
 
 .chococat-theme h1 {
-  color: #00bcd4;
+  color: #00bcd4; /* turquesa */
 }
 
 .chococat-theme .description-text {
@@ -941,7 +1953,7 @@ h1 {
 }
 
 .chococat-theme .product-card h3 {
-  color: #ffd600;
+  color: #ffd600; /* amarillo brillante */
 }
 
 .chococat-theme .product-card p {
@@ -949,52 +1961,91 @@ h1 {
 }
 
 .chococat-theme .product-card .price {
-  color: #26c6da;
+  color: #26c6da; /* celeste */
+  font-weight: bold;
 }
 
+/* Botones */
 .chococat-theme .pretty-button {
   background: linear-gradient(to right, #26c6da, #00acc1);
   color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .chococat-theme .pretty-button:hover {
   background: linear-gradient(to right, #00acc1, #00838f);
+  box-shadow: 0 0 10px #26c6da;
+  transform: scale(1.05);
 }
 
+/* Footer */
 .chococat-theme .footer {
-  background-color: #263238;
+  background: linear-gradient(135deg, #263238, #37474f);
   color: #cfd8dc;
-  border-radius: 1.5rem;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  padding: 1rem;
-  border-top: 3px dashed #4f5b62;
-  border-bottom: 3px dashed #4f5b62;
+  border-radius: 2rem;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  max-width: 1200px;
+
+  border-top: 3px dashed #00bcd4;
+  border-bottom: 3px dashed #00bcd4;
+
   text-align: center;
+  font-family: "Comic Sans MS", "Poppins", cursive;
+  font-size: 1rem;
+  letter-spacing: 1px;
+
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4),
+              inset 0 0 12px rgba(0, 188, 212, 0.3);
+  transition: all 0.3s ease-in-out;
 }
 
+.chococat-theme .footer:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5),
+              inset 0 0 18px rgba(0, 188, 212, 0.5);
+}
+
+.chococat-theme .footer a {
+  color: #cfd8dc;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.chococat-theme .footer a:hover {
+  color: #00bcd4;
+  text-shadow: 0 0 6px #37474f;
+}
+
+/* Botón flotante carrito */
 .chococat-theme .floating-cart-btn {
-  background-color: #303030; 
-  color: #ffc107;
+  background-color: #303030;
+  color: #ffd600;
 }
 
 .chococat-theme .floating-cart-btn:hover {
   background-color: #ffffff;
   color: #303030;
-  border-color: #ffc107;
+  border-color: #ffd600;
 }
 
+/* Mensaje agregado al carrito */
 .mensaje-chococat {
   position: fixed;
   top: 20px;
   left: 40%;
   transform: translateX(-40%);
   background-color: #2b2b2b;
-  color: #ffc107;
+  color: #ffd600;
   padding: 15px 25px;
   border-radius: 15px;
   font-weight: bold;
-  box-shadow: 0 0 10px #f5d8e1;
+  box-shadow: 0 0 10px #00bcd4;
   z-index: 9999;
   animation: aparecerDesaparecer 3s ease-in-out;
   display: flex;
@@ -1002,6 +2053,7 @@ h1 {
   gap: 10px;
 }
 
+/* Scroll Top */
 .scroll-top-btn-chococat {
   position: fixed;
   bottom: 30px;
@@ -1013,16 +2065,135 @@ h1 {
   padding: 15px;
   font-size: 24px;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, background-color 0.3s;
   z-index: 9999;
 }
 
 .scroll-top-btn-chococat:hover {
   background-color: #0d1b2a;
-  transform: scale(1.1);
+  transform: scale(1.1) rotate(5deg);
 }
 
+/* Modal Overlay */
+.modal-overlay-chococat {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+/* Modal Content */
+.modal-content-detailed-chococat {
+  background-color: #1e1e2f;
+  border-radius: 1rem;
+  max-width: 800px;
+  width: 95%;
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  position: relative;
+  flex-wrap: wrap;
+  border: 2px dashed #00bcd4; /* borde dashed turquesa */
+  box-shadow: 0 0 15px #26c6da;
+  color: #cfd8dc;
+}
+
+/* Botón cerrar */
+.modal-close-chococat {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #00bcd4;
+}
+
+.modal-close-chococat:hover {
+  background-color: #263238;
+  color: #ffd600;
+}
+
+/* Galería de producto */
+.modal-product-gallery-chococat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.modal-product-gallery-chococat img {
+  max-width: 250px;
+  min-width: 250px;
+  border-radius: 0.5rem;
+  border: 2px solid #ffd600; /* amarillo */
+}
+
+/* Info producto */
+.modal-product-info-chococat {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-product-info-chococat h2 {
+  color: #ffd600;
+}
+
+.modal-description-chococat {
+  color: #b0bec5;
+}
+
+.modal-price-chococat {
+  font-weight: bold;
+  color: #26c6da;
+  font-size: 1.2rem;
+}
+
+.modal-stock-chococat {
+  color: #00bcd4;
+}
+
+/* Selector cantidad */
+.quantity-selector-chococat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantity-selector-chococat input {
+  width: 60px;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.3rem;
+  border: 1px solid #26c6da;
+  background-color: #263238;
+  color: #fff;
+}
+
+/* Botón dentro del modal */
+.pretty-button-chococat {
+  background: linear-gradient(to right, #26c6da, #00acc1);
+  color: #fff;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.pretty-button-chococat:hover {
+  background: linear-gradient(to right, #00acc1, #00838f);
+  box-shadow: 0 0 10px #26c6da;
+}
 
 /* ======= Baxmaru Theme ======= */
 .baxmaru-theme {
@@ -1073,17 +2244,44 @@ h1 {
 }
 
 .baxmaru-theme .footer {
-  background-color: #1b263b;
+  background: linear-gradient(135deg, #1b263b, #2c3e50);
   color: #f0f4f8;
-  /* texto más claro */
-  border-radius: 1.5rem;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  padding: 1rem;
+  border-radius: 2rem;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  max-width: 1200px;
+
   border-top: 3px dashed #8ba3b5;
   border-bottom: 3px dashed #8ba3b5;
+
   text-align: center;
+  font-family: "Comic Sans MS", "Poppins", cursive;
+  font-size: 1rem;
+  letter-spacing: 1px;
+
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4),
+              inset 0 0 12px rgba(139, 163, 181, 0.3);
+  transition: all 0.3s ease-in-out;
 }
+
+.baxmaru-theme .footer:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5),
+              inset 0 0 18px rgba(139, 163, 181, 0.5);
+}
+
+.baxmaru-theme .footer a {
+  color: #f0f4f8;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.baxmaru-theme .footer a:hover {
+  color: #8ba3b5;
+  text-shadow: 0 0 6px #2c3e50;
+}
+
 
 .baxmaru-theme .floating-cart-btn {
   background-color: #4a4a4a; 

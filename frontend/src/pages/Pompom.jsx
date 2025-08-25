@@ -1,116 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "../styles/Personajes.css";
-
 import backImg from "../assets/img/pom.png";
-import peluche from "../assets/img/pomPELUCHE.jpg";
-import monedero from "../assets/img/pomMONEDERO.jpg";
-import bolso from "../assets/img/pomBOLSO.jpg";
-import pinzas from "../assets/img/pomPINZAS.jpg";
-import squishy from "../assets/img/pomSQUISHY.jpg";
-import taza from "../assets/img/pomTAZA.jpg";
-import cortaUnas from "../assets/img/pomCORTAUÑAS.jpg";
-import termo from "../assets/img/pomTERMO.jpg";
-import organizador from "../assets/img/pomORGANIZADOR.jpeg";
-import funda from "../assets/img/fundapompom.jpg";
-import medias from "../assets/img/mediaspompom.jpg";
-import morral from "../assets/img/morralpompom.jpg";
-
-const productos = [
-  {
-    img: peluche,
-    title: "Muñeco Pompompurin",
-    desc: "Un adorable muñeco de peluche de Pompompurin para tu colección.",
-    price: "$37.000",
-  },
-  {
-    img: monedero,
-    title: "Monedero de Pompompurin",
-    desc: "Monedero de Pompompurin para guardar tus pequeños tesoros.",
-    price: "$12.000",
-  },
-  {
-    img: bolso,
-    title: "Bolso Pompompurin",
-    desc: "Bolso de Pompompurin, ideal para salir con estilo.",
-    price: "$45.000",
-  },
-  {
-    img: pinzas,
-    title: "Pinzas Pompompurin",
-    desc: "Unas lindas pinzas para el cabello de Pompompurin.",
-    price: "$12.000",
-  },
-  {
-    img: squishy,
-    title: "Squishy Pompompurin",
-    desc: "Un bonito squishy de Pompompurin para manejar tu estrés o ansiedad.",
-    price: "$15.000",
-  },
-  {
-    img: taza,
-    title: "Taza Pompompurin",
-    desc: "Una taza de Pompompurin para disfrutar de tu café o té.",
-    price: "$28.000",
-  },
-  {
-    img: cortaUnas,
-    title: "Corta uñas Pompompurin",
-    desc: "Unas corta uñas de Pompompurin para cuidar tus uñas.",
-    price: "$10.000",
-  },
-  {
-    img: termo,
-    title: "Termo Pompompurin",
-    desc: "Un lindo termo para llevar a la escuela o al trabajo.",
-    price: "$12.000",
-  },
-  {
-    img: organizador,
-    title: "Organizador Pompompurin",
-    desc: "Un bonito organizador para tu escritorio o mesa de trabajo.",
-    price: "$23.000",
-  },
-  {
-    img: funda,
-    title: "Funda de Pompompurin",
-    desc: "Funda de Pompompurin para tu celular.",
-    price: "$38.000",
-  },
-  {
-    img: medias,
-    title: "Medias de Pompompurin",
-    desc: "Set de 3 pares de medias para el diario.",
-    price: "$15.000",
-  },
-  {
-    img: morral,
-    title: "Morral Pompompurin",
-    desc: "Un grande y espacioso morral para el colegio.",
-    price: "$90.000",
-  },
-];
 
 export default function Pompom() {
+  const [productos, setProductos] = useState([]);
   const [mensajeVisible, setMensajeVisible] = useState(false);
   const [productoAgregado, setProductoAgregado] = useState("");
+  const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/productos/personaje/Pompompurin")
+      .then((res) => setProductos(res.data))
+      .catch((err) => console.error("Error al cargar productos:", err));
+  }, []);
+
   const agregarAlCarrito = (producto) => {
-    const carritoExistente = JSON.parse(localStorage.getItem("carrito")) || [];
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-    // Adaptar las propiedades
-    const nuevoProducto = {
-      imagen: producto.img,
-      nombre: producto.title,
-      descripcion: producto.desc,
-      precio: producto.price,
-      cantidad: 1,
-    };
+    const existe = carrito.find((item) => item.producto_id === producto.producto_id);
 
-    const nuevoCarrito = [...carritoExistente, nuevoProducto];
-    localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
-    setProductoAgregado(`${producto.title} agregado al carrito 🛒`);
+    if (existe) {
+      carrito = carrito.map((item) =>
+        item.producto_id === producto.producto_id
+          ? { ...item, cantidad: item.cantidad + (producto.cantidad || 1) }
+          : item
+      );
+    } else {
+      const nuevoProducto = {
+        producto_id: producto.producto_id,
+        nombre: producto.nombre_producto,
+        descripcion: producto.descripcion,
+        precio: producto.precio,
+        imagen: `src/assets/img//${producto.url_imagen}`,
+        cantidad: producto.cantidad || 1,
+      };
+      carrito.push(nuevoProducto);
+    }
+
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    setProductoAgregado(`${producto.nombre_producto} agregado al carrito 🛒`);
     setMensajeVisible(true);
     setTimeout(() => setMensajeVisible(false), 3000);
   };
+
   return (
     <div className="character-page pompom-theme">
       <header>
@@ -122,9 +56,7 @@ export default function Pompom() {
         </a>
       </header>
 
-      {mensajeVisible && (
-        <div className="mensaje-pompompurin">{productoAgregado}</div>
-      )}
+      {mensajeVisible && <div className="mensaje-pompompurin">{productoAgregado}</div>}
 
       <h1>🍮 Pompompurin 🍮</h1>
       <p className="description-text">
@@ -134,37 +66,109 @@ export default function Pompom() {
 
       <section className="product-section">
         <div className="product-grid">
-          {productos.map((item, i) => (
-            <div className="product-card" key={i}>
-              <img src={item.img} alt={item.title} />
-              <h3>{item.title}</h3>
+          {productos.length > 0 ? (
+            productos.map((item) => (
+              <div
+                className="product-card"
+                key={item.producto_id}
+                onClick={() => setProductoSeleccionado(item)}
+                style={{ cursor: "pointer" }}
+              >
+                <img
+                  src={`src/assets/img/${item.url_imagen}`}
+                  alt={item.nombre_producto}
+                />
+                <h3>{item.nombre_producto}</h3>
+                <p>{item.descripcion}</p>
+                <div className="price">${item.precio}</div>
+                <button
+                  className="pretty-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    agregarAlCarrito(item);
+                  }}
+                >
+                  Agregar al carrito
+                </button>
+              </div>
+            ))
+          ) : (
+            <p>Cargando productos...</p>
+          )}
+        </div>
+      </section>
 
-              <div className="price">{item.price}</div>
+      {/* Modal detallado */}
+      {productoSeleccionado && (
+        <div
+          className="modal-overlay-pompom"
+          onClick={() => setProductoSeleccionado(null)}
+        >
+          <div
+            className="modal-content-detailed-pompom"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="modal-close-pompom"
+              onClick={() => setProductoSeleccionado(null)}
+            >
+              ✖
+            </button>
+
+            <div className="modal-product-gallery-pompom">
+              <img
+                src={`src/assets/img/${productoSeleccionado.url_imagen}`}
+                alt={productoSeleccionado.nombre_producto}
+              />
+            </div>
+
+            <div className="modal-product-info-pompom">
+              <h2>{productoSeleccionado.nombre_producto}</h2>
+              <p className="modal-description-pompom">{productoSeleccionado.descripcion}</p>
+              <p className="modal-price-pompom">Precio: ${productoSeleccionado.precio}</p>
+              <p className="modal-stock-pompom">
+                Stock: {productoSeleccionado.stock || "Disponible"}
+              </p>
+
+              <div className="quantity-selector-pompom">
+                <label className="cantidad-modal">Cantidad:</label>
+                <input
+                  type="number"
+                  min="1"
+                  defaultValue="1"
+                  id="cantidadInput-pompom"
+                />
+              </div>
+
               <button
-                className="pretty-button"
-                onClick={() => agregarAlCarrito(item)}
+                className="pretty-button-pompom"
+                onClick={() => {
+                  const cantidad = parseInt(document.getElementById("cantidadInput-pompom").value);
+                  const productoConCantidad = { ...productoSeleccionado, cantidad };
+                  agregarAlCarrito(productoConCantidad);
+                  setProductoSeleccionado(null);
+                }}
               >
                 Agregar al carrito
               </button>
             </div>
-          ))}
+          </div>
         </div>
-      </section>
+      )}
 
-      <footer className="footer">
+      <footer className="pompom-theme footer">
         <h3>Contacto</h3>
         <p>Email: contacto@sanriostar.com</p>
         <p>Teléfono: +123 456 789</p>
         <p>© 2024 Sanrio Star</p>
+
+        <button
+          className="scroll-top-btn-pompom"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
+          🍮
+        </button>
       </footer>
-
-      <button
-      className="scroll-top-btn-pompom"
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      >
-        🎩
-      </button>
-
     </div>
   );
 }

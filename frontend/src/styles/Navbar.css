@@ -1,14 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap');
+
 .navbar {
   width: 90%;
   margin: 15px auto;
-  background-color: #440040;
+  background-color: #440040; /* tu tono morado oscuro */
   border-radius: 20px;
   padding: 5px 10px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  justify-content: space-between; /* logo - buscador - links */
+  gap: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
 .navbar img {
@@ -17,9 +19,62 @@
   border-radius: 50%;
 }
 
+/* 🔎 Buscador */
+.nav-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 420px;          /* crece y toma centro */
+  max-width: 560px;         /* límite para desktop */
+  justify-content: center;  /* centrado visual */
+}
+
+.nav-search input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #F3BEFC;
+  border-radius: 20px;
+  outline: none;
+  font-size: 14px;
+  background: #ffffff;
+  color: #440040;
+  transition: box-shadow 0.3s, border-color 0.3s;
+}
+
+.nav-search input::placeholder {
+  color: #440040aa;
+}
+
+.nav-search input:focus {
+  border-color: #440040;
+  box-shadow: 0 0 8px #F3BEFC;
+}
+
+.nav-search button {
+  background-color: #440040;
+  color: #ffffff;
+  border: 2px solid #F3BEFC;
+  padding: 10px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: background 0.25s, color 0.25s, transform 0.1s;
+}
+
+.nav-search button:hover {
+  background-color: #F3BEFC;
+  color: #440040;
+}
+
+.nav-search button:active {
+  transform: scale(0.98);
+}
+
+/* Links e info usuario */
 .nav-links {
   display: flex;
-  gap: 15px;
+  align-items: center;
+  gap: 1rem;
 }
 
 .nav-links a {
@@ -34,72 +89,95 @@
 .nav-links a:hover {
   background-color: #000000;
 }
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
 
 .usuario-nombre {
   font-weight: bold;
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 1.05rem;
 }
 
 .logout-button {
   background: none;
   border: none;
-  font-size: 1.2rem;
+  font-size: 1.05rem;
   cursor: pointer;
   color: #fff;
 }
 
-/* ============ NAVBAR RESPONSIVE ============ */
+/* ============ RESPONSIVE ============ */
+@media (max-width: 992px) {
+  .nav-search {
+    flex: 1 1 250px; /* más flexible para tablets */
+  }
+}
+
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center; /* mejor centrado */
     padding: 10px;
-    gap: 10px;
+    gap: 15px;
   }
 
   .navbar img {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
+  }
+
+  .nav-search {
+    width: 100%;
+    max-width: 100%;
+    order: 2;
+    justify-content: center; /* centrado */
+  }
+
+  .nav-search input {
+    width: 80%; /* ocupa gran parte del ancho */
   }
 
   .nav-links {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
     width: 100%;
-    gap: 10px;
+    gap: 8px;
+    order: 3;
   }
 
   .nav-links a {
     font-size: 18px;
-    width: 100%;
-    padding: 10px 15px;
+    padding: 6px 10px;
   }
 
   .usuario-nombre,
   .logout-button {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }
 
 @media (max-width: 480px) {
   .navbar {
-    padding: 8px;
-    width: 95%;
+    width: 100%;
+    padding: 5px;
+  }
+
+  .nav-links {
+    gap: 5px;
   }
 
   .nav-links a {
     font-size: 16px;
-    padding: 8px 12px;
+    padding: 5px 8px;
   }
 
-  .usuario-nombre,
-  .logout-button {
-    font-size: 0.95rem;
+  .nav-search input {
+    font-size: 12px;
+    padding: 8px 10px;
+    width: 90%;
+  }
+
+  .nav-search button {
+    padding: 8px 10px;
+    font-size: 12px;
   }
 }
