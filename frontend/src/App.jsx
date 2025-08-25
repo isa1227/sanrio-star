@@ -20,6 +20,7 @@ import Keroppi from './pages/Keroppi';
 import Chococat from './pages/Chococat'; 
 import HelloKitty from './pages/Kitty';
 import './index.css';
+import EmailVerified from "./pages/EmailVerified";
 
 const PrivateRoute = ({ children }) => {
   const usuario = JSON.parse(localStorage.getItem('usuario'));
@@ -78,6 +79,8 @@ function App() {
   <Route path="/keroppi" element={<Keroppi />} />
   <Route path="/chococat" element={<Chococat />} />
   <Route path="/kitty" element={<HelloKitty />} />
+  <Route path="/email-verified" element={<EmailVerified />} />
+
   <Route
     path="/admin"
     element={
