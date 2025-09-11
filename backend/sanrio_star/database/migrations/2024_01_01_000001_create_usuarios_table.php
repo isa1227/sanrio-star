@@ -17,8 +17,6 @@ return new class extends Migration
                 $table->string('nombre_usuario', 100);
                 $table->string('correo', 150)->unique();
                 $table->string('contrasena');
-                $table->text('direccion_envio')->nullable();
-                $table->text('direccion_facturacion')->nullable();
                 $table->unsignedBigInteger('rol_id');
                 $table->timestamp('ultima_actualizacion')->nullable();
                 
