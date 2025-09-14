@@ -335,6 +335,12 @@ const AdminPanel = () => {
           </tbody>
         </table>
       </div>
+      <button
+        className="scroll-top-btn-general"
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      >
+        ⭐
+      </button>
     </div>
   );
 };
