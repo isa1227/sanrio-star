@@ -105,7 +105,7 @@ export default function MyMelody() {
               </div>
             ))
           ) : (
-            <p>Cargando productos</p>
+            <p>Cargando productos...</p>
           )}
         </div>
       </section>

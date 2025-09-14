@@ -30,10 +30,10 @@ const Auth = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-   const endpoint = isLogin
-  ? '/api/login'
-  : '/api/register';
 
+    const endpoint = isLogin
+      ? `${API_URL}/login`
+      : `${API_URL}/register`;
 
     try {
       const response = await fetch(endpoint, {
@@ -43,9 +43,15 @@ const Auth = () => {
       });
 
       const data = await response.json();
+      console.log("Respuesta backend:", data); // 👀 para debug
 
       if (!response.ok) {
-        alert(data.message || 'Ocurrió un error');
+        if (response.status === 422 && typeof data === "object") {
+          const mensajes = Object.values(data).flat().join("\n");
+          alert("❌ Errores de validación:\n" + mensajes);
+        } else {
+          alert(data.error || data.mensaje || 'Ocurrió un error');
+        }
         return;
       }
 

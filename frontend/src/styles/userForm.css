@@ -1,0 +1,62 @@
+/* Contenedor del formulario */
+.user-form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 1.5rem;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Inputs */
+.user-form input {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+}
+
+.user-form input:focus {
+  border-color: #9333ea; /* morado */
+  outline: none;
+  box-shadow: 0 0 6px rgba(147, 51, 234, 0.4);
+}
+
+/* Botones */
+.user-form .btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.user-form .btn-primary {
+  background: #9333ea;
+  color: white;
+}
+
+.user-form .btn-primary:hover {
+  background: #7e22ce;
+}
+
+.user-form .btn-secondary {
+  background: #9ca3af;
+  color: white;
+}
+
+.user-form .btn-secondary:hover {
+  background: #6b7280;
+}
+
+/* Para que los botones ocupen toda la fila */
+.user-form .form-actions {
+  grid-column: span 3;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}

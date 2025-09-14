@@ -35,7 +35,7 @@ export default function Cinnamoroll() {
         nombre: producto.nombre_producto,
         descripcion: producto.descripcion,
         precio: producto.precio,
-        imagen: `http://localhost:8000/storage/${producto.url_imagen}`,
+        imagen: `src/assets/img/${producto.url_imagen}`,
         cantidad: producto.cantidad || 1,
       };
       carrito.push(nuevoProducto);
@@ -77,7 +77,7 @@ export default function Cinnamoroll() {
                 style={{ cursor: "pointer" }}
               >
                 <img
-                  src={`src/assets/img//${item.url_imagen}`}
+                  src={`src/assets/img/${item.url_imagen}`}
                   alt={item.nombre_producto}
                 />
                 <h3>{item.nombre_producto}</h3>

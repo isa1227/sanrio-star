@@ -25,7 +25,7 @@ export default function Chococat() {
       nombre: producto.nombre_producto,
       descripcion: producto.descripcion,
       precio: producto.precio,
-      imagen: `src/assets/img//${producto.url_imagen}`,
+      imagen: `src/assets/img/${producto.url_imagen}`,
       cantidad: producto.cantidad || 1,
     };
     const nuevoCarrito = [...carritoExistente, nuevoProducto];
@@ -87,7 +87,7 @@ export default function Chococat() {
               </div>
             ))
           ) : (
-            <p>No hay productos disponibles</p>
+            <p>Cargando productos...</p>
           )}
         </div>
       </section>
