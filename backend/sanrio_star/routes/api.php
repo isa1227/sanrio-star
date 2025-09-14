@@ -1,23 +1,18 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-<<<<<<< HEAD
-=======
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Auth\Events\Verified;
 
 use App\Models\Usuario;
 
->>>>>>> e345543330e03dca3857d9ff85aef425fb6fb943
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CategoriaController;
 
-<<<<<<< HEAD
-=======
 // -------------------------------
 // Rutas de prueba
 // -------------------------------
@@ -43,31 +38,12 @@ Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy']);
 // -------------------------------
 // CRUD de Productos
 // -------------------------------
->>>>>>> e345543330e03dca3857d9ff85aef425fb6fb943
 Route::get('/productos', [ProductoController::class, 'index']);
-Route::get('/productos/{id}', [ProductoController::class, 'show']);
 Route::post('/productos', [ProductoController::class, 'store']);
-// Permitimos POST con _method=PUT (form-data) y PUT directo
-Route::post('/productos/{id}', [ProductoController::class, 'update']);
+Route::get('/productos/{id}', [ProductoController::class, 'show']);
 Route::put('/productos/{id}', [ProductoController::class, 'update']);
 Route::delete('/productos/{id}', [ProductoController::class, 'destroy']);
 
-<<<<<<< HEAD
-Route::get('/categorias', [CategoriaController::class, 'index']);
-
-Route::get('/mensaje', fn() => response()->json(['mensaje' => 'Hola desde Laravel 🐷']));
-
-
-// Usuarios (si los usas)
-Route::apiResource('usuarios', UsuarioController::class);
-
-// Roles
-Route::get('/roles', [RolController::class, 'index']);
-
-// Autenticación (si aplica)
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/register', [AuthController::class, 'register']);
-=======
 // Filtro: productos por personaje
 Route::get('/productos/personaje/{personaje}', [ProductoController::class, 'porPersonaje']);
 
@@ -115,4 +91,3 @@ Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 Route::get('/reset-password/{token}', function ($token) {
     return view('auth.reset-password', ['token' => $token]);
 });
->>>>>>> e345543330e03dca3857d9ff85aef425fb6fb943

@@ -7,29 +7,21 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;
-use HasApiTokens, Notifiable, MustVerifyEmailTrait;
 
 class Usuario extends Authenticatable implements MustVerifyEmail
+{
+    use HasApiTokens, Notifiable, MustVerifyEmailTrait;
 
     protected $table = 'usuarios';
-    protected $primaryKey = 'usuario_id';
-    public $timestamps = false;
-
     protected $primaryKey = 'usuario_id';   // 👈 tu PK personalizada
     public $incrementing = true;
     protected $keyType = 'int';
-
 
     protected $fillable = [
         'nombre_usuario',
         'correo',
         'contrasena',
         'rol_id',
-        'ultima_actualizacion'
-    ];
-
-    protected $hidden = ['contrasena', 'remember_token'];
-
         'direccion_envio',
         'direccion_facturacion',
         'ultima_actualizacion',
@@ -64,4 +56,4 @@ class Usuario extends Authenticatable implements MustVerifyEmail
     {
         return $this->correo;
     }
-
+}
