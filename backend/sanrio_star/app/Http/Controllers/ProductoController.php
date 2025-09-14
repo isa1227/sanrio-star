@@ -65,9 +65,9 @@ class ProductoController extends Controller
             'nombre_producto' => 'required|string|max:255',
             'descripcion'     => 'required|string',
             'precio'          => 'required|numeric',
-            'categoria_id'    => 'required|integer|exists:categorias,categoria_id',
+            'categoria_id'    => 'required|integer|exists:categorias_productos,categoria_id',
             'personajes'      => 'nullable|string',
-            'url_imagen'      => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'url_imagen'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
         ]);
 
         $producto = DB::table('productos')->where('producto_id', $id)->first();

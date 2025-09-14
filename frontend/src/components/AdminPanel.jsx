@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/AdminPanel.css";
 
-const API_URL = "http://localhost:8000/api"; // ⚡ Cambia si usas otro puerto
+const API_URL = "http://localhost:8000/api"; // ⚡ Ajusta si usas otro puerto
 
 const AdminPanel = () => {
   const [view, setView] = useState("productos");
   const [productos, setProductos] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
+  const [categorias, setCategorias] = useState([]); // 🔹 categorías
   const [form, setForm] = useState({});
   const [editing, setEditing] = useState(null);
 
@@ -32,10 +33,29 @@ const AdminPanel = () => {
     }
   };
 
+  const fetchCategorias = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/categorias`);
+      setCategorias(res.data);
+    } catch (err) {
+      console.error("Error cargando categorías", err);
+    }
+  };
+
   useEffect(() => {
     if (view === "productos") fetchProductos();
     if (view === "usuarios") fetchUsuarios();
   }, [view]);
+
+  useEffect(() => {
+    fetchCategorias(); // cargar categorías al inicio
+  }, []);
+
+  // 🔹 Mapeo id → nombre
+  const categoriaMap = categorias.reduce((acc, cat) => {
+    acc[cat.categoria_id] = cat.nombre_categoria;
+    return acc;
+  }, {});
 
   // -------------------------------
   // 📌 Manejo de formularios
@@ -62,22 +82,27 @@ const AdminPanel = () => {
 
     try {
       if (view === "productos") {
+        // Productos
         const formData = new FormData();
         Object.keys(form).forEach((key) => {
           formData.append(key, form[key]);
         });
 
         if (editing) {
-          await axios.post(`${API_URL}/productos/${editing}?_method=PUT`, formData, {
+          // Actualizar producto
+          formData.append("_method", "PUT");
+          await axios.post(`${API_URL}/productos/${editing}`, formData, {
             headers: { "Content-Type": "multipart/form-data" },
           });
         } else {
+          // Crear producto
           await axios.post(`${API_URL}/productos`, formData, {
             headers: { "Content-Type": "multipart/form-data" },
           });
         }
         fetchProductos();
       } else {
+        // Usuarios
         if (editing) {
           await axios.put(`${API_URL}/usuarios/${editing}`, form);
         } else {
@@ -96,8 +121,14 @@ const AdminPanel = () => {
   // 📌 Editar
   // -------------------------------
   const handleEdit = (item) => {
-    setEditing(view === "productos" ? item.producto_id : item.id);
-    setForm(item);
+    if (view === "productos") {
+      setEditing(item.producto_id);
+      const { url_imagen, ...rest } = item; // quitar url_imagen para no mandarla como string
+      setForm(rest);
+    } else {
+      setEditing(item.usuario_id);
+      setForm(item);
+    }
   };
 
   // -------------------------------
@@ -158,14 +189,22 @@ const AdminPanel = () => {
               onChange={handleChange}
               required
             />
-            <input
-              type="number"
+
+            {/* 🔹 Select de Categorías */}
+            <select
               name="categoria_id"
-              placeholder="Categoría"
               value={form.categoria_id || ""}
               onChange={handleChange}
               required
-            />
+            >
+              <option value="">Seleccione categoría</option>
+              {categorias.map((cat) => (
+                <option key={cat.categoria_id} value={cat.categoria_id}>
+                  {cat.nombre_categoria} (ID: {cat.categoria_id})
+                </option>
+              ))}
+            </select>
+
             <input
               type="text"
               name="personajes"
@@ -179,25 +218,25 @@ const AdminPanel = () => {
           <>
             <input
               type="text"
-              name="nombre"
+              name="nombre_usuario"
               placeholder="Nombre"
-              value={form.nombre || ""}
+              value={form.nombre_usuario || ""}
               onChange={handleChange}
               required
             />
             <input
               type="email"
-              name="email"
-              placeholder="Email"
-              value={form.email || ""}
+              name="correo"
+              placeholder="Correo"
+              value={form.correo || ""}
               onChange={handleChange}
               required
             />
             <input
               type="password"
-              name="password"
+              name="contrasena"
               placeholder="Contraseña"
-              value={form.password || ""}
+              value={form.contrasena || ""}
               onChange={handleChange}
               required={!editing}
             />
@@ -212,7 +251,11 @@ const AdminPanel = () => {
           </>
         )}
         <button type="submit">{editing ? "Actualizar" : "Crear"}</button>
-        {editing && <button onClick={resetForm}>Cancelar</button>}
+        {editing && (
+          <button type="button" onClick={resetForm}>
+            Cancelar
+          </button>
+        )}
       </form>
 
       {/* -------------------------------
@@ -237,7 +280,7 @@ const AdminPanel = () => {
                 <>
                   <th>ID</th>
                   <th>Nombre</th>
-                  <th>Email</th>
+                  <th>Correo</th>
                   <th>Rol</th>
                   <th>Acciones</th>
                 </>
@@ -252,11 +295,13 @@ const AdminPanel = () => {
                     <td data-label="Nombre">{p.nombre_producto}</td>
                     <td data-label="Descripción">{p.descripcion}</td>
                     <td data-label="Precio">{p.precio}</td>
-                    <td data-label="Categoría">{p.categoria_id}</td>
+                    <td data-label="Categoría">
+                      {categoriaMap[p.categoria_id] || p.categoria_id}
+                    </td>
                     <td data-label="Imagen">
                       {p.url_imagen ? (
                         <img
-                          src={p.url_imagen} // ✅ Ya viene completa del backend
+                          src={p.url_imagen}
                           alt={p.nombre_producto}
                           width="60"
                         />
@@ -274,14 +319,14 @@ const AdminPanel = () => {
                   </tr>
                 ))
               : usuarios.map((u) => (
-                  <tr key={u.id}>
-                    <td data-label="ID">{u.id}</td>
-                    <td data-label="Nombre">{u.nombre}</td>
-                    <td data-label="Email">{u.email}</td>
+                  <tr key={u.usuario_id}>
+                    <td data-label="ID">{u.usuario_id}</td>
+                    <td data-label="Nombre">{u.nombre_usuario}</td>
+                    <td data-label="Correo">{u.correo}</td>
                     <td data-label="Rol">{u.rol_id}</td>
                     <td data-label="Acciones">
                       <button onClick={() => handleEdit(u)}>Editar</button>
-                      <button onClick={() => handleDelete(u.id)}>
+                      <button onClick={() => handleDelete(u.usuario_id)}>
                         Eliminar
                       </button>
                     </td>
