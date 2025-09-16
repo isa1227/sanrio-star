@@ -124,3 +124,50 @@
   margin-bottom: 1rem;
   font-weight: bold;
 }
+
+.error {
+  color: red;
+  font-size: 0.85em;
+  margin-top: 4px;
+}
+
+.success {
+  color: green;
+  font-size: 0.85em;
+  margin-top: 4px;
+}
+
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-container input {
+  width: 100%;
+  padding-right: 40px; /* espacio para el icono */
+  box-sizing: border-box;
+}
+
+.toggle-password {
+  all: unset; /* limpia estilos heredados */
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-password svg {
+  width: 20px;
+  height: 20px;
+  color: #fff; /* blanco */
+  pointer-events: none; /* no bloquea clics */
+  transition: color 0.2s ease-in-out;
+}
+
+.toggle-password:hover svg {
+  color: #A365FF; /* tu morado al pasar el mouse */
+}

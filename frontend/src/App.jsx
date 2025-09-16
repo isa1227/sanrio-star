@@ -21,6 +21,9 @@ import Chococat from "./pages/Chococat";
 import HelloKitty from "./pages/Kitty";
 import "./index.css";
 import EmailVerified from "./pages/EmailVerified";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+
 
 const PrivateRoute = ({ children }) => {
   const usuario = JSON.parse(localStorage.getItem("usuario"));
@@ -41,6 +44,8 @@ function App() {
     "/keroppi",
     "/chococat",
     "/kitty",
+    "/forgot-password",
+    "/reset-password/:token",
   ].includes(location.pathname.toLowerCase());
 
   // 🔄 Llamada al backend al cargar el sitio
@@ -87,6 +92,8 @@ function App() {
         <Route path="/chococat" element={<Chococat />} />
         <Route path="/kitty" element={<HelloKitty />} />
         <Route path="/email-verified" element={<EmailVerified />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
 
         <Route
           path="/admin"
