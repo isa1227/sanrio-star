@@ -1,88 +1,78 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function UserForm({ selected, onSave, onCancel }) {
-  const [usuario, setUsuario] = useState({
-    nombre: "",
-    email: "",
-    password: "",
-    rol_id: "",
-    telefono: "",
+const UserForm = ({ selected, setSelected, refresh }) => {
+  const [form, setForm] = useState({
+    nombre_usuario: "",
+    correo: "",
+    contrasena: "",
+    rol_id: "2",
   });
 
   useEffect(() => {
     if (selected) {
-      setUsuario({ ...selected, password: "" }); // no mostrar password real
+      setForm({ ...selected, contrasena: "" });
     }
   }, [selected]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUsuario((prev) => ({ ...prev, [name]: value }));
+    setForm({ ...form, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (usuario.id) {
-        // Si estás editando
-        await axios.put(`http://localhost:8000/api/usuarios/${usuario.id}`, usuario);
+      if (selected) {
+        await axios.put(
+          `http://localhost:8000/api/usuarios/${selected.usuario_id}`,
+          form
+        );
       } else {
-        // Si estás creando
-        await axios.post("http://localhost:8000/api/usuarios", usuario);
+        await axios.post("http://localhost:8000/api/usuarios", form);
       }
-      onSave();
-    } catch (error) {
-      console.error("Error al guardar usuario:", error);
+      setForm({ nombre_usuario: "", correo: "", contrasena: "", rol_id: "2" });
+      setSelected(null);
+      refresh();
+    } catch (err) {
+      console.error("Error guardando usuario:", err);
     }
   };
 
   return (
-    <form className="formulario" onSubmit={handleSubmit}>
-      <h3>{usuario.id ? "Editar Usuario" : "Crear Usuario"}</h3>
+    <form className="form" onSubmit={handleSubmit}>
       <input
         type="text"
-        name="nombre"
+        name="nombre_usuario"
         placeholder="Nombre"
-        value={usuario.nombre}
+        value={form.nombre_usuario}
         onChange={handleChange}
         required
       />
       <input
         type="email"
-        name="email"
-        placeholder="Correo electrónico"
-        value={usuario.email}
+        name="correo"
+        placeholder="Correo"
+        value={form.correo}
         onChange={handleChange}
         required
       />
       <input
         type="password"
-        name="password"
-        placeholder={usuario.id ? "Nueva contraseña (opcional)" : "Contraseña"}
-        value={usuario.password}
+        name="contrasena"
+        placeholder="Contraseña"
+        value={form.contrasena}
         onChange={handleChange}
-        required={!usuario.id} // solo obligatoria si es nuevo
+        required={!selected}
       />
-      <input
-        type="number"
-        name="rol_id"
-        placeholder="ID del rol (ej. 1 o 2)"
-        value={usuario.rol_id}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="text"
-        name="telefono"
-        placeholder="Teléfono"
-        value={usuario.telefono}
-        onChange={handleChange}
-      />
-      <div className="botones-formulario">
-        <button type="submit">{usuario.id ? "Actualizar" : "Crear"}</button>
-        <button type="button" onClick={onCancel}>Cancelar</button>
-      </div>
+      <select name="rol_id" value={form.rol_id} onChange={handleChange}>
+        <option value="1">Admin</option>
+        <option value="2">Cliente</option>
+      </select>
+      <button type="submit">{selected ? "Actualizar" : "Crear"}</button>
     </form>
   );
-}
+};
+
+export default UserForm;
+

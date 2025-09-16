@@ -1,33 +1,50 @@
-import React from "react";
-import "../styles/AdminPanel.css";
+import axios from "axios";
 
-const TableComponent = ({ data, columns, onEdit, onDelete }) => {
+const TableComponent = ({ data, type, setSelected, refresh }) => {
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8000/api/${type}/${id}`);
+      refresh();
+    } catch (err) {
+      console.error("Error eliminando:", err);
+    }
+  };
+
   return (
-    <table className="custom-table">
+    <table className="table">
       <thead>
         <tr>
-          {columns.map((col) => (
-            <th key={col.key}>{col.label}</th>
-          ))}
+          {data.length > 0 &&
+            Object.keys(data[0]).map((key) => <th key={key}>{key}</th>)}
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         {data.map((item) => (
-          <tr key={item.producto_id || item.id}>
-            {columns.map((col) => (
-              <td key={`${col.key}-${item.producto_id || item.id}`}>
-                {item[col.key]}
+          <tr key={item[`${type === "productos" ? "producto_id" : "usuario_id"}`]}>
+            {Object.values(item).map((val, i) => (
+              <td key={i}>
+                {typeof val === "string" && val.includes(".jpg") ? (
+                  <img
+                    src={`http://localhost:8000/storage/${val}`}
+                    alt="preview"
+                    width="60"
+                  />
+                ) : (
+                  val
+                )}
               </td>
             ))}
             <td>
-              <button onClick={() => onEdit(item)}>✏️</button>
+              <button onClick={() => setSelected(item)}>✏️ Editar</button>
               <button
                 onClick={() =>
-                  onDelete(item.producto_id || item.id)
+                  handleDelete(
+                    item[`${type === "productos" ? "producto_id" : "usuario_id"}`]
+                  )
                 }
               >
-                🗑️
+                🗑️ Eliminar
               </button>
             </td>
           </tr>

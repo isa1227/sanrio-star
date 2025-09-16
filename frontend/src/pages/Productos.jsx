@@ -69,7 +69,7 @@ const Productos = () => {
           <div className="product-detail">
             <div className="product-images">
               <img
-                src={`http://localhost:8000/storage/${productoSeleccionado.url_imagen}`}
+                src={productoSeleccionado.url_imagen}
                 alt={productoSeleccionado.nombre_producto}
               />
             </div>
@@ -123,7 +123,7 @@ const Productos = () => {
               {productosFiltrados.map((p) => (
                 <div className="card" key={p.producto_id}>
                   <img
-                    src={`http://localhost:8000/storage/${p.url_imagen}`}
+                    src={p.url_imagen}
                     alt={p.nombre_producto}
                     onClick={() => {
                       setProductoSeleccionado(p);

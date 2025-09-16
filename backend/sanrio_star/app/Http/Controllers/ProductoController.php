@@ -8,112 +8,103 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
-    // 🔹 Obtener productos por personaje
-public function porPersonaje($personaje)
-{
-    // Buscar en la columna "personajes" que guardaste en minúsculas
-    return DB::table('productos')
-        ->where('personajes', strtolower($personaje))
-        ->get();
-}
-
-    // 🔹 Listar todos los productos
+    // 📌 Listar todos los productos
     public function index()
     {
         $productos = DB::table('productos')->get();
+
+        foreach ($productos as $producto) {
+            if ($producto->url_imagen) {
+                // ✅ Convertir a ruta accesible desde /storage
+                $producto->url_imagen = asset('storage/' . $producto->url_imagen);
+            } else {
+                $producto->url_imagen = null;
+            }
+        }
+
         return response()->json($productos);
     }
 
-    // 🔹 Mostrar un producto específico
-    public function show($id)
-    {
-        $producto = DB::table('productos')->find($id);
-
-        if (!$producto) {
-            return response()->json(['mensaje' => 'Producto no encontrado'], 404);
-        }
-
-        return response()->json($producto);
-    }
-
-    // 🔹 Crear un nuevo producto
+    // 📌 Crear producto
     public function store(Request $request)
     {
         $request->validate([
-            'nombre_producto' => 'required|string',
+            'nombre_producto' => 'required|string|max:255',
             'descripcion'     => 'required|string',
             'precio'          => 'required|numeric',
-            'categoria_id'    => 'required|integer',
+            'categoria_id'    => 'required|integer|exists:categorias,categoria_id',
             'personajes'      => 'nullable|string',
-            'imagen'          => 'required|image|max:2048',
+            'url_imagen'      => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        // Guardar imagen en storage/app/public/productos
-        $rutaImagen = $request->file('imagen')->store('productos', 'public');
+        $nombreImagen = null;
+        if ($request->hasFile('url_imagen')) {
+            $imagen = $request->file('url_imagen');
+            $nombreImagen = 'productos/' . time() . '_' . $imagen->getClientOriginalName();
+            // ✅ Se guarda en storage/app/public/productos
+            $imagen->storeAs('public', $nombreImagen);
+        }
 
-        $id = DB::table('productos')->insertGetId([
-            'nombre_producto' => $request->nombre_producto,
-            'descripcion'     => $request->descripcion,
-            'precio'          => $request->precio,
-            'categoria_id'    => $request->categoria_id,
-            'personajes'      => strtolower($request->personajes),
-            'url_imagen'      => $rutaImagen,
+        DB::table('productos')->insert([
+            'nombre_producto'      => $request->nombre_producto,
+            'descripcion'          => $request->descripcion,
+            'precio'               => $request->precio,
+            'categoria_id'         => $request->categoria_id,
+            'url_imagen'           => $nombreImagen,
+            'personajes'           => $request->personajes,
             'ultima_actualizacion' => now()
         ]);
 
-        return response()->json(['mensaje' => 'Producto creado', 'id' => $id, 'url_imagen' => $rutaImagen], 201);
+        return response()->json(['mensaje' => 'Producto creado correctamente']);
     }
 
-    // 🔹 Actualizar un producto
+    // 📌 Actualizar producto
     public function update(Request $request, $id)
     {
-        $producto = DB::table('productos')->where('producto_id', $id)->first();
+        $request->validate([
+            'nombre_producto' => 'required|string|max:255',
+            'descripcion'     => 'required|string',
+            'precio'          => 'required|numeric',
+            'categoria_id'    => 'required|integer|exists:categorias_productos,categoria_id',
+            'personajes'      => 'nullable|string',
+            'url_imagen'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
+        ]);
 
+        $producto = DB::table('productos')->where('producto_id', $id)->first();
         if (!$producto) {
             return response()->json(['mensaje' => 'Producto no encontrado'], 404);
         }
 
-        $rutaImagen = $producto->url_imagen;
-
-        // Si hay nueva imagen, eliminar la anterior y guardar la nueva
-        if ($request->hasFile('imagen')) {
-            if (Storage::disk('public')->exists($rutaImagen)) {
-                Storage::disk('public')->delete($rutaImagen);
-            }
-
-            $rutaImagen = $request->file('imagen')->store('productos', 'public');
+        $nombreImagen = $producto->url_imagen; // mantener imagen actual si no hay nueva
+        if ($request->hasFile('url_imagen')) {
+            $imagen = $request->file('url_imagen');
+            $nombreImagen = 'productos/' . time() . '_' . $imagen->getClientOriginalName();
+            $imagen->storeAs('public', $nombreImagen);
         }
 
-        DB::table('productos')
-            ->where('producto_id', $id)
-            ->update([
-                'nombre_producto' => $request->nombre_producto,
-                'descripcion'     => $request->descripcion,
-                'precio'          => $request->precio,
-                'categoria_id'    => $request->categoria_id,
-                'personajes'      => strtolower($request->personajes),
-                'url_imagen'      => $rutaImagen,
-                'ultima_actualizacion' => now()
-            ]);
+        DB::table('productos')->where('producto_id', $id)->update([
+            'nombre_producto'      => $request->nombre_producto,
+            'descripcion'          => $request->descripcion,
+            'precio'               => $request->precio,
+            'categoria_id'         => $request->categoria_id,
+            'url_imagen'           => $nombreImagen,
+            'personajes'           => $request->personajes,
+            'ultima_actualizacion' => now()
+        ]);
 
-        return response()->json(['mensaje' => 'Producto actualizado']);
+        return response()->json(['mensaje' => 'Producto actualizado correctamente']);
     }
 
-    // 🔹 Eliminar un producto
+    // 📌 Eliminar producto
     public function destroy($id)
     {
         $producto = DB::table('productos')->where('producto_id', $id)->first();
-
-        if (!$producto) {
-            return response()->json(['mensaje' => 'Producto no encontrado'], 404);
-        }
-
-        if ($producto->url_imagen && Storage::disk('public')->exists($producto->url_imagen)) {
-            Storage::disk('public')->delete($producto->url_imagen);
+        if ($producto && $producto->url_imagen) {
+            // ✅ Eliminar archivo físico si existe
+            Storage::delete('public/' . $producto->url_imagen);
         }
 
         DB::table('productos')->where('producto_id', $id)->delete();
-
-        return response()->json(['mensaje' => 'Producto eliminado']);
+        return response()->json(['mensaje' => 'Producto eliminado correctamente']);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
+use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
@@ -14,43 +14,65 @@ class UsuarioController extends Controller
     }
 
     public function store(Request $request)
-{
-    $validatedData = $request->validate([
-        'nombre_usuario' => 'required|string|max:255',
-        'correo' => 'required|email|unique:usuarios',
-        'contrasena' => 'required|string|min:6',
-        'rol_id' => 'required|exists:roles,id_de_rol',
-        // añade otros campos si los necesitas
-    ]);
-
-    // Encriptar la contraseña si es necesario
-    $validatedData['contrasena'] = bcrypt($validatedData['contrasena']);
-
-    $usuario = Usuario::create($validatedData);
-    return response()->json($usuario, 201);
-}
-
-
-    public function show($id)
     {
-        return Usuario::findOrFail($id);
+        $request->validate([
+            'nombre_usuario' => 'required|string|max:255',
+            'correo' => 'required|email|unique:usuarios',
+            'contrasena' => 'required|string|min:6',
+            'rol_id' => 'required|integer',
+            'imagen' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+        ]);
+
+        $usuario = new Usuario();
+        $usuario->nombre_usuario = $request->nombre;
+        $usuario->correp = $request->email;
+        $usuario->contrasena = Hash::make($request->password);
+        $usuario->rol_id = $request->rol_id;
+
+        if ($request->hasFile('imagen')) {
+            $file = $request->file('imagen');
+            $filename = time().'_'.$file->getClientOriginalName();
+            $file->move(public_path('uploads/usuarios'), $filename);
+            $usuario->imagen = 'uploads/usuarios/'.$filename;
+        }
+
+        $usuario->save();
+        return response()->json($usuario, 201);
     }
 
-    public function update(Request $request, $id)
+    public function show($usuario_id)
     {
-        $usuario = Usuario::findOrFail($id);
-        $usuario->update($request->all());
+        return Usuario::findOrFail($usuario_id);
+    }
+
+    public function update(Request $request, $usuario_id)
+    {
+        $usuario = Usuario::findOrFail($usuario_id);
+
+       $usuario->nombre_usuario = $request->input('nombre_usuario', $usuario->nombre_usuario);
+        $usuario->correo = $request->input('correo', $usuario->correo);
+
+        if ($request->filled('contrasena')) {
+            $usuario->contrasena = Hash::make($request->contrasena);
+        }
+
+        if ($request->hasFile('imagen')) {
+            $file = $request->file('imagen');
+            $filename = time().'_'.$file->getClientOriginalName();
+            $file->move(public_path('uploads/usuarios'), $filename);
+            $usuario->imagen = 'uploads/usuarios/'.$filename;
+        }
+
+        $usuario->rol_id = $request->rol_id ?? $usuario->rol_id;
+
+        $usuario->save();
         return response()->json($usuario);
     }
 
-    public function destroy($id)
+    public function destroy($usuario_id)
     {
-        Usuario::destroy($id);
-        return response()->json(null, 204);
+        $usuario = Usuario::findOrFail($usuario_id);
+        $usuario->delete();
+        return response()->json(['message' => 'Usuario eliminado']);
     }
-    public function getRoles()
-{
-    return response()->json(DB::table('roles')->get());
-}
-
 }

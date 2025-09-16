@@ -11,7 +11,6 @@ const Factura = ({ productos }) => {
   const [mostrarFactura, setMostrarFactura] = useState(true);
   const [nombre, setNombre] = useState("");
   const [telefono, setTelefono] = useState("");
-  const [direccion, setDireccion] = useState("");
   const [metodoPago, setMetodoPago] = useState("");
   const [compraConfirmada, setCompraConfirmada] = useState(false);
   const [mostrarMensaje, setMostrarMensaje] = useState(false); // 🔹 nuevo estado para el mensaje
@@ -44,7 +43,6 @@ const Factura = ({ productos }) => {
     if (
       !nombre.trim() ||
       !telefono.trim() ||
-      !direccion.trim() ||
       !metodoPago
     ) {
       alert("Por favor completa todos los campos.");
@@ -101,11 +99,6 @@ const Factura = ({ productos }) => {
             {telefono && (
               <p>
                 <strong>Teléfono:</strong> {telefono}
-              </p>
-            )}
-            {direccion && (
-              <p>
-                <strong>Dirección:</strong> {direccion}
               </p>
             )}
             {metodoPago && (
@@ -185,13 +178,7 @@ const Factura = ({ productos }) => {
               onChange={(e) => setTelefono(e.target.value)}
             />
 
-            <label>Dirección:</label>
-            <input
-              type="text"
-              placeholder="Tu dirección"
-              value={direccion}
-              onChange={(e) => setDireccion(e.target.value)}
-            />
+          
 
             <label>Método de pago:</label>
             <select
