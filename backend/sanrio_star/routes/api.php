@@ -12,6 +12,8 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\GoogleController;
+
 
 // -------------------------------
 // Rutas de prueba
@@ -76,3 +78,8 @@ Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 Route::get('/reset-password/{token}', function ($token) {
     return view('auth.reset-password', ['token' => $token]);
 });
+
+
+use App\Http\Controllers\GoogleTokenController;
+
+Route::post('/auth/google', [GoogleController::class, 'googleLogin']);

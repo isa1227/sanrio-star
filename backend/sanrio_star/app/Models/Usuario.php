@@ -27,6 +27,8 @@ class Usuario extends Authenticatable implements MustVerifyEmail
         'ultima_actualizacion',
         'email_verified_at',
         'remember_token',
+        'google_id',   // 👈 nuevo
+        'avatar',
     ];
 
     public $timestamps = false;
