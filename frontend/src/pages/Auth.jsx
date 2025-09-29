@@ -13,10 +13,58 @@ const Auth = () => {
     contrasena: "",
   });
   const [validations, setValidations] = useState({});
-  const [showPassword, setShowPassword] = useState(false); // 👈 estado para ver/ocultar
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
+  // 👇 Inicializar Google One Tap / Botón
+  useEffect(() => {
+    /* global google */
+    if (window.google) {
+      google.accounts.id.initialize({
+        client_id:
+          "417655461234-r3hq3obdoptcn6fnnnov4929d3dsnlrg.apps.googleusercontent.com", // 👈 tu CLIENT_ID
+        callback: handleCredentialResponse,
+      });
+
+      google.accounts.id.renderButton(document.getElementById("googleBtn"), {
+        theme: "outline",
+        size: "large",
+      });
+    }
+  }, []);
+
+  // 👇 Manejo de respuesta de Google
+  const handleCredentialResponse = async (response) => {
+    try {
+      console.log("JWT de Google:", response.credential);
+
+      const res = await fetch(`${API_URL}/auth/google`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: response.credential }), // 👈 se envía como 'token'
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.error("Error en el backend:", data);
+        alert(data.message || "Error al iniciar sesión con Google");
+        return;
+      }
+
+      // Guardar token y usuario en localStorage
+      localStorage.setItem("auth_token", data.token);
+      localStorage.setItem("usuario", JSON.stringify(data.user));
+
+      navigate("/productos");
+    } catch (err) {
+      console.error("Error Google login:", err);
+    }
+  };
+
+  // Mostrar mensaje si venía de logout
   useEffect(() => {
     const mensajeLogout = localStorage.getItem("mensajeLogout");
     if (mensajeLogout) {
@@ -27,8 +75,6 @@ const Auth = () => {
       return () => clearTimeout(timer);
     }
   }, []);
-
-  const API_URL = import.meta.env.VITE_API_URL;
 
   // Validaciones locales
   const validateField = (name, value) => {
@@ -107,6 +153,7 @@ const Auth = () => {
       }
 
       if (isLogin) {
+        localStorage.setItem("auth_token", data.token);
         localStorage.setItem("usuario", JSON.stringify(data.usuario));
         localStorage.setItem("mensajeAuth", "✅ Inicio de sesión exitoso");
         navigate("/productos");
@@ -193,6 +240,9 @@ const Auth = () => {
 
           <button type="submit">{isLogin ? "Ingresar" : "Crear cuenta"}</button>
         </form>
+
+        {/* 👇 Aquí aparece el botón de Google */}
+        <div id="googleBtn" style={{ marginTop: "10px" }}></div>
 
         <p className="toggle-text">
           {isLogin ? "¿No tienes cuenta?" : "¿Ya tienes cuenta?"}{" "}
