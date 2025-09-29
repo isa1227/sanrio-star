@@ -1,20 +1,23 @@
-import React, { useRef, useState } from "react";
-import html2canvas from "html2canvas";
-import "../styles/factura.css";
-import fondoFactura from "../assets/img/factura.jpg";
-import fondoModal from "../assets/img/factura2.jpg";
+import React, { useRef, useState } from "react"; 
+import html2canvas from "html2canvas"; // 🔹 Librería para capturar factura y descargar como imagen
+import "../styles/factura.css"; 
+import fondoFactura from "../assets/img/factura.jpg"; 
+import fondoModal from "../assets/img/factura2.jpg"; 
 
 const Factura = ({ productos }) => {
-  const facturaRef = useRef();
+  const facturaRef = useRef(); 
+  // 🔹 Referencia a la factura (para convertirla en imagen)
 
-  const [mostrarModal, setMostrarModal] = useState(false);
-  const [mostrarFactura, setMostrarFactura] = useState(true);
-  const [nombre, setNombre] = useState("");
-  const [telefono, setTelefono] = useState("");
-  const [metodoPago, setMetodoPago] = useState("");
-  const [compraConfirmada, setCompraConfirmada] = useState(false);
-  const [mostrarMensaje, setMostrarMensaje] = useState(false); // 🔹 nuevo estado para el mensaje
+  // 📌 Estados principales
+  const [mostrarModal, setMostrarModal] = useState(false); // 🔹 control modal
+  const [mostrarFactura, setMostrarFactura] = useState(true); // 🔹 mostrar/ocultar factura
+  const [nombre, setNombre] = useState(""); // 🔹 nombre del cliente
+  const [telefono, setTelefono] = useState(""); // 🔹 teléfono del cliente
+  const [metodoPago, setMetodoPago] = useState(""); // 🔹 método de pago elegido
+  const [compraConfirmada, setCompraConfirmada] = useState(false); // 🔹 compra finalizada
+  const [mostrarMensaje, setMostrarMensaje] = useState(false); // 🔹 mensaje éxito temporal
 
+  // 📌 Función: Descargar factura en PNG
   const descargarFactura = () => {
     html2canvas(facturaRef.current).then((canvas) => {
       const link = document.createElement("a");
@@ -24,6 +27,7 @@ const Factura = ({ productos }) => {
     });
   };
 
+  // 📌 Función: Calcular total de productos
   const calcularTotal = () => {
     return productos.reduce((total, producto) => {
       const precioTexto = producto?.precio || producto?.price || "0";
@@ -33,12 +37,14 @@ const Factura = ({ productos }) => {
     }, 0);
   };
 
+  // 📌 Función: Formato de moneda (COP)
   const formatoMoneda = (valor) =>
     new Intl.NumberFormat("es-CO", {
       style: "currency",
       currency: "COP",
     }).format(valor);
 
+  // 📌 Función: Validación de formulario
   const validarFormulario = () => {
     if (
       !nombre.trim() ||
@@ -61,6 +67,7 @@ const Factura = ({ productos }) => {
 
   return (
     <div className="factura-container">
+      {/* 📌 Botones principales */}
       <div className="botones">
         <button
           onClick={() => setMostrarFactura((prev) => !prev)}
@@ -76,6 +83,7 @@ const Factura = ({ productos }) => {
         )}
       </div>
 
+      {/* 📌 Factura (solo si mostrarFactura = true) */}
       {mostrarFactura && (
         <div
           className="factura"
@@ -91,6 +99,7 @@ const Factura = ({ productos }) => {
             <h2 className="titulo">Factura #</h2>
             <p>Fecha: {new Date().toLocaleDateString()}</p>
 
+            {/* Datos del comprador */}
             {nombre && (
               <p>
                 <strong>Nombre:</strong> {nombre}
@@ -107,6 +116,7 @@ const Factura = ({ productos }) => {
               </p>
             )}
 
+            {/* 📌 Lista de productos */}
             <div className="productos-lista">
               {productos.map((producto, index) => {
                 const nombreProducto =
@@ -129,11 +139,13 @@ const Factura = ({ productos }) => {
               })}
             </div>
 
+            {/* Total */}
             <p className="total">Total: {formatoMoneda(calcularTotal())}</p>
           </div>
         </div>
       )}
 
+      {/* 📌 Botón para abrir modal */}
       <button
         onClick={() => setMostrarModal(true)}
         className={`boton-comprar ${mostrarModal ? "sin-fondo" : ""}`}
@@ -141,11 +153,12 @@ const Factura = ({ productos }) => {
         Comprar
       </button>
 
-      {/* 🔸 Mostrar mensaje de éxito */}
+      {/* 📌 Mensaje de éxito */}
       {mostrarMensaje && (
         <div className="mensaje-exito">¡Compra realizada con éxito!</div>
       )}
 
+      {/* 📌 Modal de compra */}
       {mostrarModal && (
         <div className="modal-overlay">
           <div
@@ -162,6 +175,7 @@ const Factura = ({ productos }) => {
           >
             <h2>Finalizar Compra</h2>
 
+            {/* Inputs del formulario */}
             <label>Nombre completo:</label>
             <input
               type="text"
@@ -178,8 +192,6 @@ const Factura = ({ productos }) => {
               onChange={(e) => setTelefono(e.target.value)}
             />
 
-          
-
             <label>Método de pago:</label>
             <select
               value={metodoPago}
@@ -191,17 +203,18 @@ const Factura = ({ productos }) => {
               <option value="Efectivo">Efectivo</option>
             </select>
 
+            {/* Botones dentro del modal */}
             <div className="modal-botones">
               <button onClick={() => setMostrarModal(false)}>Cancelar</button>
               <button
                 onClick={() => {
                   if (validarFormulario()) {
-                    setCompraConfirmada(true);
-                    setMostrarModal(false);
-                    setMostrarFactura(true);
-                    setMostrarMensaje(true);
+                    setCompraConfirmada(true); // 🔹 compra finalizada
+                    setMostrarModal(false); // 🔹 cerrar modal
+                    setMostrarFactura(true); // 🔹 mostrar factura
+                    setMostrarMensaje(true); // 🔹 mostrar mensaje éxito
 
-                    // Ocultar mensaje a los 5 segundos
+                    // Ocultar mensaje después de 5 segundos
                     setTimeout(() => {
                       setMostrarMensaje(false);
                     }, 5000);

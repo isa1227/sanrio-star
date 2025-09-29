@@ -9,7 +9,7 @@ export default function HelloKitty() {
   const [productoAgregado, setProductoAgregado] = useState("");
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
 
-  // Traer productos desde la BD
+  // 📌 Traer productos desde la BD
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/productos/personaje/Hello%20Kitty")
@@ -17,7 +17,7 @@ export default function HelloKitty() {
       .catch((err) => console.error("Error al cargar productos:", err));
   }, []);
 
-  // Agregar producto al carrito
+  // 📌 Agregar producto al carrito
   const agregarAlCarrito = (producto) => {
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
@@ -35,7 +35,7 @@ export default function HelloKitty() {
         nombre: producto.nombre_producto,
         descripcion: producto.descripcion,
         precio: producto.precio,
-        imagen: `src/assets/img//${producto.url_imagen}`,
+        imagen: producto.url_imagen, // ✅ usar URL de la BD
         cantidad: producto.cantidad || 1,
       };
       carrito.push(nuevoProducto);
@@ -77,10 +77,8 @@ export default function HelloKitty() {
                 onClick={() => setProductoSeleccionado(item)}
                 style={{ cursor: "pointer" }}
               >
-                <img
-                  src={`src/assets/img//${item.url_imagen}`}
-                  alt={item.nombre_producto}
-                />
+                {/* ✅ Imagen desde la BD */}
+                <img src={item.url_imagen} alt={item.nombre_producto} />
                 <h3>{item.nombre_producto}</h3>
                 <p>{item.descripcion}</p>
                 <div className="price">${item.precio}</div>
@@ -119,8 +117,9 @@ export default function HelloKitty() {
             </button>
 
             <div className="modal-product-gallery-hellokitty">
+              {/* ✅ Imagen desde la BD */}
               <img
-                src={`src/assets/img/${productoSeleccionado.url_imagen}`}
+                src={productoSeleccionado.url_imagen}
                 alt={productoSeleccionado.nombre_producto}
               />
             </div>

@@ -9,7 +9,7 @@ export default function Pochaco() {
   const [productoAgregado, setProductoAgregado] = useState("");
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
 
-  // Traer productos de la BD
+  // 📌 Traer productos de la BD
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/productos/personaje/Pochaco")
@@ -17,11 +17,13 @@ export default function Pochaco() {
       .catch((err) => console.error("Error al cargar productos:", err));
   }, []);
 
-  // Agregar al carrito
+  // 📌 Agregar al carrito
   const agregarAlCarrito = (producto) => {
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-    const existe = carrito.find((item) => item.producto_id === producto.producto_id);
+    const existe = carrito.find(
+      (item) => item.producto_id === producto.producto_id
+    );
 
     if (existe) {
       carrito = carrito.map((item) =>
@@ -35,7 +37,7 @@ export default function Pochaco() {
         nombre: producto.nombre_producto,
         descripcion: producto.descripcion,
         precio: producto.precio,
-        imagen: `src/assets/img/${producto.url_imagen}`, // misma ruta que Keroppi
+        imagen: producto.url_imagen, // ✅ usar la URL que devuelve el backend
         cantidad: producto.cantidad || 1,
       };
       carrito.push(nuevoProducto);
@@ -58,12 +60,14 @@ export default function Pochaco() {
         </a>
       </header>
 
-      {mensajeVisible && <div className="mensaje-pochacco">{productoAgregado}</div>}
+      {mensajeVisible && (
+        <div className="mensaje-pochaco">{productoAgregado}</div>
+      )}
 
       <h1>🐶 Pochaco 🐶</h1>
       <p className="description-text">
         Un perrito blanco con orejas negras, muy curioso y deportivo. 
-        Le encanta jugar al fútbol y andar en patineta.🐶
+        Le encanta jugar al fútbol y andar en patineta. 🐶
       </p>
 
       <section className="product-section">
@@ -76,10 +80,8 @@ export default function Pochaco() {
                 onClick={() => setProductoSeleccionado(item)}
                 style={{ cursor: "pointer" }}
               >
-                <img
-                  src={`src/assets/img/${item.url_imagen}`} // ruta corregida
-                  alt={item.nombre_producto}
-                />
+                {/* ✅ Mostrar imagen desde la BD */}
+                <img src={item.url_imagen} alt={item.nombre_producto} />
                 <h3>{item.nombre_producto}</h3>
                 <p>{item.descripcion}</p>
                 <div className="price">${item.precio}</div>
@@ -100,7 +102,7 @@ export default function Pochaco() {
         </div>
       </section>
 
-      {/* Modal detallado */}
+      {/* 📌 Modal detallado */}
       {productoSeleccionado && (
         <div
           className="modal-overlay-pochaco"
@@ -118,16 +120,21 @@ export default function Pochaco() {
             </button>
 
             <div className="modal-product-gallery-pochaco">
+              {/* ✅ Imagen desde la BD */}
               <img
-                src={`src/assets/img/${productoSeleccionado.url_imagen}`}
+                src={productoSeleccionado.url_imagen}
                 alt={productoSeleccionado.nombre_producto}
               />
             </div>
 
             <div className="modal-product-info-pochaco">
               <h2>{productoSeleccionado.nombre_producto}</h2>
-              <p className="modal-description-pochaco">{productoSeleccionado.descripcion}</p>
-              <p className="modal-price-pochaco">Precio: ${productoSeleccionado.precio}</p>
+              <p className="modal-description-pochaco">
+                {productoSeleccionado.descripcion}
+              </p>
+              <p className="modal-price-pochaco">
+                Precio: ${productoSeleccionado.precio}
+              </p>
               <p className="modal-stock-pochaco">
                 Stock: {productoSeleccionado.stock || "Disponible"}
               </p>
@@ -145,8 +152,13 @@ export default function Pochaco() {
               <button
                 className="pretty-button-pochaco"
                 onClick={() => {
-                  const cantidad = parseInt(document.getElementById("cantidadInput-pochaco").value);
-                  const productoConCantidad = { ...productoSeleccionado, cantidad };
+                  const cantidad = parseInt(
+                    document.getElementById("cantidadInput-pochaco").value
+                  );
+                  const productoConCantidad = {
+                    ...productoSeleccionado,
+                    cantidad,
+                  };
                   agregarAlCarrito(productoConCantidad);
                   setProductoSeleccionado(null);
                 }}
