@@ -2,14 +2,10 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/productos.css';
 
-const categorias = [
-  'todos', 'peluches', 'bolsos', 'maquillaje', 'audifonos',
-  'productos casa', 'accesorios', 'camisetas', 'escolares'
-];
-
 const Productos = () => {
   const [filtro, setFiltro] = useState('todos');
   const [productos, setProductos] = useState([]);
+  const [categorias, setCategorias] = useState([]);
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
   const [mensaje, setMensaje] = useState('');
   const [cantidad, setCantidad] = useState(1);
@@ -38,11 +34,24 @@ const Productos = () => {
     fetchProductos();
   }, []);
 
+  // Obtener categorías desde la API Laravel
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const res = await axios.get("http://localhost:8000/api/categorias");
+        setCategorias(res.data);
+      } catch (err) {
+        console.error("Error al obtener categorías:", err);
+      }
+    };
+    fetchCategorias();
+  }, []);
+
   // Filtrar productos
   const productosFiltrados =
     filtro === 'todos'
       ? productos
-      : productos.filter(p => p.categoria_id === filtro);
+      : productos.filter(p => p.categoria_id === Number(filtro));
 
   // Agregar al carrito
   const agregarAlCarrito = (producto) => {
@@ -58,6 +67,12 @@ const Productos = () => {
     localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
     setMensaje('✅ Producto agregado al carrito');
     setTimeout(() => setMensaje(''), 3000);
+  };
+
+  // Obtener nombre de categoría para el detalle
+  const obtenerNombreCategoria = (categoria_id) => {
+    const cat = categorias.find(c => c.categoria_id === categoria_id);
+    return cat ? cat.nombre_categoria : 'Sin categoría';
   };
 
   return (
@@ -77,7 +92,7 @@ const Productos = () => {
               <h1>{productoSeleccionado.nombre_producto}</h1>
               <div className="info-grid">
                 <span>Categoría:</span>
-                <span>{productoSeleccionado.categoria_id}</span>
+                <span>{obtenerNombreCategoria(productoSeleccionado.categoria_id)}</span>
                 <span>ID:</span>
                 <span>{productoSeleccionado.producto_id}</span>
               </div>
@@ -104,13 +119,23 @@ const Productos = () => {
           {/* Menú lateral */}
           <aside className="sidebar">
             <h3>Categorías</h3>
+
+            {/* Botón TODOS */}
+            <button
+              onClick={() => setFiltro('todos')}
+              className={filtro === 'todos' ? 'activo' : ''}
+            >
+              TODOS
+            </button>
+
+            {/* Categorías dinámicas */}
             {categorias.map(cat => (
               <button
-                key={cat}
-                onClick={() => setFiltro(cat)}
-                className={filtro === cat ? 'activo' : ''}
+                key={cat.categoria_id}
+                onClick={() => setFiltro(cat.categoria_id)}
+                className={filtro === cat.categoria_id ? 'activo' : ''}
               >
-                {cat.toUpperCase()}
+                {cat.nombre_categoria.toUpperCase()}
               </button>
             ))}
           </aside>

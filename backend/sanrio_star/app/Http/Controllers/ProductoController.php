@@ -62,9 +62,10 @@ class ProductoController extends Controller
             'nombre_producto' => 'required|string|max:255',
             'descripcion'     => 'required|string',
             'precio'          => 'required|numeric',
-            'categoria_id'    => 'required|integer|exists:categorias,categoria_id',
+            // ✅ tabla real
+            'categoria_id'    => 'required|integer|exists:categorias_productos,categoria_id',
             'personajes'      => 'nullable|string',
-            'url_imagen'      => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'url_imagen'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         $nombreImagen = null;
@@ -107,6 +108,10 @@ class ProductoController extends Controller
 
         $nombreImagen = $producto->url_imagen; // mantener imagen actual si no hay nueva
         if ($request->hasFile('url_imagen')) {
+            // ✅ borrar imagen anterior
+            if ($producto->url_imagen) {
+                Storage::delete('public/' . $producto->url_imagen);
+            }
             $imagen = $request->file('url_imagen');
             $nombreImagen = 'productos/' . time() . '_' . $imagen->getClientOriginalName();
             $imagen->storeAs('public', $nombreImagen);
