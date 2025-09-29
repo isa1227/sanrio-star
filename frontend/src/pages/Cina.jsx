@@ -9,19 +9,22 @@ export default function Cinnamoroll() {
   const [productoAgregado, setProductoAgregado] = useState("");
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
 
-  // Traer productos
+  // Traer productos desde la BD
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/productos/personaje/Cinnamorol")
+      .get("http://localhost:8000/api/productos/personaje/cinnamoroll")
       .then((response) => setProductos(response.data))
-      .catch((error) => console.error("Error al cargar productos de Cinnamoroll:", error));
+      .catch((error) =>
+        console.error("Error al cargar productos de Cinnamoroll:", error)
+      );
   }, []);
 
-  // Agregar al carrito
   const agregarAlCarrito = (producto) => {
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-    const existe = carrito.find((item) => item.producto_id === producto.producto_id);
+    const existe = carrito.find(
+      (item) => item.producto_id === producto.producto_id
+    );
 
     if (existe) {
       carrito = carrito.map((item) =>
@@ -35,7 +38,7 @@ export default function Cinnamoroll() {
         nombre: producto.nombre_producto,
         descripcion: producto.descripcion,
         precio: producto.precio,
-        imagen: `src/assets/img/${producto.url_imagen}`,
+        imagen: producto.url_imagen, // ✅ usar imagen de la BD
         cantidad: producto.cantidad || 1,
       };
       carrito.push(nuevoProducto);
@@ -58,7 +61,9 @@ export default function Cinnamoroll() {
         </a>
       </header>
 
-      {mensajeVisible && <div className="mensaje-cinnamoroll">{productoAgregado}</div>}
+      {mensajeVisible && (
+        <div className="mensaje-cinnamoroll">{productoAgregado}</div>
+      )}
 
       <h1>☁️ Cinnamoroll ☁️</h1>
       <p className="description-text">
@@ -76,10 +81,8 @@ export default function Cinnamoroll() {
                 onClick={() => setProductoSeleccionado(item)}
                 style={{ cursor: "pointer" }}
               >
-                <img
-                  src={`src/assets/img/${item.url_imagen}`}
-                  alt={item.nombre_producto}
-                />
+                {/* ✅ imagen desde la BD */}
+                <img src={item.url_imagen} alt={item.nombre_producto} />
                 <h3>{item.nombre_producto}</h3>
                 <p>{item.descripcion}</p>
                 <div className="price">${item.precio}</div>
@@ -118,16 +121,21 @@ export default function Cinnamoroll() {
             </button>
 
             <div className="modal-product-gallery-cinnamoroll">
+              {/* ✅ imagen desde la BD */}
               <img
-                src={`src/assets/img//${productoSeleccionado.url_imagen}`}
+                src={productoSeleccionado.url_imagen}
                 alt={productoSeleccionado.nombre_producto}
               />
             </div>
 
             <div className="modal-product-info-cinnamoroll">
               <h2>{productoSeleccionado.nombre_producto}</h2>
-              <p className="modal-description-cinnamoroll">{productoSeleccionado.descripcion}</p>
-              <p className="modal-price-cinnamoroll">Precio: ${productoSeleccionado.precio}</p>
+              <p className="modal-description-cinnamoroll">
+                {productoSeleccionado.descripcion}
+              </p>
+              <p className="modal-price-cinnamoroll">
+                Precio: ${productoSeleccionado.precio}
+              </p>
               <p className="modal-stock-cinnamoroll">
                 Stock: {productoSeleccionado.stock || "Disponible"}
               </p>
@@ -145,8 +153,13 @@ export default function Cinnamoroll() {
               <button
                 className="pretty-button-cinnamoroll"
                 onClick={() => {
-                  const cantidad = parseInt(document.getElementById("cantidadInput-cinnamoroll").value);
-                  const productoConCantidad = { ...productoSeleccionado, cantidad };
+                  const cantidad = parseInt(
+                    document.getElementById("cantidadInput-cinnamoroll").value
+                  );
+                  const productoConCantidad = {
+                    ...productoSeleccionado,
+                    cantidad,
+                  };
                   agregarAlCarrito(productoConCantidad);
                   setProductoSeleccionado(null);
                 }}

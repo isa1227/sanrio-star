@@ -25,6 +25,36 @@ class ProductoController extends Controller
         return response()->json($productos);
     }
 
+    // 📌 Filtrar productos por personaje
+    public function porPersonaje($personaje)
+    {
+        try {
+            $productos = DB::table('productos')
+                ->whereRaw('LOWER(personajes) = ?', [strtolower($personaje)])
+                ->get();
+
+            foreach ($productos as $producto) {
+                if ($producto->url_imagen) {
+                    $producto->url_imagen = asset('storage/' . $producto->url_imagen);
+                } else {
+                    $producto->url_imagen = null;
+                }
+            }
+
+            if ($productos->isEmpty()) {
+                return response()->json(['mensaje' => 'No se encontraron productos para ' . $personaje], 404);
+            }
+
+            return response()->json($productos);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error'   => 'Error al obtener productos por personaje',
+                'detalle' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     // 📌 Crear producto
     public function store(Request $request)
     {

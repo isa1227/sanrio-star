@@ -20,13 +20,13 @@ Route::get('/mensaje', function () {
     return response()->json(['mensaje' => 'Hola desde Laravel 🐷']);
 });
 
+Route::get('/productos/personaje/{personaje}', [ProductoController::class, 'porPersonaje']);
+
 // -------------------------------
 // Autenticación
 // -------------------------------
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
-
-
 
 
 // Filtro: productos por personaje

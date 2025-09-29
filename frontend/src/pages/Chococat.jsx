@@ -20,18 +20,33 @@ export default function Chococat() {
   // Agregar al carrito
   const agregarAlCarrito = (producto) => {
     const carritoExistente = JSON.parse(localStorage.getItem("carrito")) || [];
-    const nuevoProducto = {
-      producto_id: producto.producto_id,
-      nombre: producto.nombre_producto,
-      descripcion: producto.descripcion,
-      precio: producto.precio,
-      imagen: `src/assets/img/${producto.url_imagen}`,
-      cantidad: producto.cantidad || 1,
-    };
-    const nuevoCarrito = [...carritoExistente, nuevoProducto];
+
+    const existe = carritoExistente.find(
+      (item) => item.producto_id === producto.producto_id
+    );
+
+    let nuevoCarrito;
+    if (existe) {
+      nuevoCarrito = carritoExistente.map((item) =>
+        item.producto_id === producto.producto_id
+          ? { ...item, cantidad: item.cantidad + (producto.cantidad || 1) }
+          : item
+      );
+    } else {
+      const nuevoProducto = {
+        producto_id: producto.producto_id,
+        nombre: producto.nombre_producto,
+        descripcion: producto.descripcion,
+        precio: producto.precio,
+        imagen: producto.url_imagen, // ✅ usar la URL de la BD
+        cantidad: producto.cantidad || 1,
+      };
+      nuevoCarrito = [...carritoExistente, nuevoProducto];
+    }
+
     localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
 
-    setProductoAgregado(`${nuevoProducto.nombre} agregado al carrito 🛒`);
+    setProductoAgregado(`${producto.nombre_producto} agregado al carrito 🛒`);
     setMensajeVisible(true);
     setTimeout(() => setMensajeVisible(false), 3000);
   };
@@ -68,10 +83,8 @@ export default function Chococat() {
                 onClick={() => setProductoSeleccionado(item)} // abrir modal al click
                 style={{ cursor: "pointer" }}
               >
-                <img
-                  src={`src/assets/img/${item.url_imagen}`}
-                  alt={item.nombre_producto}
-                />
+                {/* ✅ Imagen desde la BD */}
+                <img src={item.url_imagen} alt={item.nombre_producto} />
                 <h3>{item.nombre_producto}</h3>
                 <p>{item.descripcion}</p>
                 <div className="price">${item.precio}</div>
@@ -110,16 +123,21 @@ export default function Chococat() {
             </button>
 
             <div className="modal-product-gallery-chococat">
+              {/* ✅ Imagen desde la BD */}
               <img
-                src={`src/assets/img/${productoSeleccionado.url_imagen}`}
+                src={productoSeleccionado.url_imagen}
                 alt={productoSeleccionado.nombre_producto}
               />
             </div>
 
             <div className="modal-product-info-chococat">
               <h2>{productoSeleccionado.nombre_producto}</h2>
-              <p className="modal-description-chococat">{productoSeleccionado.descripcion}</p>
-              <p className="modal-price-chococat">Precio: ${productoSeleccionado.precio}</p>
+              <p className="modal-description-chococat">
+                {productoSeleccionado.descripcion}
+              </p>
+              <p className="modal-price-chococat">
+                Precio: ${productoSeleccionado.precio}
+              </p>
               <p className="modal-stock-chococat">
                 Stock: {productoSeleccionado.stock || "Disponible"}
               </p>
@@ -137,8 +155,13 @@ export default function Chococat() {
               <button
                 className="pretty-button-chococat"
                 onClick={() => {
-                  const cantidad = parseInt(document.getElementById("cantidadInput-chococat").value);
-                  const productoConCantidad = { ...productoSeleccionado, cantidad };
+                  const cantidad = parseInt(
+                    document.getElementById("cantidadInput-chococat").value
+                  );
+                  const productoConCantidad = {
+                    ...productoSeleccionado,
+                    cantidad,
+                  };
                   agregarAlCarrito(productoConCantidad);
                   setProductoSeleccionado(null);
                 }}
