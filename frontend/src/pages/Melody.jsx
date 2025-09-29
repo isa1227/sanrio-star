@@ -9,7 +9,7 @@ export default function MyMelody() {
   const [productoAgregado, setProductoAgregado] = useState("");
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
 
-  // Traer productos de la BD
+  // 📌 Traer productos de la BD
   useEffect(() => {
     const fetchProductos = async () => {
       try {
@@ -24,7 +24,7 @@ export default function MyMelody() {
     fetchProductos();
   }, []);
 
-  // Agregar al carrito
+  // 📌 Agregar al carrito
   const agregarAlCarrito = (producto) => {
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
@@ -44,13 +44,14 @@ export default function MyMelody() {
         nombre: producto.nombre_producto,
         descripcion: producto.descripcion,
         precio: producto.precio,
-        imagen: `src/assets/img/${producto.url_imagen}`, // ajusta según tu ruta
+        imagen: producto.url_imagen, // ✅ usar la URL que ya viene de la BD
         cantidad: producto.cantidad || 1,
       };
       carrito.push(nuevoProducto);
     }
 
     localStorage.setItem("carrito", JSON.stringify(carrito));
+
     setProductoAgregado(`${producto.nombre_producto} agregado al carrito 🛒`);
     setMensajeVisible(true);
     setTimeout(() => setMensajeVisible(false), 3000);
@@ -67,7 +68,9 @@ export default function MyMelody() {
         </a>
       </header>
 
-      {mensajeVisible && <div className="mensaje-mymelody">{productoAgregado}</div>}
+      {mensajeVisible && (
+        <div className="mensaje-mymelody">{productoAgregado}</div>
+      )}
 
       <h1>🌺 My Melody 🌺</h1>
       <p className="description-text">
@@ -86,8 +89,9 @@ export default function MyMelody() {
                 onClick={() => setProductoSeleccionado(item)}
                 style={{ cursor: "pointer" }}
               >
+                {/* ✅ Imagen cargada desde la BD */}
                 <img
-                  src={`src/assets/img/${item.url_imagen}`}
+                  src={item.url_imagen}
                   alt={item.nombre_producto}
                 />
                 <h3>{item.nombre_producto}</h3>
@@ -110,7 +114,7 @@ export default function MyMelody() {
         </div>
       </section>
 
-      {/* Modal detallado */}
+      {/* 📌 Modal detallado */}
       {productoSeleccionado && (
         <div
           className="modal-overlay-mymelody"
@@ -128,16 +132,21 @@ export default function MyMelody() {
             </button>
 
             <div className="modal-product-gallery-mymelody">
+              {/* ✅ Imagen desde la BD */}
               <img
-                src={`src/assets/img/${productoSeleccionado.url_imagen}`}
+                src={productoSeleccionado.url_imagen}
                 alt={productoSeleccionado.nombre_producto}
               />
             </div>
 
             <div className="modal-product-info-mymelody">
               <h2>{productoSeleccionado.nombre_producto}</h2>
-              <p className="modal-description-mymelody">{productoSeleccionado.descripcion}</p>
-              <p className="modal-price-mymelody">Precio: ${productoSeleccionado.precio}</p>
+              <p className="modal-description-mymelody">
+                {productoSeleccionado.descripcion}
+              </p>
+              <p className="modal-price-mymelody">
+                Precio: ${productoSeleccionado.precio}
+              </p>
               <p className="modal-stock-mymelody">
                 Stock: {productoSeleccionado.stock || "Disponible"}
               </p>
@@ -155,8 +164,13 @@ export default function MyMelody() {
               <button
                 className="pretty-button-mymelody"
                 onClick={() => {
-                  const cantidad = parseInt(document.getElementById("cantidadInput-mymelody").value);
-                  const productoConCantidad = { ...productoSeleccionado, cantidad };
+                  const cantidad = parseInt(
+                    document.getElementById("cantidadInput-mymelody").value
+                  );
+                  const productoConCantidad = {
+                    ...productoSeleccionado,
+                    cantidad,
+                  };
                   agregarAlCarrito(productoConCantidad);
                   setProductoSeleccionado(null);
                 }}
@@ -173,14 +187,14 @@ export default function MyMelody() {
         <p>Email: contacto@sanriostar.com</p>
         <p>Teléfono: +123 456 789</p>
         <p>© 2024 Sanrio Star</p>
-
-        <button
-          className="scroll-top-btn-mymelody"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        >
-          🌸
-        </button>
       </footer>
+
+      <button
+        className="scroll-top-btn-mymelody"
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      >
+        🌸
+      </button>
     </div>
   );
 }

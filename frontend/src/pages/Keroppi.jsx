@@ -44,7 +44,7 @@ export default function Keroppi() {
         nombre: producto.nombre_producto,
         descripcion: producto.descripcion,
         precio: producto.precio,
-        imagen: `src/assets/img/${producto.url_imagen}`,
+        imagen: producto.url_imagen, // ✅ usar la URL de la BD
         cantidad: producto.cantidad || 1,
       };
       carrito.push(nuevoProducto);
@@ -88,8 +88,9 @@ export default function Keroppi() {
                 onClick={() => setProductoSeleccionado(item)}
                 style={{ cursor: "pointer" }}
               >
+                {/* ✅ Mostrar imagen desde la BD */}
                 <img
-                  src={`src/assets/img/${item.url_imagen}`}
+                  src={item.url_imagen}
                   alt={item.nombre_producto}
                 />
                 <h3>{item.nombre_producto}</h3>
@@ -130,8 +131,9 @@ export default function Keroppi() {
             </button>
 
             <div className="modal-product-gallery-keroppi">
+              {/* ✅ Imagen desde la BD */}
               <img
-                src={`src/assets/img/${productoSeleccionado.url_imagen}`}
+                src={productoSeleccionado.url_imagen}
                 alt={productoSeleccionado.nombre_producto}
               />
             </div>

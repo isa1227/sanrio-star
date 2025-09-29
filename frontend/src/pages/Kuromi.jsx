@@ -9,7 +9,7 @@ export default function Kuromi() {
   const [productoAgregado, setProductoAgregado] = useState("");
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
 
-  // Traer productos de la BD
+  // Traer productos desde la BD
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/productos/personaje/Kuromi")
@@ -17,7 +17,7 @@ export default function Kuromi() {
       .catch((err) => console.error("Error al obtener productos:", err));
   }, []);
 
-  // Agregar al carrito
+  // Agregar producto al carrito
   const agregarAlCarrito = (producto) => {
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
@@ -37,7 +37,7 @@ export default function Kuromi() {
         nombre: producto.nombre_producto,
         descripcion: producto.descripcion,
         precio: producto.precio,
-        imagen: `src/assets/img/${producto.url_imagen}`,
+        imagen: producto.url_imagen, // ✅ ahora usa la URL de la BD
         cantidad: producto.cantidad || 1,
       };
       carrito.push(nuevoProducto);
@@ -81,10 +81,8 @@ export default function Kuromi() {
                 onClick={() => setProductoSeleccionado(item)}
                 style={{ cursor: "pointer" }}
               >
-                <img
-                  src={`src/assets/img/${item.url_imagen}`}
-                  alt={item.nombre_producto}
-                />
+                {/* ✅ Imagen desde la BD */}
+                <img src={item.url_imagen} alt={item.nombre_producto} />
                 <h3>{item.nombre_producto}</h3>
                 <p>{item.descripcion}</p>
                 <div className="price">${item.precio}</div>
@@ -123,8 +121,9 @@ export default function Kuromi() {
             </button>
 
             <div className="modal-product-gallery-kuromi">
+              {/* ✅ Imagen desde la BD */}
               <img
-                src={`src/assets/img/${productoSeleccionado.url_imagen}`}
+                src={productoSeleccionado.url_imagen}
                 alt={productoSeleccionado.nombre_producto}
               />
             </div>
