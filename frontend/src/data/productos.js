@@ -16,7 +16,7 @@ import bolsocat from '../assets/img/bolsocat.jpg';
 import cuadernomelody from '../assets/img/cuadernomelody.jpg';
 import camisaHELLO from '../assets/img/camisaHELLO.jpg';
 import camisaPOCHA from '../assets/img/camisaPOCHA.jpg';
-import cuadernokuromi from '../assets/img/cuadernokuromi.jpg';
+import cuadernokuromi from '../assets/img/Cuadernokuromi.jpg';
 import cuadernocinna from '../assets/img/cuadernocinna.jpg';
 import cartucheras from '../assets/img/cartucheras.jpg';
 import kittyPELUCHE from '../assets/img/kittyPELUCHE.jpg';
