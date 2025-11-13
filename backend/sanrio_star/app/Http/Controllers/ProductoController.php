@@ -8,24 +8,46 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
-    // 📌 Listar todos los productos
+    // 📦 Listar todos los productos
     public function index()
     {
         $productos = DB::table('productos')->get();
 
         foreach ($productos as $producto) {
-            if ($producto->url_imagen) {
-                // ✅ Convertir a ruta accesible desde /storage
-                $producto->url_imagen = asset('storage/' . $producto->url_imagen);
-            } else {
-                $producto->url_imagen = null;
-            }
+            $producto->url_imagen = $producto->url_imagen
+                ? asset('storage/' . $producto->url_imagen)
+                : null;
         }
 
         return response()->json($productos);
     }
 
-    // 📌 Filtrar productos por personaje
+    // 🌟 Obtener los 4 productos más recientes (sin importar personaje o categoría)
+    public function destacados()
+    {
+        try {
+            // 🔹 Toma los últimos 4 registros agregados
+            $productos = DB::table('productos')
+                ->orderBy('producto_id', 'desc') // puedes usar 'created_at' si lo tienes
+                ->limit(4)
+                ->get();
+
+            foreach ($productos as $producto) {
+                $producto->url_imagen = $producto->url_imagen
+                    ? asset('storage/' . $producto->url_imagen)
+                    : null;
+            }
+
+            return response()->json($productos);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Error al obtener productos destacados',
+                'detalle' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    // 🎭 Filtrar productos por personaje
     public function porPersonaje($personaje)
     {
         try {
@@ -34,11 +56,9 @@ class ProductoController extends Controller
                 ->get();
 
             foreach ($productos as $producto) {
-                if ($producto->url_imagen) {
-                    $producto->url_imagen = asset('storage/' . $producto->url_imagen);
-                } else {
-                    $producto->url_imagen = null;
-                }
+                $producto->url_imagen = $producto->url_imagen
+                    ? asset('storage/' . $producto->url_imagen)
+                    : null;
             }
 
             if ($productos->isEmpty()) {
@@ -46,23 +66,22 @@ class ProductoController extends Controller
             }
 
             return response()->json($productos);
-
         } catch (\Exception $e) {
             return response()->json([
-                'error'   => 'Error al obtener productos por personaje',
+                'error' => 'Error al obtener productos por personaje',
                 'detalle' => $e->getMessage()
             ], 500);
         }
     }
 
-    // 📌 Crear producto
+    // 🆕 Crear producto
     public function store(Request $request)
     {
         $request->validate([
             'nombre_producto' => 'required|string|max:255',
             'descripcion'     => 'required|string',
             'precio'          => 'required|numeric',
-            // ✅ tabla real
+            'stock'           => 'required|integer|min:0',
             'categoria_id'    => 'required|integer|exists:categorias_productos,categoria_id',
             'personajes'      => 'nullable|string',
             'url_imagen'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
@@ -72,7 +91,6 @@ class ProductoController extends Controller
         if ($request->hasFile('url_imagen')) {
             $imagen = $request->file('url_imagen');
             $nombreImagen = 'productos/' . time() . '_' . $imagen->getClientOriginalName();
-            // ✅ Se guarda en storage/app/public/productos
             $imagen->storeAs('public', $nombreImagen);
         }
 
@@ -80,6 +98,7 @@ class ProductoController extends Controller
             'nombre_producto'      => $request->nombre_producto,
             'descripcion'          => $request->descripcion,
             'precio'               => $request->precio,
+            'stock'                => $request->stock,
             'categoria_id'         => $request->categoria_id,
             'url_imagen'           => $nombreImagen,
             'personajes'           => $request->personajes,
@@ -89,13 +108,14 @@ class ProductoController extends Controller
         return response()->json(['mensaje' => 'Producto creado correctamente']);
     }
 
-    // 📌 Actualizar producto
+    // ✏️ Actualizar producto
     public function update(Request $request, $id)
     {
         $request->validate([
             'nombre_producto' => 'required|string|max:255',
             'descripcion'     => 'required|string',
             'precio'          => 'required|numeric',
+            'stock'           => 'required|integer|min:0',
             'categoria_id'    => 'required|integer|exists:categorias_productos,categoria_id',
             'personajes'      => 'nullable|string',
             'url_imagen'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
@@ -106,9 +126,8 @@ class ProductoController extends Controller
             return response()->json(['mensaje' => 'Producto no encontrado'], 404);
         }
 
-        $nombreImagen = $producto->url_imagen; // mantener imagen actual si no hay nueva
+        $nombreImagen = $producto->url_imagen;
         if ($request->hasFile('url_imagen')) {
-            // ✅ borrar imagen anterior
             if ($producto->url_imagen) {
                 Storage::delete('public/' . $producto->url_imagen);
             }
@@ -121,6 +140,7 @@ class ProductoController extends Controller
             'nombre_producto'      => $request->nombre_producto,
             'descripcion'          => $request->descripcion,
             'precio'               => $request->precio,
+            'stock'                => $request->stock,
             'categoria_id'         => $request->categoria_id,
             'url_imagen'           => $nombreImagen,
             'personajes'           => $request->personajes,
@@ -130,12 +150,11 @@ class ProductoController extends Controller
         return response()->json(['mensaje' => 'Producto actualizado correctamente']);
     }
 
-    // 📌 Eliminar producto
+    // 🗑️ Eliminar producto
     public function destroy($id)
     {
         $producto = DB::table('productos')->where('producto_id', $id)->first();
         if ($producto && $producto->url_imagen) {
-            // ✅ Eliminar archivo físico si existe
             Storage::delete('public/' . $producto->url_imagen);
         }
 

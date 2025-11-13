@@ -14,6 +14,7 @@ use App\Http\Controllers\RolController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Auth\GoogleController;
 
+Route::get('/productos/destacados', [ProductoController::class, 'destacados']);
 
 // -------------------------------
 // Rutas de prueba

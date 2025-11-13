@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/AdminPanel.css";
 
-const API_URL = "http://localhost:8000/api"; // ⚡ Ajusta si usas otro puerto
+const API_URL = "http://localhost:8000/api";
 
 const AdminPanel = () => {
   const [view, setView] = useState("productos");
   const [productos, setProductos] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
-  const [categorias, setCategorias] = useState([]); // 🔹 categorías
+  const [categorias, setCategorias] = useState([]);
   const [form, setForm] = useState({});
   const [editing, setEditing] = useState(null);
 
@@ -48,10 +48,9 @@ const AdminPanel = () => {
   }, [view]);
 
   useEffect(() => {
-    fetchCategorias(); // cargar categorías al inicio
+    fetchCategorias();
   }, []);
 
-  // 🔹 Mapeo id → nombre
   const categoriaMap = categorias.reduce((acc, cat) => {
     acc[cat.categoria_id] = cat.nombre_categoria;
     return acc;
@@ -75,34 +74,31 @@ const AdminPanel = () => {
   };
 
   // -------------------------------
-  // 📌 Crear o actualizar
+  // 📌 Crear o actualizar productos / usuarios
   // -------------------------------
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       if (view === "productos") {
-        // Productos
         const formData = new FormData();
         Object.keys(form).forEach((key) => {
           formData.append(key, form[key]);
         });
 
         if (editing) {
-          // Actualizar producto
           formData.append("_method", "PUT");
           await axios.post(`${API_URL}/productos/${editing}`, formData, {
             headers: { "Content-Type": "multipart/form-data" },
           });
         } else {
-          // Crear producto
           await axios.post(`${API_URL}/productos`, formData, {
             headers: { "Content-Type": "multipart/form-data" },
           });
         }
+
         fetchProductos();
       } else {
-        // Usuarios
         if (editing) {
           await axios.put(`${API_URL}/usuarios/${editing}`, form);
         } else {
@@ -123,7 +119,7 @@ const AdminPanel = () => {
   const handleEdit = (item) => {
     if (view === "productos") {
       setEditing(item.producto_id);
-      const { url_imagen, ...rest } = item; // quitar url_imagen para no mandarla como string
+      const { url_imagen, ...rest } = item;
       setForm(rest);
     } else {
       setEditing(item.usuario_id);
@@ -149,19 +145,48 @@ const AdminPanel = () => {
     }
   };
 
+  // -------------------------------
+  // 📦 Actualizar STOCK directo en tabla
+  // -------------------------------
+  const handleStockChange = async (id, nuevoStock) => {
+    try {
+      // Validar que sea número
+      if (isNaN(nuevoStock) || nuevoStock < 0) return;
+
+      // Actualiza el estado local
+      setProductos((prev) =>
+        prev.map((p) =>
+          p.producto_id === id ? { ...p, stock: nuevoStock } : p
+        )
+      );
+
+      // Llamar al backend (PUT)
+      await axios.put(`${API_URL}/productos/${id}`, {
+        stock: nuevoStock,
+        nombre_producto: productos.find((p) => p.producto_id === id)
+          .nombre_producto,
+        descripcion: productos.find((p) => p.producto_id === id).descripcion,
+        precio: productos.find((p) => p.producto_id === id).precio,
+        categoria_id: productos.find((p) => p.producto_id === id).categoria_id,
+        personajes: productos.find((p) => p.producto_id === id).personajes,
+      });
+    } catch (err) {
+      console.error("Error actualizando stock", err);
+    }
+  };
+
+  // -------------------------------
+  // 🧩 Render
+  // -------------------------------
   return (
     <div className="admin-panel">
       <h1>Panel de Administración</h1>
 
-      {/* Menú */}
       <div className="menu">
         <button onClick={() => setView("productos")}>Productos</button>
         <button onClick={() => setView("usuarios")}>Usuarios</button>
       </div>
 
-      {/* -------------------------------
-          FORMULARIO
-      ------------------------------- */}
       <form className="formulario" onSubmit={handleSubmit}>
         {view === "productos" ? (
           <>
@@ -189,8 +214,15 @@ const AdminPanel = () => {
               onChange={handleChange}
               required
             />
+            <input
+              type="number"
+              name="stock"
+              placeholder="Stock"
+              value={form.stock || ""}
+              onChange={handleChange}
+              required
+            />
 
-            {/* 🔹 Select de Categorías */}
             <select
               name="categoria_id"
               value={form.categoria_id || ""}
@@ -258,9 +290,7 @@ const AdminPanel = () => {
         )}
       </form>
 
-      {/* -------------------------------
-          TABLA
-      ------------------------------- */}
+      {/* Tabla */}
       <div className="table-container">
         <table>
           <thead>
@@ -271,6 +301,7 @@ const AdminPanel = () => {
                   <th>Nombre</th>
                   <th>Descripción</th>
                   <th>Precio</th>
+                  <th>Stock</th>
                   <th>Categoría</th>
                   <th>Imagen</th>
                   <th>Personajes</th>
@@ -291,26 +322,31 @@ const AdminPanel = () => {
             {view === "productos"
               ? productos.map((p) => (
                   <tr key={p.producto_id}>
-                    <td data-label="ID">{p.producto_id}</td>
-                    <td data-label="Nombre">{p.nombre_producto}</td>
-                    <td data-label="Descripción">{p.descripcion}</td>
-                    <td data-label="Precio">{p.precio}</td>
-                    <td data-label="Categoría">
-                      {categoriaMap[p.categoria_id] || p.categoria_id}
+                    <td>{p.producto_id}</td>
+                    <td>{p.nombre_producto}</td>
+                    <td>{p.descripcion}</td>
+                    <td>${p.precio}</td>
+                    <td>
+                      <input
+                        type="number"
+                        min="0"
+                        value={p.stock}
+                        onChange={(e) =>
+                          handleStockChange(p.producto_id, e.target.value)
+                        }
+                        style={{ width: "70px" }}
+                      />
                     </td>
-                    <td data-label="Imagen">
+                    <td>{categoriaMap[p.categoria_id] || p.categoria_id}</td>
+                    <td>
                       {p.url_imagen ? (
-                        <img
-                          src={p.url_imagen}
-                          alt={p.nombre_producto}
-                          width="60"
-                        />
+                        <img src={p.url_imagen} alt={p.nombre_producto} width="60" />
                       ) : (
                         "Sin imagen"
                       )}
                     </td>
-                    <td data-label="Personajes">{p.personajes}</td>
-                    <td data-label="Acciones">
+                    <td>{p.personajes}</td>
+                    <td>
                       <button onClick={() => handleEdit(p)}>Editar</button>
                       <button onClick={() => handleDelete(p.producto_id)}>
                         Eliminar
@@ -320,11 +356,11 @@ const AdminPanel = () => {
                 ))
               : usuarios.map((u) => (
                   <tr key={u.usuario_id}>
-                    <td data-label="ID">{u.usuario_id}</td>
-                    <td data-label="Nombre">{u.nombre_usuario}</td>
-                    <td data-label="Correo">{u.correo}</td>
-                    <td data-label="Rol">{u.rol_id}</td>
-                    <td data-label="Acciones">
+                    <td>{u.usuario_id}</td>
+                    <td>{u.nombre_usuario}</td>
+                    <td>{u.correo}</td>
+                    <td>{u.rol_id}</td>
+                    <td>
                       <button onClick={() => handleEdit(u)}>Editar</button>
                       <button onClick={() => handleDelete(u.usuario_id)}>
                         Eliminar
@@ -335,6 +371,7 @@ const AdminPanel = () => {
           </tbody>
         </table>
       </div>
+
       <button
         className="scroll-top-btn-general"
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
