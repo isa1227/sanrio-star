@@ -25,11 +25,11 @@ const UserForm = ({ selected, setSelected, refresh }) => {
     try {
       if (selected) {
         await axios.put(
-          `http://localhost:8000/api/usuarios/${selected.usuario_id}`,
+          `http://https://sanrio-star.onrender.com/api/usuarios/${selected.usuario_id}`,
           form
         );
       } else {
-        await axios.post("http://localhost:8000/api/usuarios", form);
+        await axios.post("http://https://sanrio-star.onrender.com/api/usuarios", form);
       }
       setForm({ nombre_usuario: "", correo: "", contrasena: "", rol_id: "2" });
       setSelected(null);

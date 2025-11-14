@@ -36,11 +36,11 @@ const ProductForm = ({ selected, setSelected, refresh }) => {
     try {
       if (selected) {
         await axios.post(
-          `http://localhost:8000/api/productos/${selected.producto_id}?_method=PUT`,
+          `http://https://sanrio-star.onrender.com/api/productos/${selected.producto_id}?_method=PUT`,
           data
         );
       } else {
-        await axios.post("http://localhost:8000/api/productos", data);
+        await axios.post("http://https://sanrio-star.onrender.com/api/productos", data);
       }
       setForm({
         nombre_producto: "",
