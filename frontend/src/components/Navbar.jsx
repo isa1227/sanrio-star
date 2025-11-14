@@ -3,6 +3,7 @@ import '../styles/Navbar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from "../assets/img/logo.png";
 
+
 const Navbar = () => {
   const navigate = useNavigate();
   const usuario = JSON.parse(localStorage.getItem("usuario"));
