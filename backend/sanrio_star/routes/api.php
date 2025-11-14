@@ -23,8 +23,6 @@ Route::get('/mensaje', function () {
     return response()->json(['mensaje' => 'Hola desde Laravel 🐷']);
 });
 
-Route::get('/productos/personaje/{personaje}', [ProductoController::class, 'porPersonaje']);
-
 // -------------------------------
 // Autenticación
 // -------------------------------

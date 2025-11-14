@@ -27,3 +27,7 @@ COPY ./docker/apache/000-default.conf /etc/apache2/sites-available/000-default.c
 
 EXPOSE 80
 CMD ["apache2-foreground"]
+
+# Crear symlink del storage
+RUN php artisan storage:link
+
