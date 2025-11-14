@@ -12,6 +12,9 @@ const AdminPanel = () => {
   const [form, setForm] = useState({});
   const [editing, setEditing] = useState(null);
 
+  // ---- Estado para la búsqueda (integrado) ----
+  const [query, setQuery] = useState("");
+
   // -------------------------------
   // 📌 Cargar datos
   // -------------------------------
@@ -45,6 +48,11 @@ const AdminPanel = () => {
   useEffect(() => {
     if (view === "productos") fetchProductos();
     if (view === "usuarios") fetchUsuarios();
+  }, [view]);
+
+  // limpiar búsqueda al cambiar de vista (mejora UX)
+  useEffect(() => {
+    setQuery("");
   }, [view]);
 
   useEffect(() => {
@@ -176,6 +184,31 @@ const AdminPanel = () => {
   };
 
   // -------------------------------
+  // 🧩 Filtrado (buscador integrado)
+  // -------------------------------
+  const productosFiltrados = productos.filter((p) => {
+    if (!query) return true;
+    const s = query.toLowerCase();
+    const fields = [
+      p.nombre_producto || "",
+      p.descripcion || "",
+      p.personajes || "",
+      categoriaMap[p.categoria_id] || ""
+    ].join(" ").toLowerCase();
+    return fields.includes(s);
+  });
+
+  const usuariosFiltrados = usuarios.filter((u) => {
+    if (!query) return true;
+    const s = query.toLowerCase();
+    const fields = [
+      u.nombre_usuario || "",
+      u.correo || ""
+    ].join(" ").toLowerCase();
+    return fields.includes(s);
+  });
+
+  // -------------------------------
   // 🧩 Render
   // -------------------------------
   return (
@@ -290,6 +323,28 @@ const AdminPanel = () => {
         )}
       </form>
 
+      {/* Input de búsqueda integrado */}
+      <div style={{ display: "flex", justifyContent: "center", margin: "12px 0" }}>
+        <input
+          type="text"
+          placeholder={
+            view === "productos"
+              ? "Buscar por nombre, descripción, categoría o personaje..."
+              : "Buscar por nombre o correo..."
+          }
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          style={{
+            width: 640,
+            padding: "10px 12px",
+            borderRadius: 8,
+            border: "1px solid #444",
+            background: "#111",
+            color: "#eee"
+          }}
+        />
+      </div>
+
       {/* Tabla */}
       <div className="table-container">
         <table>
@@ -320,7 +375,7 @@ const AdminPanel = () => {
           </thead>
           <tbody>
             {view === "productos"
-              ? productos.map((p) => (
+              ? productosFiltrados.map((p) => (
                   <tr key={p.producto_id}>
                     <td>{p.producto_id}</td>
                     <td>{p.nombre_producto}</td>
@@ -354,7 +409,7 @@ const AdminPanel = () => {
                     </td>
                   </tr>
                 ))
-              : usuarios.map((u) => (
+              : usuariosFiltrados.map((u) => (
                   <tr key={u.usuario_id}>
                     <td>{u.usuario_id}</td>
                     <td>{u.nombre_usuario}</td>
