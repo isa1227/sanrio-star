@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/auth.css";
 import loginImage from "../assets/img/login.jpg";
-import logoImage from "../assets/img/logo.png";
+import logoImage from "../assets/logo.png";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
