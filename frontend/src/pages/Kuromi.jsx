@@ -12,7 +12,7 @@ export default function Kuromi() {
   // Traer productos desde la BD
   useEffect(() => {
     axios
-      .get("http://https://sanrio-star.onrender.com/api/productos/personaje/Kuromi")
+      .get(import.meta.env.VITE_API_URL + "/productos/personaje/Kuromi")
       .then((res) => setProductos(res.data))
       .catch((err) => console.error("Error al obtener productos:", err));
   }, []);

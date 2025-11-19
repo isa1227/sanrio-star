@@ -12,7 +12,7 @@ export default function Pompom() {
   // Traer productos desde la BD
   useEffect(() => {
     axios
-      .get("http://https://sanrio-star.onrender.com/api/productos/personaje/Pompompurin")
+      .get(import.meta.env.VITE_API_URL + "/productos/personaje/Pompompurin")
       .then((res) => setProductos(res.data))
       .catch((err) => console.error("Error al cargar productos:", err));
   }, []);

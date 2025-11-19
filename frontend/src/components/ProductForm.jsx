@@ -36,11 +36,11 @@ const ProductForm = ({ selected, setSelected, refresh }) => {
     try {
       if (selected) {
         await axios.post(
-          `http://https://sanrio-star.onrender.com/api/productos/${selected.producto_id}?_method=PUT`,
+          `${import.meta.env.VITE_API_URL}/productos/${selected.producto_id}?_method=PUT`,
           data
         );
       } else {
-        await axios.post("http://https://sanrio-star.onrender.com/api/productos", data);
+        await axios.post(import.meta.env.VITE_API_URL + "/productos", data);
       }
       setForm({
         nombre_producto: "",

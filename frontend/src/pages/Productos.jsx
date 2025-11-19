@@ -25,7 +25,7 @@ const Productos = () => {
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const res = await axios.get("http://https://sanrio-star.onrender.com/api/productos");
+        const res = await axios.get(import.meta.env.VITE_API_URL + "/productos");
         setProductos(res.data);
       } catch (err) {
         console.error("Error al obtener productos:", err);
@@ -38,7 +38,7 @@ const Productos = () => {
   useEffect(() => {
     const fetchCategorias = async () => {
       try {
-        const res = await axios.get("http://https://sanrio-star.onrender.com/api/categorias");
+        const res = await axios.get(import.meta.env.VITE_API_URL + "/categorias");
         setCategorias(res.data);
       } catch (err) {
         console.error("Error al obtener categorías:", err);

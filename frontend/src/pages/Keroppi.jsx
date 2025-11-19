@@ -14,7 +14,7 @@ export default function Keroppi() {
     const fetchProductos = async () => {
       try {
         const res = await axios.get(
-          "http://https://sanrio-star.onrender.com/api/productos/personaje/keroppi"
+          import.meta.env.VITE_API_URL + "/productos/personaje/keroppi"
         );
         setProductos(res.data);
       } catch (err) {

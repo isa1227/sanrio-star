@@ -3,7 +3,7 @@ import axios from "axios";
 const TableComponent = ({ data, type, setSelected, refresh }) => {
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://https://sanrio-star.onrender.com/api/${type}/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/${type}/${id}`);
       refresh();
     } catch (err) {
       console.error("Error eliminando:", err);

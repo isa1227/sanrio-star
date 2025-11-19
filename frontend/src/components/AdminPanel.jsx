@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/AdminPanel.css";
 
-const API_URL = "http://https://sanrio-star.onrender.com/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const AdminPanel = () => {
   const [view, setView] = useState("productos");
