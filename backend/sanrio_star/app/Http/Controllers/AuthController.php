@@ -38,7 +38,7 @@ class AuthController extends Controller
         ]);
 
         // 📩 Enviar correo de verificación
-        $usuario->sendEmailVerificationNotification();
+      //  $usuario->sendEmailVerificationNotification();
 
         return response()->json([
             'mensaje' => 'Usuario registrado correctamente. Revisa tu correo para verificar la cuenta 📩',
