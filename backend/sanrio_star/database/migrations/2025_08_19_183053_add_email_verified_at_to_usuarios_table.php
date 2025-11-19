@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::table('usuarios', function (Blueprint $table) {
             // Campo para guardar cuándo fue verificado el correo
-            $table->timestamp('email_verified_at')->nullable()->after('correo');
+            if (!Schema::hasColumn('usuarios', 'email_verified_at')) {
+                $table->timestamp('email_verified_at')->nullable()->after('correo');
+            }
         });
     }
 

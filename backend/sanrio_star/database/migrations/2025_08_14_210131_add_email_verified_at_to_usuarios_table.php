@@ -10,13 +10,19 @@ return new class extends Migration
     {
         Schema::table('usuarios', function (Blueprint $table) {
             // Si correo no es único, lo hacemos único
-            $table->string('correo')->unique()->change();
+            if (!Schema::hasColumn('usuarios', 'correo')) {
+                $table->string('correo')->unique()->change();
+            }
 
             // Campo de verificación
-            $table->timestamp('email_verified_at')->nullable()->after('correo');
+            if (!Schema::hasColumn('usuarios', 'email_verified_at')) {
+                $table->timestamp('email_verified_at')->nullable()->after('correo');
+            }
 
             // Token para recordar sesión
-            $table->rememberToken()->after('email_verified_at');
+            if (!Schema::hasColumn('usuarios', 'remember_token')) {
+                $table->rememberToken()->after('email_verified_at');
+            }
         });
     }
 
