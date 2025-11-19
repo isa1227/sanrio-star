@@ -4,7 +4,7 @@ import axios from 'axios';
 function GoogleButton() {
   const handleSuccess = async (credentialResponse) => {
     try {
-      const res = await axios.post("http://127.0.0.1:8000/api/auth/google", {
+      const res = await axios.post(import.meta.env.VITE_API_URL + "/auth/google", {
         token: credentialResponse.credential,
       });
       

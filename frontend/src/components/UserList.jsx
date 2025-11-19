@@ -5,7 +5,7 @@ export default function UsuarioList() {
   const [usuarios, setUsuarios] = useState([]);
   const [roles, setRoles] = useState([]);
 
-  const API_URL = "http://127.0.0.1:8000/api";
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     fetchUsuarios();
