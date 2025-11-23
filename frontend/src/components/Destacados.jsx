@@ -9,7 +9,11 @@ const Destacados = () => {
   useEffect(() => {
     const fetchDestacados = async () => {
       try {
-        const res = await fetch(API_URL + '/productos/destacados');
+
+        #const res = await fetch(API_URL + '/productos/destacados');
+
+        const res = await fetch('http://localhost:8000/api/productos/destacados');
+
         if (!res.ok) throw new Error('Error al obtener productos destacados');
         const data = await res.json();
         setProductos(data);

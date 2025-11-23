@@ -36,11 +36,20 @@ const ProductForm = ({ selected, setSelected, refresh }) => {
     try {
       if (selected) {
         await axios.post(
+
           `${import.meta.env.VITE_API_URL}/productos/${selected.producto_id}?_method=PUT`,
           data
         );
       } else {
         await axios.post(import.meta.env.VITE_API_URL + "/productos", data);
+  
+  
+          `http://localhost:8000/api/productos/${selected.producto_id}?_method=PUT`,
+          data
+        );
+      } else {
+        await axios.post("http://localhost:8000/api/productos", data);
+
       }
       setForm({
         nombre_producto: "",

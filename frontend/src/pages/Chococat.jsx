@@ -12,7 +12,11 @@ export default function Chococat() {
   // Traer productos desde la BD
   useEffect(() => {
     axios
+
       .get(import.meta.env.VITE_API_URL + "/productos/personaje/chococat")
+
+      .get("http://localhost:8000/api/productos/personaje/chococat")
+
       .then((res) => setProductos(res.data))
       .catch((err) => console.error("Error al cargar productos:", err));
   }, []);

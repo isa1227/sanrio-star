@@ -12,7 +12,11 @@ export default function Pochaco() {
   // 📌 Traer productos de la BD
   useEffect(() => {
     axios
+
       .get(import.meta.env.VITE_API_URL + "/productos/personaje/Pochaco")
+
+      .get("http://localhost:8000/api/productos/personaje/Pochaco")
+
       .then((res) => setProductos(res.data))
       .catch((err) => console.error("Error al cargar productos:", err));
   }, []);
@@ -97,7 +101,7 @@ export default function Pochaco() {
               </div>
             ))
           ) : (
-            <p>Cargando productos...</p>
+            <p className="cargando">Cargando productos...</p>
           )}
         </div>
       </section>

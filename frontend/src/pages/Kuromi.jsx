@@ -12,7 +12,11 @@ export default function Kuromi() {
   // Traer productos desde la BD
   useEffect(() => {
     axios
+
       .get(import.meta.env.VITE_API_URL + "/productos/personaje/Kuromi")
+
+      .get("http://localhost:8000/api/productos/personaje/Kuromi")
+
       .then((res) => setProductos(res.data))
       .catch((err) => console.error("Error al obtener productos:", err));
   }, []);

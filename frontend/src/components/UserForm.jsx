@@ -25,11 +25,19 @@ const UserForm = ({ selected, setSelected, refresh }) => {
     try {
       if (selected) {
         await axios.put(
+
           `${import.meta.env.VITE_API_URL}/usuarios/${selected.usuario_id}`,
           form
         );
       } else {
         await axios.post(import.meta.env.VITE_API_URL + "/usuarios", form);
+
+          `http://localhost:8000/api/usuarios/${selected.usuario_id}`,
+          form
+        );
+      } else {
+        await axios.post("http://localhost:8000/api/usuarios", form);
+
       }
       setForm({ nombre_usuario: "", correo: "", contrasena: "", rol_id: "2" });
       setSelected(null);

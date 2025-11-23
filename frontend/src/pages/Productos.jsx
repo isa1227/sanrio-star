@@ -25,7 +25,11 @@ const Productos = () => {
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const res = await axios.get(import.meta.env.VITE_API_URL + "/productos");
+
+        #const res = await axios.get(import.meta.env.VITE_API_URL + "/productos");
+
+        const res = await axios.get("http://localhost:8000/api/productos");
+
         setProductos(res.data);
       } catch (err) {
         console.error("Error al obtener productos:", err);
@@ -38,7 +42,11 @@ const Productos = () => {
   useEffect(() => {
     const fetchCategorias = async () => {
       try {
+
         const res = await axios.get(import.meta.env.VITE_API_URL + "/categorias");
+
+        const res = await axios.get("http://localhost:8000/api/categorias");
+
         setCategorias(res.data);
       } catch (err) {
         console.error("Error al obtener categorías:", err);

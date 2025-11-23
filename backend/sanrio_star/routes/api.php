@@ -82,3 +82,15 @@ Route::get('/reset-password/{token}', function ($token) {
 use App\Http\Controllers\GoogleTokenController;
 
 Route::post('/auth/google', [GoogleController::class, 'googleLogin']);
+
+
+use App\Http\Controllers\FacturaController;
+Route::post('/facturas', [FacturaController::class, 'store']);
+
+use App\Http\Controllers\MetodoPagoController;
+Route::post('/metodos-pago', [MetodoPagoController::class, 'store'])->middleware('auth:sanctum');
+
+use App\Http\Controllers\DetalleFacturaController;
+Route::post('/facturas/detalle', [DetalleFacturaController::class, 'store']);
+
+
