@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/Destacados.css';
 
+ const API_URL = import.meta.env.VITE_API_URL;
+
 const Destacados = () => {
   const [productos, setProductos] = useState([]);
 
   useEffect(() => {
     const fetchDestacados = async () => {
       try {
+
+        #const res = await fetch(API_URL + '/productos/destacados');
+
         const res = await fetch('http://localhost:8000/api/productos/destacados');
+
         if (!res.ok) throw new Error('Error al obtener productos destacados');
         const data = await res.json();
         setProductos(data);

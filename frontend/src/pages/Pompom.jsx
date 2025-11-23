@@ -12,7 +12,11 @@ export default function Pompom() {
   // Traer productos desde la BD
   useEffect(() => {
     axios
+
+      .get(import.meta.env.VITE_API_URL + "/productos/personaje/Pompompurin")
+
       .get("http://localhost:8000/api/productos/personaje/Pompompurin")
+
       .then((res) => setProductos(res.data))
       .catch((err) => console.error("Error al cargar productos:", err));
   }, []);

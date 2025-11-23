@@ -14,7 +14,11 @@ export default function Keroppi() {
     const fetchProductos = async () => {
       try {
         const res = await axios.get(
+
+          import.meta.env.VITE_API_URL + "/productos/personaje/keroppi"
+
           "http://localhost:8000/api/productos/personaje/keroppi"
+
         );
         setProductos(res.data);
       } catch (err) {

@@ -12,7 +12,11 @@ export default function HelloKitty() {
   // 📌 Traer productos desde la BD
   useEffect(() => {
     axios
+
+      .get(import.meta.env.VITE_API_URL + "/productos/personaje/Hello%20Kitty")
+
       .get("http://localhost:8000/api/productos/personaje/Hello%20Kitty")
+
       .then((res) => setProductos(res.data))
       .catch((err) => console.error("Error al cargar productos:", err));
   }, []);

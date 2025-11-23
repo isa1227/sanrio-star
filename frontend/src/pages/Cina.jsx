@@ -12,7 +12,11 @@ export default function Cinnamoroll() {
   // Traer productos desde la BD
   useEffect(() => {
     axios
+
+      .get(import.meta.env.VITE_API_URL + "/productos/personaje/cinnamoroll")
+
       .get("http://localhost:8000/api/productos/personaje/cinnamoroll")
+
       .then((response) => setProductos(response.data))
       .catch((error) =>
         console.error("Error al cargar productos de Cinnamoroll:", error)

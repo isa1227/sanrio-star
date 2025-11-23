@@ -14,7 +14,11 @@ export default function MyMelody() {
     const fetchProductos = async () => {
       try {
         const res = await axios.get(
+
+          import.meta.env.VITE_API_URL + "/productos/personaje/my%20melody"
+
           "http://localhost:8000/api/productos/personaje/my%20melody"
+
         );
         setProductos(res.data);
       } catch (err) {
