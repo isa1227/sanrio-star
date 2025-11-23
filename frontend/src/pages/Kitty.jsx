@@ -12,7 +12,7 @@ export default function HelloKitty() {
   // 📌 Traer productos desde la BD
   useEffect(() => {
     axios
-      .get("http://https://sanrio-star.onrender.com/api/productos/personaje/Hello%20Kitty")
+      .get("http://localhost:8000/api/productos/personaje/Hello%20Kitty")
       .then((res) => setProductos(res.data))
       .catch((err) => console.error("Error al cargar productos:", err));
   }, []);

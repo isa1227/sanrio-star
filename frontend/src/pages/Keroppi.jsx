@@ -14,7 +14,7 @@ export default function Keroppi() {
     const fetchProductos = async () => {
       try {
         const res = await axios.get(
-          "http://https://sanrio-star.onrender.com/api/productos/personaje/keroppi"
+          "http://localhost:8000/api/productos/personaje/keroppi"
         );
         setProductos(res.data);
       } catch (err) {
@@ -108,7 +108,7 @@ export default function Keroppi() {
               </div>
             ))
           ) : (
-            <p>Cargando productos...</p>
+            <p className="cargando">Cargando productos...</p>
           )}
         </div>
       </section>

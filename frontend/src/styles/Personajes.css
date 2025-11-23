@@ -446,6 +446,11 @@ h1 {
   color: #000000;
 }
 
+/*todos los cargando productos*/
+.cargando{
+  color: #000000;
+}
+
 /* ======= Cinnamoroll Theme ======= */
 .cinnamoroll-theme {
   background-color: #e0f7fa;
