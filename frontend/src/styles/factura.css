@@ -19,12 +19,29 @@
   overflow: hidden;
 }
 
-/* ============ CONTENIDO DE FACTURA ============ */
+/* ============ CONTENIDO DE FACTURA CON SCROLL ============ */
 .factura-contenido {
   padding: 20px;
   background: rgba(255, 255, 255, 0.6);
   border-radius: 10px;
   color: #333;
+  max-height: 500px; /* Altura máxima de la factura visible */
+  overflow-y: auto;  /* Scroll vertical */
+}
+
+/* Estilo opcional para el scrollbar */
+.factura-contenido::-webkit-scrollbar {
+  width: 8px;
+}
+
+.factura-contenido::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+}
+
+.factura-contenido::-webkit-scrollbar-thumb {
+  background-color: #c084fc;
+  border-radius: 8px;
 }
 
 /* Título principal */
@@ -115,7 +132,6 @@
   background-color: #db2777;
 }
 
-
 /* ============ MODAL ============ */
 .modal-overlay {
   position: fixed;
@@ -137,14 +153,30 @@
   background-repeat: no-repeat;
   padding: 2rem;
   border-radius: 16px;
-  width: 90%;
-  max-width: 450px;
+  width: 95%;          /* ocupa más espacio horizontal */
+  max-width: 620px;    /* más ancho que antes */
+  max-height: 80vh;    /* límite vertical para poder hacer scroll */
+  overflow-y: auto;    /* scroll vertical si excede la altura */
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
   color: #5a2d7d;
   position: relative;
   backdrop-filter: blur(4px);
   box-sizing: border-box;
-  overflow: hidden;
+}
+
+/* Scroll para modal (si lo necesitas) */
+.modal::-webkit-scrollbar {
+  width: 10px;
+}
+
+.modal::-webkit-scrollbar-thumb {
+  background-color: #c084fc;
+  border-radius: 8px;
+}
+
+.modal::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
 }
 
 .modal h2 {
@@ -164,21 +196,19 @@
   text-align: center;
 }
 
-/* Campos de entrada */
 .modal input,
 .modal select {
   width: 100%;
   margin-bottom: 1rem;
-  padding: 0.6rem;
+  padding: 0.8rem;
   border-radius: 12px;
   border: 2px solid #e3c8ff;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.9);
   font-size: 1rem;
   box-sizing: border-box;
   color: #3c0753;
 }
 
-/* Botones del modal */
 .modal-botones {
   display: flex;
   justify-content: space-between;
@@ -215,20 +245,6 @@
 
 /* ============ MENSAJE DE COMPRA ============ */
 .mensaje-exito {
-  margin-top: 20px;
-  background-color: #e1bee7;
-  padding: 15px;
-  border-radius: 12px;
-  text-align: center;
-  color: #4a148c;
-  font-weight: bold;
-  font-size: 1.2rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-}
-
-/* ============ MENSAJE DE ÉXITO ============ */
-
-.mensaje-exito {
   position: fixed;
   top: 20px;
   left: 50%;
@@ -244,7 +260,6 @@
   animation: aparecerDesaparecer 3s ease-in-out;
 }
 
-/* Animación opcional */
 @keyframes aparecerDesaparecer {
   0% {
     opacity: 0;
@@ -268,6 +283,7 @@
   font-weight: 500;
   text-align: center;
 }
+
 
 /* ============ RESPONSIVE ============ */
 
