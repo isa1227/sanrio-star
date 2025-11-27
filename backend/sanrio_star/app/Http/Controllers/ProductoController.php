@@ -90,7 +90,7 @@ class ProductoController extends Controller
         $nombreImagen = null;
         if ($request->hasFile('url_imagen')) {
             $imagen = $request->file('url_imagen');
-            $nombreImagen = 'productos/' . time() . '_' . $imagen->getClientOriginalName();
+            $nombreImagen = $imagen->getClientOriginalName();
             $imagen->storeAs('public', $nombreImagen);
         }
 
@@ -132,7 +132,7 @@ class ProductoController extends Controller
                 Storage::delete('public/' . $producto->url_imagen);
             }
             $imagen = $request->file('url_imagen');
-            $nombreImagen = 'productos/' . time() . '_' . $imagen->getClientOriginalName();
+            $nombreImagen = $imagen->getClientOriginalName();
             $imagen->storeAs('public', $nombreImagen);
         }
 
