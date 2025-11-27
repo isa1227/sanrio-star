@@ -12,7 +12,15 @@ const AdminPanel = () => {
   const [form, setForm] = useState({});
   const [editing, setEditing] = useState(null);
 
-  // ---- Estado para la búsqueda (integrado) ----
+  // 🟣 Modal de Confirmación ELIMINAR
+  const [showModal, setShowModal] = useState(false);
+  const [idToDelete, setIdToDelete] = useState(null);
+
+  // 💾 Modal de Confirmación GUARDAR
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [pendingSubmit, setPendingSubmit] = useState(false);
+
+  // 🔍 Estado búsqueda
   const [query, setQuery] = useState("");
 
   // -------------------------------
@@ -50,7 +58,6 @@ const AdminPanel = () => {
     if (view === "usuarios") fetchUsuarios();
   }, [view]);
 
-  // limpiar búsqueda al cambiar de vista (mejora UX)
   useEffect(() => {
     setQuery("");
   }, [view]);
@@ -65,7 +72,7 @@ const AdminPanel = () => {
   }, {});
 
   // -------------------------------
-  // 📌 Manejo de formularios
+  // 📌 Input Change
   // -------------------------------
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -82,10 +89,19 @@ const AdminPanel = () => {
   };
 
   // -------------------------------
-  // 📌 Crear o actualizar productos / usuarios
+  // 📌 Crear o Actualizar con Confirmación
   // -------------------------------
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Si no se confirmó, abrir modal
+    if (!pendingSubmit) {
+      setShowSaveModal(true);
+      return;
+    }
+
+    // Si ya confirmó
+    setPendingSubmit(false);
 
     try {
       if (view === "productos") {
@@ -136,43 +152,46 @@ const AdminPanel = () => {
   };
 
   // -------------------------------
-  // 📌 Eliminar
+  // 🗑️ Eliminar
   // -------------------------------
-  const handleDelete = async (id) => {
-    if (!window.confirm("¿Seguro que deseas eliminar este registro?")) return;
+  const handleDelete = (id) => {
+    setIdToDelete(id);
+    setShowModal(true);
+  };
+
+  const confirmDelete = async () => {
     try {
       if (view === "productos") {
-        await axios.delete(`${API_URL}/productos/${id}`);
+        await axios.delete(`${API_URL}/productos/${idToDelete}`);
         fetchProductos();
       } else {
-        await axios.delete(`${API_URL}/usuarios/${id}`);
+        await axios.delete(`${API_URL}/usuarios/${idToDelete}`);
         fetchUsuarios();
       }
     } catch (err) {
       console.error("Error eliminando", err);
     }
+
+    setShowModal(false);
+    setIdToDelete(null);
   };
 
   // -------------------------------
-  // 📦 Actualizar STOCK directo en tabla
+  // 📦 Actualizar STOCK directo
   // -------------------------------
   const handleStockChange = async (id, nuevoStock) => {
     try {
-      // Validar que sea número
       if (isNaN(nuevoStock) || nuevoStock < 0) return;
 
-      // Actualiza el estado local
       setProductos((prev) =>
         prev.map((p) =>
           p.producto_id === id ? { ...p, stock: nuevoStock } : p
         )
       );
 
-      // Llamar al backend (PUT)
       await axios.put(`${API_URL}/productos/${id}`, {
         stock: nuevoStock,
-        nombre_producto: productos.find((p) => p.producto_id === id)
-          .nombre_producto,
+        nombre_producto: productos.find((p) => p.producto_id === id).nombre_producto,
         descripcion: productos.find((p) => p.producto_id === id).descripcion,
         precio: productos.find((p) => p.producto_id === id).precio,
         categoria_id: productos.find((p) => p.producto_id === id).categoria_id,
@@ -184,7 +203,7 @@ const AdminPanel = () => {
   };
 
   // -------------------------------
-  // 🧩 Filtrado (buscador integrado)
+  // 🔍 Búsqueda
   // -------------------------------
   const productosFiltrados = productos.filter((p) => {
     if (!query) return true;
@@ -201,10 +220,7 @@ const AdminPanel = () => {
   const usuariosFiltrados = usuarios.filter((u) => {
     if (!query) return true;
     const s = query.toLowerCase();
-    const fields = [
-      u.nombre_usuario || "",
-      u.correo || ""
-    ].join(" ").toLowerCase();
+    const fields = [u.nombre_usuario || "", u.correo || ""].join(" ").toLowerCase();
     return fields.includes(s);
   });
 
@@ -223,45 +239,12 @@ const AdminPanel = () => {
       <form className="formulario" onSubmit={handleSubmit}>
         {view === "productos" ? (
           <>
-            <input
-              type="text"
-              name="nombre_producto"
-              placeholder="Nombre"
-              value={form.nombre_producto || ""}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="text"
-              name="descripcion"
-              placeholder="Descripción"
-              value={form.descripcion || ""}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="number"
-              name="precio"
-              placeholder="Precio"
-              value={form.precio || ""}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="number"
-              name="stock"
-              placeholder="Stock"
-              value={form.stock || ""}
-              onChange={handleChange}
-              required
-            />
+            <input type="text" name="nombre_producto" placeholder="Nombre" value={form.nombre_producto || ""} onChange={handleChange} required />
+            <input type="text" name="descripcion" placeholder="Descripción" value={form.descripcion || ""} onChange={handleChange} required />
+            <input type="number" name="precio" placeholder="Precio" value={form.precio || ""} onChange={handleChange} required />
+            <input type="number" name="stock" placeholder="Stock" value={form.stock || ""} onChange={handleChange} required />
 
-            <select
-              name="categoria_id"
-              value={form.categoria_id || ""}
-              onChange={handleChange}
-              required
-            >
+            <select name="categoria_id" value={form.categoria_id || ""} onChange={handleChange} required>
               <option value="">Seleccione categoría</option>
               {categorias.map((cat) => (
                 <option key={cat.categoria_id} value={cat.categoria_id}>
@@ -270,51 +253,18 @@ const AdminPanel = () => {
               ))}
             </select>
 
-            <input
-              type="text"
-              name="personajes"
-              placeholder="Personajes"
-              value={form.personajes || ""}
-              onChange={handleChange}
-            />
+            <input type="text" name="personajes" placeholder="Personajes" value={form.personajes || ""} onChange={handleChange} />
             <input type="file" name="url_imagen" onChange={handleChange} />
           </>
         ) : (
           <>
-            <input
-              type="text"
-              name="nombre_usuario"
-              placeholder="Nombre"
-              value={form.nombre_usuario || ""}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="email"
-              name="correo"
-              placeholder="Correo"
-              value={form.correo || ""}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="password"
-              name="contrasena"
-              placeholder="Contraseña"
-              value={form.contrasena || ""}
-              onChange={handleChange}
-              required={!editing}
-            />
-            <input
-              type="number"
-              name="rol_id"
-              placeholder="Rol"
-              value={form.rol_id || ""}
-              onChange={handleChange}
-              required
-            />
+            <input type="text" name="nombre_usuario" placeholder="Nombre" value={form.nombre_usuario || ""} onChange={handleChange} required />
+            <input type="email" name="correo" placeholder="Correo" value={form.correo || ""} onChange={handleChange} required />
+            <input type="password" name="contrasena" placeholder="Contraseña" value={form.contrasena || ""} onChange={handleChange} required={!editing} />
+            <input type="number" name="rol_id" placeholder="Rol" value={form.rol_id || ""} onChange={handleChange} required />
           </>
         )}
+
         <button type="submit">{editing ? "Actualizar" : "Crear"}</button>
         {editing && (
           <button type="button" onClick={resetForm}>
@@ -323,15 +273,11 @@ const AdminPanel = () => {
         )}
       </form>
 
-      {/* Input de búsqueda integrado */}
+      {/* 🔍 Búsqueda */}
       <div style={{ display: "flex", justifyContent: "center", margin: "12px 0" }}>
         <input
           type="text"
-          placeholder={
-            view === "productos"
-              ? "Buscar por nombre, descripción, categoría o personaje..."
-              : "Buscar por nombre o correo..."
-          }
+          placeholder={view === "productos" ? "Buscar por nombre, descripción, categoría o personaje..." : "Buscar por nombre o correo..."}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           style={{
@@ -386,26 +332,18 @@ const AdminPanel = () => {
                         type="number"
                         min="0"
                         value={p.stock}
-                        onChange={(e) =>
-                          handleStockChange(p.producto_id, e.target.value)
-                        }
+                        onChange={(e) => handleStockChange(p.producto_id, e.target.value)}
                         style={{ width: "70px" }}
                       />
                     </td>
                     <td>{categoriaMap[p.categoria_id] || p.categoria_id}</td>
                     <td>
-                      {p.url_imagen ? (
-                        <img src={p.url_imagen} alt={p.nombre_producto} width="60" />
-                      ) : (
-                        "Sin imagen"
-                      )}
+                      {p.url_imagen ? <img src={p.url_imagen} alt={p.nombre_producto} width="60" /> : "Sin imagen"}
                     </td>
                     <td>{p.personajes}</td>
                     <td>
                       <button onClick={() => handleEdit(p)}>Editar</button>
-                      <button onClick={() => handleDelete(p.producto_id)}>
-                        Eliminar
-                      </button>
+                      <button onClick={() => handleDelete(p.producto_id)}>Eliminar</button>
                     </td>
                   </tr>
                 ))
@@ -417,9 +355,7 @@ const AdminPanel = () => {
                     <td>{u.rol_id}</td>
                     <td>
                       <button onClick={() => handleEdit(u)}>Editar</button>
-                      <button onClick={() => handleDelete(u.usuario_id)}>
-                        Eliminar
-                      </button>
+                      <button onClick={() => handleDelete(u.usuario_id)}>Eliminar</button>
                     </td>
                   </tr>
                 ))}
@@ -427,12 +363,50 @@ const AdminPanel = () => {
         </table>
       </div>
 
+      {/* ⭐ Botón scroll */}
       <button
         className="scroll-top-btn-general"
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       >
         ⭐
       </button>
+
+      {/* 🟣 MODAL ELIMINAR */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <p>¿Seguro que deseas eliminar este registro?</p>
+            <div className="modal-buttons">
+              <button className="btn-confirmar" onClick={confirmDelete}>Eliminar</button>
+              <button className="btn-cancelar" onClick={() => setShowModal(false)}>Cancelar</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 💾 MODAL CONFIRMACIÓN GUARDAR */}
+      {showSaveModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <p>¿Quieres {editing ? "actualizar" : "crear"} este registro?</p>
+            <div className="modal-buttons">
+              <button
+                className="btn-confirmar"
+                onClick={() => {
+                  setPendingSubmit(true);
+                  setShowSaveModal(false);
+                  handleSubmit(new Event("submit"));
+                }}
+              >
+                Sí, {editing ? "Actualizar" : "Crear"}
+              </button>
+              <button className="btn-cancelar" onClick={() => setShowSaveModal(false)}>
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

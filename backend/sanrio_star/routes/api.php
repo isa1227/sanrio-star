@@ -95,3 +95,14 @@ Route::post('/facturas/detalle', [DetalleFacturaController::class, 'store']);
 
 use App\Http\Controllers\PedidoController;
 Route::post('/pedidos', [PedidoController::class, 'store']);
+
+Route::get('/notificaciones', function () {
+    return DB::table('pedidos')
+        ->where('leido', 0)  // solo no leídas
+        ->orderBy('id', 'desc')
+        ->get();
+});
+
+Route::post('/notificaciones/leer/{id}', function ($id) {
+    return DB::table('pedidos')->where('id', $id)->update(['leido' => 1]);
+});
