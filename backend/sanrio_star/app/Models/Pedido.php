@@ -7,16 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class Pedido extends Model
 {
     protected $table = 'pedidos';
-    protected $primaryKey = 'pedido_id';
-    public $timestamps = false;
+
+    public $timestamps = false; // ← FIX IMPORTANTE
 
     protected $fillable = [
         'usuario_id',
         'total',
-        'total_productos',
-        'costo_envio',
-        'metodo_envio_id',
-        'metodo_pago_id',
         'estado'
     ];
+
+    // Relación correcta
+    public function detalles()
+    {
+        return $this->hasMany(DetallePedido::class, 'pedido_id', 'id');
+    }
 }

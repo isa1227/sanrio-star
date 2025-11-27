@@ -93,4 +93,5 @@ Route::post('/metodos-pago', [MetodoPagoController::class, 'store'])->middleware
 use App\Http\Controllers\DetalleFacturaController;
 Route::post('/facturas/detalle', [DetalleFacturaController::class, 'store']);
 
-
+use App\Http\Controllers\PedidoController;
+Route::post('/pedidos', [PedidoController::class, 'store']);

@@ -2,38 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Pedido;
+use Illuminate\Http\Request;
 
 class PedidoController extends Controller
 {
-    public function index()
-    {
-        return Pedido::all();
-    }
-
     public function store(Request $request)
     {
-        $pedido = Pedido::create($request->all());
-        return response()->json($pedido, 201);
-    }
+        // Validación mínima
+        $request->validate([
+            'usuario_id' => 'required|integer',
+            'total'      => 'required|numeric'
+        ]);
 
-    public function show($id)
-    {
-        return Pedido::findOrFail($id);
-    }
+        // Creación del pedido
+        $pedido = Pedido::create([
+            'usuario_id' => $request->usuario_id,
+            'total' => $request->total,
+            'estado' => 'pendiente'
+        ]);
 
-    public function update(Request $request, $id)
-    {
-        $pedido = Pedido::findOrFail($id);
-        $pedido->update($request->all());
-        return response()->json($pedido);
-    }
-
-    public function destroy($id)
-    {
-        Pedido::destroy($id);
-        return response()->json(null, 204);
+        return response()->json([
+            'message' => 'Pedido creado correctamente',
+            'pedido' => $pedido
+        ], 201);
     }
 }

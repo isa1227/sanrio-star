@@ -1,4 +1,3 @@
-
 import React, { useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import "../styles/factura.css";
@@ -127,12 +126,15 @@ const confirmarCompra = async () => {
   try {
     const usuarioId = localStorage.getItem("usuario_id") || 1;
 
-    // Datos de pago según método
     const datosPago =
       metodoPago === "1"
         ? { numero_nequi: numeroNequi }
         : metodoPago === "2"
-        ? { tarjeta_numero: tarjeta.numero.replace(/\s+/g, ""), tarjeta_exp: tarjeta.expiracion, tarjeta_cvv: tarjeta.cvv }
+        ? {
+            tarjeta_numero: tarjeta.numero.replace(/\s+/g, ""),
+            tarjeta_exp: tarjeta.expiracion,
+            tarjeta_cvv: tarjeta.cvv,
+          }
         : {};
 
     // 1️⃣ Guardar factura
@@ -146,7 +148,7 @@ const confirmarCompra = async () => {
         nombre,
         telefono,
         direccion,
-        ...datosPago, // añade datos de pago al body
+        ...datosPago,
       }),
     });
 
@@ -155,13 +157,11 @@ const confirmarCompra = async () => {
     const dataFactura = await resFactura.json();
     const facturaId = dataFactura.factura_id;
 
-    // 2️⃣ Guardar detalles de la factura
+    // 2️⃣ Guardar detalles
     const detalles = productos.map((p) => ({
       producto_id: p.producto_id || p.id,
       cantidad: p.cantidad,
-      precio: Number(
-        (p.precio || p.price || "0").toString().replace(/[^\d]/g, "")
-      ),
+      precio: Number((p.precio || p.price || "0").toString().replace(/[^\d]/g, "")),
     }));
 
     const resDetalle = await fetch("http://127.0.0.1:8000/api/facturas/detalle", {
@@ -172,12 +172,31 @@ const confirmarCompra = async () => {
 
     if (!resDetalle.ok) throw new Error("Error al guardar los detalles");
 
-    // 3️⃣ Confirmación
+// 🆕 Crear pedido en la tabla pedidos (con los campos correctos)
+const resPedido = await fetch("http://127.0.0.1:8000/api/pedidos", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    usuario_id: Number(usuarioId),
+    total: calcularTotal(),
+    total_productos: productos.reduce((acc, p) => acc + (Number(p.cantidad) || 1), 0),
+    costo_envio: 0, // o el valor que uses
+    metodo_pago_id: Number(metodoPago),
+    estado: "pendiente"
+  }),
+});
+
+if (!resPedido.ok) {
+  console.error("Error al guardar el pedido");
+}
+
+    // 4️⃣ Confirmación
     setCompraConfirmada(true);
     setMostrarModal(false);
     setMostrarFactura(true);
     setMostrarMensaje(true);
 
+    localStorage.setItem("compraRealizada", "true");
     localStorage.removeItem("carrito");
     localStorage.removeItem("seleccionados");
 
@@ -189,8 +208,6 @@ const confirmarCompra = async () => {
     alert("Ocurrió un error 😭");
   }
 };
-
-
 
   return (
     <div className="factura-container">
