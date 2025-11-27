@@ -4,10 +4,12 @@
   flex-direction: row; /* CAMBIADO de column a row */
   align-items: flex-start; /* Alinea arriba */
   justify-content: space-between; /* Espacio entre carrito y factura */
+  padding-bottom: 120px;
 }
 
+
 .carrito-derecha {
-  width: 35%;
+  width: 45%;
   display: flex;
   justify-content: flex-end;
 }
@@ -41,10 +43,10 @@
   font-size: 2rem;
   font-family: 'Fredoka', 'Poppins', cursive;
   margin-bottom: 30px;
-  background: linear-gradient(90deg, #2d0346, #7e209b);
-  padding: 15px;
+  background: linear-gradient(90deg, #440040, #561953);
+  padding: 25px;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(126, 32, 155, 0.4);
+  box-shadow: 0 5px 10px rgba(126, 32, 155, 0.4);
 }
 .carrito-grid {
   display: flex;
@@ -177,7 +179,7 @@
   text-align: center;
   padding: 30px 0;
   font-family: 'Fredoka', 'Poppins', cursive;
-  margin-top: 60px;
+  margin-top: 120px;
   box-shadow: 0 -4px 12px rgba(126, 32, 155, 0.4);
 }
 

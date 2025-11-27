@@ -74,9 +74,7 @@ const CarritoPage = () => {
           {carrito.length === 0 ? (
             <>
               <h2 className="titulo-carrito">🛒 Estás en el carrito</h2>
-              <p style={{ color: "white", textAlign: "center" }}>
-                Tu carrito está vacío.
-              </p>
+             
             </>
           ) : (
             <>
