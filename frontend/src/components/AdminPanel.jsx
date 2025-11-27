@@ -3,6 +3,7 @@ import axios from "axios";
 import "../styles/AdminPanel.css";
 
 const API_URL = "http://localhost:8000/api";
+const ITEMS_PER_PAGE = 10; // 🔹 10 elementos por página
 
 const AdminPanel = () => {
   const [view, setView] = useState("productos");
@@ -12,15 +13,18 @@ const AdminPanel = () => {
   const [form, setForm] = useState({});
   const [editing, setEditing] = useState(null);
 
-  // 🟣 Modal de Confirmación ELIMINAR
+  // Paginación
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Modal Eliminar
   const [showModal, setShowModal] = useState(false);
   const [idToDelete, setIdToDelete] = useState(null);
 
-  // 💾 Modal de Confirmación GUARDAR
+  // Modal Guardar
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [pendingSubmit, setPendingSubmit] = useState(false);
 
-  // 🔍 Estado búsqueda
+  // Búsqueda
   const [query, setQuery] = useState("");
 
   // -------------------------------
@@ -56,10 +60,7 @@ const AdminPanel = () => {
   useEffect(() => {
     if (view === "productos") fetchProductos();
     if (view === "usuarios") fetchUsuarios();
-  }, [view]);
-
-  useEffect(() => {
-    setQuery("");
+    setCurrentPage(1); // 🔹 reset paginación al cambiar vista
   }, [view]);
 
   useEffect(() => {
@@ -94,21 +95,17 @@ const AdminPanel = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Si no se confirmó, abrir modal
     if (!pendingSubmit) {
       setShowSaveModal(true);
       return;
     }
 
-    // Si ya confirmó
     setPendingSubmit(false);
 
     try {
       if (view === "productos") {
         const formData = new FormData();
-        Object.keys(form).forEach((key) => {
-          formData.append(key, form[key]);
-        });
+        Object.keys(form).forEach((key) => formData.append(key, form[key]));
 
         if (editing) {
           formData.append("_method", "PUT");
@@ -120,7 +117,6 @@ const AdminPanel = () => {
             headers: { "Content-Type": "multipart/form-data" },
           });
         }
-
         fetchProductos();
       } else {
         if (editing) {
@@ -130,7 +126,6 @@ const AdminPanel = () => {
         }
         fetchUsuarios();
       }
-
       resetForm();
     } catch (err) {
       console.error("Error guardando", err);
@@ -177,32 +172,6 @@ const AdminPanel = () => {
   };
 
   // -------------------------------
-  // 📦 Actualizar STOCK directo
-  // -------------------------------
-  const handleStockChange = async (id, nuevoStock) => {
-    try {
-      if (isNaN(nuevoStock) || nuevoStock < 0) return;
-
-      setProductos((prev) =>
-        prev.map((p) =>
-          p.producto_id === id ? { ...p, stock: nuevoStock } : p
-        )
-      );
-
-      await axios.put(`${API_URL}/productos/${id}`, {
-        stock: nuevoStock,
-        nombre_producto: productos.find((p) => p.producto_id === id).nombre_producto,
-        descripcion: productos.find((p) => p.producto_id === id).descripcion,
-        precio: productos.find((p) => p.producto_id === id).precio,
-        categoria_id: productos.find((p) => p.producto_id === id).categoria_id,
-        personajes: productos.find((p) => p.producto_id === id).personajes,
-      });
-    } catch (err) {
-      console.error("Error actualizando stock", err);
-    }
-  };
-
-  // -------------------------------
   // 🔍 Búsqueda
   // -------------------------------
   const productosFiltrados = productos.filter((p) => {
@@ -225,8 +194,16 @@ const AdminPanel = () => {
   });
 
   // -------------------------------
-  // 🧩 Render
+  // 🔹 Paginación
   // -------------------------------
+  const currentItems = view === "productos"
+    ? productosFiltrados.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+    : usuariosFiltrados.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+
+  const totalPages = Math.ceil(
+    (view === "productos" ? productosFiltrados.length : usuariosFiltrados.length) / ITEMS_PER_PAGE
+  );
+
   return (
     <div className="admin-panel">
       <h1>Panel de Administración</h1>
@@ -236,6 +213,7 @@ const AdminPanel = () => {
         <button onClick={() => setView("usuarios")}>Usuarios</button>
       </div>
 
+      {/* FORMULARIO */}
       <form className="formulario" onSubmit={handleSubmit}>
         {view === "productos" ? (
           <>
@@ -243,16 +221,14 @@ const AdminPanel = () => {
             <input type="text" name="descripcion" placeholder="Descripción" value={form.descripcion || ""} onChange={handleChange} required />
             <input type="number" name="precio" placeholder="Precio" value={form.precio || ""} onChange={handleChange} required />
             <input type="number" name="stock" placeholder="Stock" value={form.stock || ""} onChange={handleChange} required />
-
             <select name="categoria_id" value={form.categoria_id || ""} onChange={handleChange} required>
               <option value="">Seleccione categoría</option>
               {categorias.map((cat) => (
                 <option key={cat.categoria_id} value={cat.categoria_id}>
-                  {cat.nombre_categoria} (ID: {cat.categoria_id})
+                  {cat.nombre_categoria}
                 </option>
               ))}
             </select>
-
             <input type="text" name="personajes" placeholder="Personajes" value={form.personajes || ""} onChange={handleChange} />
             <input type="file" name="url_imagen" onChange={handleChange} />
           </>
@@ -266,14 +242,10 @@ const AdminPanel = () => {
         )}
 
         <button type="submit">{editing ? "Actualizar" : "Crear"}</button>
-        {editing && (
-          <button type="button" onClick={resetForm}>
-            Cancelar
-          </button>
-        )}
+        {editing && <button type="button" onClick={resetForm}>Cancelar</button>}
       </form>
 
-      {/* 🔍 Búsqueda */}
+      {/* BUSCADOR */}
       <div style={{ display: "flex", justifyContent: "center", margin: "12px 0" }}>
         <input
           type="text"
@@ -291,7 +263,7 @@ const AdminPanel = () => {
         />
       </div>
 
-      {/* Tabla */}
+      {/* TABLA */}
       <div className="table-container">
         <table>
           <thead>
@@ -320,95 +292,80 @@ const AdminPanel = () => {
             </tr>
           </thead>
           <tbody>
-            {view === "productos"
-              ? productosFiltrados.map((p) => (
-                  <tr key={p.producto_id}>
-                    <td>{p.producto_id}</td>
-                    <td>{p.nombre_producto}</td>
-                    <td>{p.descripcion}</td>
-                    <td>${p.precio}</td>
-                    <td>
-                      <input
-                        type="number"
-                        min="0"
-                        value={p.stock}
-                        onChange={(e) => handleStockChange(p.producto_id, e.target.value)}
-                        style={{ width: "70px" }}
-                      />
-                    </td>
-                    <td>{categoriaMap[p.categoria_id] || p.categoria_id}</td>
-                    <td>
-                      {p.url_imagen ? <img src={p.url_imagen} alt={p.nombre_producto} width="60" /> : "Sin imagen"}
-                    </td>
-                    <td>{p.personajes}</td>
-                    <td>
-                      <button onClick={() => handleEdit(p)}>Editar</button>
-                      <button onClick={() => handleDelete(p.producto_id)}>Eliminar</button>
-                    </td>
-                  </tr>
-                ))
-              : usuariosFiltrados.map((u) => (
-                  <tr key={u.usuario_id}>
-                    <td>{u.usuario_id}</td>
-                    <td>{u.nombre_usuario}</td>
-                    <td>{u.correo}</td>
-                    <td>{u.rol_id}</td>
-                    <td>
-                      <button onClick={() => handleEdit(u)}>Editar</button>
-                      <button onClick={() => handleDelete(u.usuario_id)}>Eliminar</button>
-                    </td>
-                  </tr>
-                ))}
+            {(view === "productos" ? currentItems : currentItems).map((item) =>
+              view === "productos" ? (
+                <tr key={item.producto_id}>
+                  <td>{item.producto_id}</td>
+                  <td>{item.nombre_producto}</td>
+                  <td>{item.descripcion}</td>
+                  <td>${item.precio}</td>
+                  <td>
+                    <input
+                      type="number"
+                      min="0"
+                      value={item.stock}
+                      onChange={(e) => {
+                        const nuevoStock = e.target.value;
+                        setProductos((prev) =>
+                          prev.map((p) =>
+                            p.producto_id === item.producto_id ? { ...p, stock: nuevoStock } : p
+                          )
+                        );
+                      }}
+                      style={{ width: "70px" }}
+                    />
+                  </td>
+                  <td>{categoriaMap[item.categoria_id] || item.categoria_id}</td>
+                  <td>{item.url_imagen ? <img src={item.url_imagen} alt={item.nombre_producto} width="60" /> : "Sin imagen"}</td>
+                  <td>{item.personajes}</td>
+                  <td>
+                    <button onClick={() => handleEdit(item)}>Editar</button>
+                    <button onClick={() => handleDelete(item.producto_id)}>Eliminar</button>
+                  </td>
+                </tr>
+              ) : (
+                <tr key={item.usuario_id}>
+                  <td>{item.usuario_id}</td>
+                  <td>{item.nombre_usuario}</td>
+                  <td>{item.correo}</td>
+                  <td>{item.rol_id}</td>
+                  <td>
+                    <button onClick={() => handleEdit(item)}>Editar</button>
+                    <button onClick={() => handleDelete(item.usuario_id)}>Eliminar</button>
+                  </td>
+                </tr>
+              )
+            )}
           </tbody>
         </table>
       </div>
 
-      {/* ⭐ Botón scroll */}
-      <button
-        className="scroll-top-btn-general"
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      >
-        ⭐
-      </button>
-
-      {/* 🟣 MODAL ELIMINAR */}
-      {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <p>¿Seguro que deseas eliminar este registro?</p>
-            <div className="modal-buttons">
-              <button className="btn-confirmar" onClick={confirmDelete}>Eliminar</button>
-              <button className="btn-cancelar" onClick={() => setShowModal(false)}>Cancelar</button>
-            </div>
-          </div>
+      {/* PAGINACIÓN */}
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1}>
+            ◀ Anterior
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i + 1}
+              className={currentPage === i + 1 ? "active" : ""}
+              onClick={() => setCurrentPage(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages}>
+            Siguiente ▶
+          </button>
         </div>
       )}
-
-      {/* 💾 MODAL CONFIRMACIÓN GUARDAR */}
-      {showSaveModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <p>¿Quieres {editing ? "actualizar" : "crear"} este registro?</p>
-            <div className="modal-buttons">
-              <button
-                className="btn-confirmar"
-                onClick={() => {
-                  setPendingSubmit(true);
-                  setShowSaveModal(false);
-                  handleSubmit(new Event("submit"));
-                }}
-              >
-                Sí, {editing ? "Actualizar" : "Crear"}
-              </button>
-              <button className="btn-cancelar" onClick={() => setShowSaveModal(false)}>
-                Cancelar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      
+      
     </div>
+    
   );
+  
 };
 
 export default AdminPanel;
