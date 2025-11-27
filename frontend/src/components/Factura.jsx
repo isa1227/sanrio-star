@@ -157,8 +157,8 @@ const confirmarCompra = async () => {
     const dataFactura = await resFactura.json();
     const facturaId = dataFactura.factura_id;
 
-    // 2️⃣ Guardar detalles
-    const detalles = productos.map((p) => ({
+    // 2️⃣ Guardar detalles_factura
+    const detallesFactura = productos.map((p) => ({
       producto_id: p.producto_id || p.id,
       cantidad: p.cantidad,
       precio: Number((p.precio || p.price || "0").toString().replace(/[^\d]/g, "")),
@@ -167,28 +167,32 @@ const confirmarCompra = async () => {
     const resDetalle = await fetch("http://127.0.0.1:8000/api/facturas/detalle", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ factura_id: facturaId, detalles }),
+      body: JSON.stringify({ factura_id: facturaId, detalles: detallesFactura }),
     });
 
-    if (!resDetalle.ok) throw new Error("Error al guardar los detalles");
+    if (!resDetalle.ok) throw new Error("Error al guardar los detalles de factura");
 
-// 🆕 Crear pedido en la tabla pedidos (con los campos correctos)
-const resPedido = await fetch("http://127.0.0.1:8000/api/pedidos", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    usuario_id: Number(usuarioId),
-    total: calcularTotal(),
-    total_productos: productos.reduce((acc, p) => acc + (Number(p.cantidad) || 1), 0),
-    costo_envio: 0, // o el valor que uses
-    metodo_pago_id: Number(metodoPago),
-    estado: "pendiente"
-  }),
-});
+    // 3️⃣ Crear pedido
+    const resPedido = await fetch("http://127.0.0.1:8000/api/pedidos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        usuario_id: Number(usuarioId),
+        total: calcularTotal(),
+        estado: "pendiente",
+        productos: productos.map((p) => ({
+          id: p.producto_id || p.id,
+          nombre: p.nombre || p.name,
+          precio: Number((p.precio || p.price || "0").toString().replace(/[^\d]/g, "")),
+          cantidad: Number(p.cantidad),
+        })),
+      }),
+    });
 
-if (!resPedido.ok) {
-  console.error("Error al guardar el pedido");
-}
+    if (!resPedido.ok) throw new Error("Error al guardar el pedido");
+
+    const dataPedido = await resPedido.json();
+    console.log("Pedido creado:", dataPedido);
 
     // 4️⃣ Confirmación
     setCompraConfirmada(true);
@@ -203,11 +207,13 @@ if (!resPedido.ok) {
     if (typeof limpiarCarrito === "function") limpiarCarrito();
 
     setTimeout(() => setMostrarMensaje(false), 5000);
+
   } catch (error) {
     console.error("Error:", error);
     alert("Ocurrió un error 😭");
   }
 };
+
 
   return (
     <div className="factura-container">

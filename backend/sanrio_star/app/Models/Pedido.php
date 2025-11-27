@@ -8,7 +8,11 @@ class Pedido extends Model
 {
     protected $table = 'pedidos';
 
-    public $timestamps = false; // ← FIX IMPORTANTE
+    protected $primaryKey = 'pedido_id'; // ✔ la PK real
+    public $incrementing = true;
+    protected $keyType = 'int';
+
+    public $timestamps = false;
 
     protected $fillable = [
         'usuario_id',
@@ -16,9 +20,8 @@ class Pedido extends Model
         'estado'
     ];
 
-    // Relación correcta
     public function detalles()
     {
-        return $this->hasMany(DetallePedido::class, 'pedido_id', 'id');
+        return $this->hasMany(DetallePedido::class, 'pedido_id', 'pedido_id');
     }
 }
