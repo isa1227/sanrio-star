@@ -110,13 +110,8 @@ const Productos = () => {
             </div>
             <div className="product-info">
               <h1>{productoSeleccionado.nombre_producto}</h1>
-              <div className="info-grid">
-                <span>Categoría:</span>
-                <span>{obtenerNombreCategoria(productoSeleccionado.categoria_id)}</span>
-                <span>ID:</span>
-                <span>{productoSeleccionado.producto_id}</span>
-              </div>
-              <p className="price">${productoSeleccionado.precio}</p>
+              
+              <p className="price">Precio:<br></br>${productoSeleccionado.precio}</p>
               <div className="actions">
                 <input
                   type="number"
