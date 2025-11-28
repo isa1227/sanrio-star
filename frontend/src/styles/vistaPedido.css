@@ -1,0 +1,181 @@
+.vista-pedido-container {
+  max-width: 1150px;
+  margin: 2rem auto;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(145deg, rgba(68,0,64,0.85), rgba(44,0,44,0.85));
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  font-family: 'Arial', sans-serif;
+}
+
+
+.vista-pedido-container h2 {
+  font-size: 2rem;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 6px #440040;
+}
+
+/* ==========================================
+   Card de pedido renovada
+========================================== */
+.pedido-card {
+  background-color: #2e0025;
+  border-radius: 18px;
+  border: 1px solid #561953;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 90%;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.pedido-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(255,153,255,0.3);
+  border-color: #cb66e4;
+}
+
+/* ==========================================
+   Información del usuario
+========================================== */
+.info-usuario {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 20px;
+  color: #ffccff;
+  font-size: 0.95rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid #561953;
+}
+
+.info-usuario p {
+  margin: 0;
+}
+
+.info-usuario p strong {
+  color: #cecece;
+}
+
+/* ==========================================
+   Productos - scroll horizontal
+========================================== */
+.productos-pedido {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-top: 1rem;
+}
+
+.productos-pedido::-webkit-scrollbar {
+  height: 6px;
+}
+
+.productos-pedido::-webkit-scrollbar-thumb {
+  background-color: #561953;
+  border-radius: 3px;
+}
+
+/* Mini-cards de productos */
+.producto-card {
+  background-color: #3a002f;
+  border-radius: 12px;
+  border: 1px solid #561953;
+  min-width: 130px;
+  padding: 8px;
+  text-align: center;
+  flex-shrink: 0;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+.producto-card:hover {
+  transform: scale(1.05);
+  border-color: #ff99ff;
+  box-shadow: 0 5px 15px rgba(255,153,255,0.4);
+}
+
+.producto-card img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
+
+.producto-info .nombre {
+  font-weight: bold;
+  color: #ff99ff;
+  font-size: 0.9rem;
+}
+
+.producto-info p {
+  margin: 2px 0;
+  font-size: 0.85rem;
+}
+
+/* ==========================================
+   Botones
+========================================== */
+.botones-pedido {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.botones-pedido button {
+  background: linear-gradient(145deg, #561953, #440040);
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+}
+
+.botones-pedido button:hover {
+  background: linear-gradient(145deg, #af0da7, #440040);
+  color: #1a001a;
+  transform: scale(1.05);
+  box-shadow: 0 5px 12px rgba(255,153,255,0.5);
+}
+
+/* ==========================================
+   Media Queries
+========================================== */
+@media (max-width: 768px) {
+  .vista-pedido-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .pedido-card {
+    width: 95%;
+  }
+
+  .info-usuario {
+    grid-template-columns: 1fr;
+  }
+
+  .producto-card {
+    min-width: 110px;
+  }
+}
+
+@media (max-width: 480px) {
+  .botones-pedido {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .producto-card {
+    min-width: 90px;
+  }
+}

@@ -21,8 +21,9 @@ class DetallePedido extends Model
         'cantidad'
     ];
 
-    public function pedido()
-    {
-        return $this->belongsTo(Pedido::class, 'pedido_id', 'pedido_id'); // ✔ relación correcta
-    }
+    public function producto()
+{
+    return $this->belongsTo(Producto::class, 'producto_id', 'producto_id');
+}
+
 }

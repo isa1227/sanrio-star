@@ -106,3 +106,5 @@ Route::get('/notificaciones', function () {
 Route::post('/notificaciones/leer/{id}', function ($id) {
     return DB::table('pedidos')->where('id', $id)->update(['leido' => 1]);
 });
+
+Route::get('pedidos/{usuarioId}', [PedidoController::class, 'pedidosUsuario']);

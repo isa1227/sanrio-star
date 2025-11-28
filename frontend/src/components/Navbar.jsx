@@ -24,6 +24,7 @@ const Navbar = () => {
       <div className="nav-links">
         <Link to="/productos" title="Productos">🛍️</Link>
         <Link to="/carrito" title="Carrito">🛒</Link>
+        <Link to="/pedido" title="Mi Pedido">📦</Link>
         <a href="#contacto" title="Contacto">📞</a>
         {usuario?.rol_id === 2 && (
           <Link to="/admin" title="Panel Administrador">🛠️</Link>
