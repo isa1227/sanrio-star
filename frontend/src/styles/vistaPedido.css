@@ -21,9 +21,9 @@
    Card de pedido renovada
 ========================================== */
 .pedido-card {
-  background-color: #000000;
+  background-color: #2e0025;
   border-radius: 18px;
-  border: 1px solid #440040;
+  border: 1px solid #561953;
   padding: 1.5rem;
   margin-bottom: 2rem;
   display: flex;
@@ -70,12 +70,9 @@
 .productos-pedido {
   display: flex;
   gap: 12px;
-  flex-wrap: wrap;  /* <<< AGREGA ESTO */
-  overflow-x: hidden; /* <<< EVITA SCROLL */
+  overflow-x: auto;
   padding-top: 1rem;
-  justify-content: center;  /* para que todo quede bien alineado */
 }
-
 
 .productos-pedido::-webkit-scrollbar {
   height: 6px;
@@ -88,7 +85,7 @@
 
 /* Mini-cards de productos */
 .producto-card {
-  background-color: #440040;
+  background-color: #3a002f;
   border-radius: 12px;
   border: 1px solid #561953;
   min-width: 130px;
