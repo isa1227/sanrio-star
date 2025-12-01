@@ -108,7 +108,7 @@ th, td {
 td img {
 max-width: 65px;
   border-radius: 10px;
-  box-shadow: 0 0 8px rgba(255, 150, 255, 0.4);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
 }
 
 /* ---------------------------
@@ -308,3 +308,42 @@ max-width: 65px;
   color: #6b7280;
   font-size: 0.9rem;
 }
+/* 🔵 Botón EDITAR */
+.btn-editar {
+  padding: 7px 12px;
+  background: linear-gradient(135deg, #440040, #5e0158);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: 0.25s;
+}
+
+.btn-editar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+}
+
+
+/* 🔴 Botón ELIMINAR */
+.btn-eliminar {
+  padding: 7px 12px;
+  background: linear-gradient(135deg, #7c0000, #a51313);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: 0.25s;
+}
+
+.btn-eliminar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+}
+

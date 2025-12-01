@@ -331,8 +331,9 @@ const AdminPanel = () => {
                     </td>
                     <td>{p.personajes}</td>
                     <td>
-                      <button onClick={() => handleEdit(p)}>Editar</button>
-                      <button onClick={() => handleDelete(p.producto_id)}>Eliminar</button>
+                      <button className="btn-editar" onClick={() => handleEdit(p)}>Editar</button>
+          
+                      <button className="btn-eliminar" onClick={() => handleDelete(p.producto_id)}>Eliminar</button>
                     </td>
                   </tr>
                 ))
@@ -343,8 +344,8 @@ const AdminPanel = () => {
                     <td>{u.correo}</td>
                     <td>{u.rol_id}</td>
                     <td>
-                      <button onClick={() => handleEdit(u)}>Editar</button>
-                      <button onClick={() => handleDelete(u.usuario_id)}>Eliminar</button>
+                      <button className="btn-editar" onClick={() => handleEdit(u)}>Editar</button>
+                      <button className="btn-eliminar" onClick={() => handleDelete(u.usuario_id)}>Eliminar</button>
                     </td>
                   </tr>
                 ))}

@@ -170,31 +170,43 @@ body {
 }
 /* 🎀 CATEGORÍAS ESCONDIDAS EN SIDEBAR 🎀 */
 .sidebar {
-  width: 120px;
-  background-color: #440040;
-  padding: 15px;
-  border-radius: 10px;
+ width: 150px;
+  background: linear-gradient(180deg, #440040, #2a002a);
+  padding: 18px;
+  border-radius: 20px;
   height: fit-content;
   margin-left: 45px;
   margin-top: 40px;
   flex-shrink: 0;
-  overflow: hidden;              /* 👈 Evita que se vea lo oculto */
-  transition: max-height 0.4s ease, opacity 0.4s ease;
-  max-height: 45px;              /* 👈 Solo se ve el título */
-  opacity: 0.8;
+  overflow: hidden;
+  transition: max-height 0.45s ease, opacity 0.45s ease, box-shadow 0.3s;
+  max-height: 55px;
+  opacity: 0.85;
   cursor: pointer;
+  box-shadow: 0 0 12px rgba(255, 150, 255, 0.25);
 }
+
 
 /* Cuando acercamos el mouse, abre */
 .sidebar:hover {
-  max-height: 500px;             /* 👈 Suficiente para desplegar */
+  max-height: 600px;
   opacity: 1;
+  box-shadow: 0 0 18px rgba(255, 150, 255, 0.45);
 }
 
 /* 🎀 Botones de categoría ocultos al inicio */
 .sidebar button {
-  opacity: 0;
-  transition: opacity 0.4s ease 0.1s;
+ opacity: 0;
+  transition: opacity 0.4s ease 0.15s;
+  background: none;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  width: 100%;
+  text-align: left;
+  color: #ffd6ff;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 /* 🎀 Cuando el mouse está encima del contenedor, ¡se muestran! */
@@ -206,65 +218,66 @@ body {
 /* ================== CARD PRODUCT ================== */
 
 .card {
-background-color: #2a022a; /* Fondo oscuro Kuromi */
-border-radius: 20px;
-overflow: hidden;
-box-shadow:
-0 8px 16px rgba(130, 62, 156, 0.4), /* Sombra morada/lila suave */
-0 -8px 16px rgba(130, 62, 156, 0.4);
-transition: transform 0.2s;
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-margin-bottom: 20px;
-height: 380px;
+background: linear-gradient(180deg, #2a022a, #3a013a);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow:
+    0 10px 18px rgba(150, 60, 180, 0.5),
+    0 -10px 18px rgba(100, 0, 100, 0.5);
+  transition: transform 0.25s, box-shadow 0.25s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 390px;
 }
 
 .card:hover {
-transform: translateY(-5px);
+transform: translateY(-7px);
+  box-shadow: 0 14px 24px rgba(200, 110, 230, 0.55);
+
 }
 
 .card img {
 width: 100%;
-height: 220px !important; /* Altura igual para todas */
-object-fit: cover !important; /* Recorta y centra la imagen */
-display: block;
+  height: 230px !important;
+  object-fit: cover !important;
 }
 
 .card h3 {
-color: #ffdcfa; /* Título en color rosa claro/lila */
-margin: 10px 16px 0;
+color: #ffddfa;
+  margin: 12px 16px 0;
+  font-size: 1.1rem;
 }
 
 .card p {
-color: #e2b6ff; /* Texto de descripción en lila claro */
-font-size: 0.85rem;
-margin: 4px 16px;
+color: #e8c7ff;
+  margin: 5px 16px;
+  font-size: 0.9rem;
 }
 
 .card .price {
-font-weight: bold;
-color: #d1a1e3; /* Precio en morado claro/lila */
-margin: 8px 16px 0;
+color: #e2a6ff;
+  margin-left: 16px;
+  margin-top: 6px;
+  font-weight: 700;
 }
 
 /* Botón "Añadir al carrito" con degradado Kuromi */
 .card button {
-background: linear-gradient(to right,  #440040,  #440040); 
-color: #fff;
-border: none;
-border-radius: 20px;
-padding: 10px 16px;
-margin: 12px 16px 16px;
-cursor: pointer;
-font-family: 'Comfortaa', cursive; /* Usé 'Comfortaa' como referencia de tu estilo Kuromi, aunque tu código original usa Fredoka */
-font-weight: bold;
-transition: background 0.3s, color 0.3s;
+  background: linear-gradient(90deg, #5e0a72, #9b3fa8);
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  margin: 14px 16px 16px;
+  border-radius: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.25s, background 0.25s;
 }
 
 .card button:hover {
-background: linear-gradient(to right,  #863d9b,  #9843af); /* Degradado al pasar el mouse */
-color: #fff; 
+ background: linear-gradient(90deg, #7c0d93, #bb5ad1);
+  transform: scale(1.05);
 }
 /* ================== MENSAJE CARRITO ================== */
 
@@ -294,16 +307,18 @@ color: #fff;
 
 /* ================== DETALLE PRODUCTO ================== */
 .product-detail {
-  font-family: 'Fredoka', 'Poppins', cursive;
-  display: flex;
-  background: rgb(0, 0, 0);
-  border-radius: 15px;
-  padding: 20px;
+   display: flex;
+  flex-direction: row;          /* 👈 Asegura que la imagen quede a la izquierda */
+  background: #1a001a;
+  border-radius: 22px;
+  padding: 26px;
+  gap: 22px;
   box-shadow:
-    0 8px 16px hsl(279, 79%, 17%),
-    0 -8px 16px hsl(294, 79%, 17%);
-  max-width: 900px;
-  margin: 60px auto 0 auto;
+    0 12px 24px rgba(150, 20, 170, 0.4),
+    0 -10px 20px rgba(60, 0, 70, 0.3);
+  max-width: 950px;
+  margin: 60px auto;
+  animation: fadeIn 0.4s ease-in-out;
 }
 
 .product-images {
@@ -314,19 +329,24 @@ color: #fff;
 /* 📌 Tamaño fijo en el detalle del producto */
 .product-images img {
   width: 100%;
-  height: 350px !important;
-  object-fit: cover !important;
-  border-radius: 10px;
+  height: 380px !important;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 6px 14px rgba(200, 120, 255, 0.25);
 }
 
 .product-info {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .product-info h1 {
-  font-size: 24px;
-  margin-bottom: 10px;
-  color: #ffffff;
+  color: #ffddfa;
+  font-size: 28px;
+  margin-bottom: 12px;
+  text-shadow: 0px 0px 6px rgba(255, 190, 255, 0.4);
 }
 
 .info-grid {
@@ -338,10 +358,9 @@ color: #fff;
 }
 
 .product-info .price {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 15px;
-  color: white;
+  color: #ffd3ff;
+  font-size: 22px;
+  margin-bottom: 12px;
 }
 
 .actions {
@@ -358,17 +377,19 @@ color: #fff;
 }
 
 .actions button {
-  background-color: #440040;
-  color:white;
-  border: none;
-  padding: 10px 15px;
+ background-color: #440040;
+  padding: 10px 16px;
+  color: white;
   border-radius: 20px;
+  border: none;
   cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
 }
 
 .actions button:hover {
   background-color: #b0bccf;
-  color: #ffffff;
+  color: #000000;
 }
 
 /* ================== FOOTER ================== */
