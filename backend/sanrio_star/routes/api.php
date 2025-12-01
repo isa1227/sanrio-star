@@ -89,3 +89,27 @@ Route::post('/categorias', [CategoriaController::class, 'store']);
 Route::put('/categorias/{id}', [CategoriaController::class, 'update']);
 Route::patch('/categorias/{id}', [CategoriaController::class, 'update']);
 Route::delete('/categorias/{id}', [CategoriaController::class, 'destroy']);
+use App\Http\Controllers\FacturaController;
+Route::post('/facturas', [FacturaController::class, 'store']);
+
+use App\Http\Controllers\MetodoPagoController;
+Route::post('/metodos-pago', [MetodoPagoController::class, 'store'])->middleware('auth:sanctum');
+
+use App\Http\Controllers\DetalleFacturaController;
+Route::post('/facturas/detalle', [DetalleFacturaController::class, 'store']);
+
+use App\Http\Controllers\PedidoController;
+Route::post('/pedidos', [PedidoController::class, 'store']);
+
+Route::get('/notificaciones', function () {
+    return DB::table('pedidos')
+        ->where('leido', 0)  // solo no leídas
+        ->orderBy('id', 'desc')
+        ->get();
+});
+
+Route::post('/notificaciones/leer/{id}', function ($id) {
+    return DB::table('pedidos')->where('id', $id)->update(['leido' => 1]);
+});
+
+Route::get('pedidos/{usuarioId}', [PedidoController::class, 'pedidosUsuario']);

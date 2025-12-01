@@ -24,6 +24,9 @@ import EmailVerified from "./pages/EmailVerified";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 
+import VistaPedido from './components/VistaPedido';
+
+
 
 const PrivateRoute = ({ children }) => {
   const usuario = JSON.parse(localStorage.getItem("usuario"));
@@ -95,6 +98,11 @@ function App() {
         <Route path="/email-verified" element={<EmailVerified />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
+
+        <Route 
+  path="/pedido" 
+  element={<VistaPedido productos={JSON.parse(localStorage.getItem("carrito")) || []} />} 
+/>
 
         <Route
           path="/admin"

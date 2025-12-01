@@ -53,7 +53,7 @@ const Productos = () => {
       ? productos
       : productos.filter(p => p.categoria_id === Number(filtro));
 
-  // Agregar al carrito
+  // 🛒 Agregar al carrito con imagen incluida
   const agregarAlCarrito = (producto) => {
     const usuario = localStorage.getItem("usuario");
     if (!usuario) {
@@ -62,10 +62,30 @@ const Productos = () => {
       return;
     }
 
-    const carritoActual = JSON.parse(localStorage.getItem("carrito")) || [];
-    const nuevoCarrito = [...carritoActual, { ...producto, cantidad }];
-    localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
-    setMensaje('✅ Producto agregado al carrito');
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    const existe = carrito.find(item => item.producto_id === producto.producto_id);
+
+    if (existe) {
+      carrito = carrito.map(item =>
+        item.producto_id === producto.producto_id
+          ? { ...item, cantidad: item.cantidad + cantidad }
+          : item
+      );
+    } else {
+      const nuevoProducto = {
+        producto_id: producto.producto_id,
+        nombre: producto.nombre_producto,
+        descripcion: producto.descripcion,
+        precio: producto.precio,
+        imagen: producto.url_imagen,   // 👈✔ Guardamos URL de imagen
+        cantidad: cantidad,
+      };
+      carrito.push(nuevoProducto);
+    }
+
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    setMensaje('🛒 Producto agregado al carrito');
     setTimeout(() => setMensaje(''), 3000);
   };
 
@@ -90,13 +110,8 @@ const Productos = () => {
             </div>
             <div className="product-info">
               <h1>{productoSeleccionado.nombre_producto}</h1>
-              <div className="info-grid">
-                <span>Categoría:</span>
-                <span>{obtenerNombreCategoria(productoSeleccionado.categoria_id)}</span>
-                <span>ID:</span>
-                <span>{productoSeleccionado.producto_id}</span>
-              </div>
-              <p className="price">${productoSeleccionado.precio}</p>
+              
+              <p className="price">Precio:<br></br>${productoSeleccionado.precio}</p>
               <div className="actions">
                 <input
                   type="number"
@@ -159,9 +174,10 @@ const Productos = () => {
                   <h3>{p.nombre_producto}</h3>
                   <p className="price">${p.precio}</p>
                   <button
-                    onClick={() =>
-                      agregarAlCarrito({ ...p, cantidad: 1 })
-                    }
+                    onClick={() => {
+                      setCantidad(1);
+                      agregarAlCarrito(p);
+                    }}
                   >
                     COMPRAR
                   </button>

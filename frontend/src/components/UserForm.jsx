@@ -25,10 +25,12 @@ const UserForm = ({ selected, setSelected, refresh }) => {
     e.preventDefault();
     try {
       if (selected) {
-        // usa la ruta relativa y el cliente "api"
-        await api.put(`/api/usuarios/${selected.usuario_id}`, form);
+        await axios.put(
+          `http://localhost:8000/api/usuarios/${selected.usuario_id}`,
+          form
+        );
       } else {
-        await api.post("/api/usuarios", form);
+        await axios.post("http://localhost:8000/api/usuarios", form);
       }
       setForm({ nombre_usuario: "", correo: "", contrasena: "", rol_id: "2" });
       setSelected(null);

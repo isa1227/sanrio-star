@@ -97,7 +97,7 @@ export default function Pompom() {
               </div>
             ))
           ) : (
-            <p>Cargando productos...</p>
+            <p className="cargando">Cargando productos...</p>
           )}
         </div>
       </section>

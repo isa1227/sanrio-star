@@ -127,8 +127,8 @@ body {
 .containerr {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 4 columnas por defecto */
-  gap: 20px;
-  padding: 20px;
+  gap: 10px;
+  padding: 10px;
   box-sizing: border-box;
   width: 100%;
 }
@@ -147,16 +147,6 @@ body {
 }
 
 /* SIDEBAR */
-.sidebar {
-  width: 120px;
-  background-color: #440040;
-  padding: 15px;
-  border-radius: 10px;
-  height: fit-content;
-  margin-left: 45px;
-  margin-top: 40px;
-  flex-shrink: 0;
-}
 
 .sidebar h3 {
   margin-bottom: 15px;
@@ -178,90 +168,129 @@ body {
   background-color: #000;
   color: white;
 }
+/* 🎀 CATEGORÍAS ESCONDIDAS EN SIDEBAR 🎀 */
+.sidebar {
+  width: 120px;
+  background-color: #440040;
+  padding: 15px;
+  border-radius: 10px;
+  height: fit-content;
+  margin-left: 45px;
+  margin-top: 40px;
+  flex-shrink: 0;
+  overflow: hidden;              /* 👈 Evita que se vea lo oculto */
+  transition: max-height 0.4s ease, opacity 0.4s ease;
+  max-height: 45px;              /* 👈 Solo se ve el título */
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+/* Cuando acercamos el mouse, abre */
+.sidebar:hover {
+  max-height: 500px;             /* 👈 Suficiente para desplegar */
+  opacity: 1;
+}
+
+/* 🎀 Botones de categoría ocultos al inicio */
+.sidebar button {
+  opacity: 0;
+  transition: opacity 0.4s ease 0.1s;
+}
+
+/* 🎀 Cuando el mouse está encima del contenedor, ¡se muestran! */
+.sidebar:hover button {
+  opacity: 1;
+}
+
 
 /* ================== CARD PRODUCT ================== */
+
 .card {
-  background-color: #000000;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow:
-    0 8px 16px hsl(279, 79%, 17%),
-    0 -8px 16px hsl(279, 79%, 17%);
-  transition: transform 0.2s;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  height: 380px;
+background-color: #2a022a; /* Fondo oscuro Kuromi */
+border-radius: 20px;
+overflow: hidden;
+box-shadow:
+0 8px 16px rgba(130, 62, 156, 0.4), /* Sombra morada/lila suave */
+0 -8px 16px rgba(130, 62, 156, 0.4);
+transition: transform 0.2s;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+margin-bottom: 20px;
+height: 380px;
 }
 
 .card:hover {
-  transform: translateY(-5px);
+transform: translateY(-5px);
 }
 
 .card img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  display: block;
+width: 100%;
+height: 220px !important; /* Altura igual para todas */
+object-fit: cover !important; /* Recorta y centra la imagen */
+display: block;
 }
 
 .card h3 {
-  color: #ffffff;
-  margin: 10px 16px 0;
+color: #ffdcfa; /* Título en color rosa claro/lila */
+margin: 10px 16px 0;
 }
 
 .card p {
-  color: #242525;
-  font-size: 0.85rem;
-  margin: 4px 16px;
+color: #e2b6ff; /* Texto de descripción en lila claro */
+font-size: 0.85rem;
+margin: 4px 16px;
 }
 
 .card .price {
-  font-weight: bold;
-  color: #ffffff;
-  margin: 8px 16px 0;
+font-weight: bold;
+color: #d1a1e3; /* Precio en morado claro/lila */
+margin: 8px 16px 0;
 }
 
+/* Botón "Añadir al carrito" con degradado Kuromi */
 .card button {
-  background: #440040;
-  color: #ffffff;
-  border: none;
-  border-radius: 20px;
-  padding: 10px 16px;
-  margin: 12px 16px 16px;
-  cursor: pointer;
-  font-family: 'Comfortaa', cursive;
-  font-weight: bold;
-  transition: background 0.3s;
+background: linear-gradient(to right,  #440040,  #440040); 
+color: #fff;
+border: none;
+border-radius: 20px;
+padding: 10px 16px;
+margin: 12px 16px 16px;
+cursor: pointer;
+font-family: 'Comfortaa', cursive; /* Usé 'Comfortaa' como referencia de tu estilo Kuromi, aunque tu código original usa Fredoka */
+font-weight: bold;
+transition: background 0.3s, color 0.3s;
 }
 
 .card button:hover {
-  background-color: #b0bccf;
-  color: #000;
+background: linear-gradient(to right,  #863d9b,  #9843af); /* Degradado al pasar el mouse */
+color: #fff; 
 }
-
 /* ================== MENSAJE CARRITO ================== */
+
 .mensaje-carrito {
-  background-color: #ffffff;
-  border: 2px solid #7e209b;
-  color: #2d0346;
-  padding: 15px;
-  margin: 20px;
-  border-radius: 10px;
+  position: fixed;
+  top: 150px;
+  right: 600px;
+  background-color: #440040; 
+  color: rgb(255, 255, 255);
+  padding: 10px 18px;
+  border-radius: 50px; 
+  font-size: 0.85rem;
   font-weight: bold;
-  text-align: center;
-  font-family: 'Fredoka', 'Poppins', cursive;
-  box-shadow: 0 4px 12px rgba(255, 64, 129, 0.3);
-  animation: fadein 0.5s ease-in-out;
-  display: block !important;
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.6);
+  animation: fadeInOut 3s ease-in-out;
   z-index: 9999;
 }
 
-@keyframes fadein {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* ✨ Animación suave */
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-10px); }
+  15% { opacity: 1; transform: translateY(0); }
+  85% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
 }
+
 
 /* ================== DETALLE PRODUCTO ================== */
 .product-detail {
@@ -272,7 +301,7 @@ body {
   padding: 20px;
   box-shadow:
     0 8px 16px hsl(279, 79%, 17%),
-    0 -8px 16px hsl(279, 79%, 17%);
+    0 -8px 16px hsl(294, 79%, 17%);
   max-width: 900px;
   margin: 60px auto 0 auto;
 }
@@ -282,10 +311,11 @@ body {
   margin-right: 20px;
 }
 
+/* 📌 Tamaño fijo en el detalle del producto */
 .product-images img {
   width: 100%;
-  height: 350px;
-  object-fit: cover;
+  height: 350px !important;
+  object-fit: cover !important;
   border-radius: 10px;
 }
 
@@ -370,7 +400,7 @@ body {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  background-color: #2d0346;
+  background-color: #440040;
   color: white;
   border: none;
   border-radius: 50%;
@@ -384,7 +414,7 @@ body {
 
 .scroll-top-btn-general:hover {
   transform: scale(1.15);
-  background-color: #7e209b;
+  background-color: #561953;
 }
 
 /* ================== RESPONSIVE NAVBAR ================== */

@@ -21,7 +21,7 @@ const Destacados = () => {
 
   return (
     <section className="destacados">
-      <h2>✨ Productos Destacados ✨</h2>
+      <h2>✨ Productos Nuevos ✨</h2>
       <div className="tarjetas-productos">
         {productos.map((p, index) => (
           <div className="tarjeta" key={index}>

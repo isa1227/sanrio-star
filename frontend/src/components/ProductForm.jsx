@@ -36,7 +36,7 @@ const ProductForm = ({ selected, setSelected, refresh }) => {
     try {
       if (selected) {
         await axios.post(
-          `http://http://localhost:8000/api/productos/${selected.producto_id}?_method=PUT`,
+          `http://localhost:8000/api/productos/${selected.producto_id}?_method=PUT`,
           data
         );
       } else {
