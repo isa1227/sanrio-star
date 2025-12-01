@@ -1,5 +1,6 @@
+// src/components/UserForm.jsx
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api/axios"; // <- usa el cliente centralizado
 
 const UserForm = ({ selected, setSelected, refresh }) => {
   const [form, setForm] = useState({
@@ -24,18 +25,20 @@ const UserForm = ({ selected, setSelected, refresh }) => {
     e.preventDefault();
     try {
       if (selected) {
-        await axios.put(
-          `http://https://sanrio-star.onrender.com/api/usuarios/${selected.usuario_id}`,
-          form
-        );
+        // usa la ruta relativa y el cliente "api"
+        await api.put(`/api/usuarios/${selected.usuario_id}`, form);
       } else {
-        await axios.post("http://https://sanrio-star.onrender.com/api/usuarios", form);
+        await api.post("/api/usuarios", form);
       }
       setForm({ nombre_usuario: "", correo: "", contrasena: "", rol_id: "2" });
       setSelected(null);
       refresh();
     } catch (err) {
-      console.error("Error guardando usuario:", err);
+      console.error("Error guardando usuario:", {
+        message: err.message,
+        status: err.response?.status,
+        data: err.response?.data,
+      });
     }
   };
 
@@ -75,4 +78,3 @@ const UserForm = ({ selected, setSelected, refresh }) => {
 };
 
 export default UserForm;
-

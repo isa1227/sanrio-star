@@ -82,3 +82,10 @@ Route::get('/reset-password/{token}', function ($token) {
 use App\Http\Controllers\GoogleTokenController;
 
 Route::post('/auth/google', [GoogleController::class, 'googleLogin']);
+
+
+use App\Http\Controllers\CategoriaController;
+Route::post('/categorias', [CategoriaController::class, 'store']);
+Route::put('/categorias/{id}', [CategoriaController::class, 'update']);
+Route::patch('/categorias/{id}', [CategoriaController::class, 'update']);
+Route::delete('/categorias/{id}', [CategoriaController::class, 'destroy']);

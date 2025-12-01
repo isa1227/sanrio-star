@@ -46,6 +46,7 @@ function App() {
     "/kitty",
     "/forgot-password",
     "/reset-password/:token",
+    "/email-verified",
   ].includes(location.pathname.toLowerCase());
 
   // 🔄 Llamada al backend al cargar el sitio

@@ -13,7 +13,7 @@ class Usuario extends Authenticatable implements MustVerifyEmail
     use HasApiTokens, Notifiable, MustVerifyEmailTrait;
 
     protected $table = 'usuarios';
-    protected $primaryKey = 'usuario_id';   // 👈 tu PK personalizada
+    protected $primaryKey = 'usuario_id';
     public $incrementing = true;
     protected $keyType = 'int';
 
@@ -27,7 +27,7 @@ class Usuario extends Authenticatable implements MustVerifyEmail
         'ultima_actualizacion',
         'email_verified_at',
         'remember_token',
-        'google_id',   // 👈 nuevo
+        'google_id',
         'avatar',
     ];
 
@@ -37,10 +37,10 @@ class Usuario extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    // 👉 Sobrescribir para que use 'correo' en lugar de 'email'
+    
     public function getAuthIdentifierName()
     {
-        return 'correo';
+        return 'usuario_id';
     }
 
     public function getAuthPassword()
@@ -48,7 +48,6 @@ class Usuario extends Authenticatable implements MustVerifyEmail
         return $this->contrasena;
     }
 
-    // Para verificación de correo
     public function getEmailForVerification()
     {
         return $this->correo;
@@ -57,5 +56,11 @@ class Usuario extends Authenticatable implements MustVerifyEmail
     public function routeNotificationForMail()
     {
         return $this->correo;
+    }
+
+    
+    public function getAuthIdentifier()
+    {
+        return $this->usuario_id;
     }
 }

@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap');
+
+.email-verified-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #000000;
+  font-family: 'Fredoka', sans-serif;
+  padding: 1rem;
+  color: white;
+}
+
+.email-card {
+  width: 350px;
+  background: #2d0346;
+  border-radius: 25px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow:
+    0 8px 16px hsl(278, 46%, 25%),
+    0 -8px 16px hsl(278, 46%, 25%);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.email-card h1 {
+  font-size: 1.7rem;
+  color: #d9ffe7;
+  margin: 0;
+}
+
+.email-card p {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.4;
+  margin: 0 auto;
+  max-width: 90%;
+}
+
+.verified-badge {
+  width: 110px;
+  height: 110px;
+  background: rgba(163,101,255,0.2);
+  border: 2px solid rgba(163,101,255,0.45);
+  border-radius: 50%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 8px 20px rgba(163,101,255,0.25),
+    inset 0 -6px 18px rgba(0,0,0,0.35);
+}
+
+.verified-badge svg {
+  width: 56px;
+  height: 56px;
+  fill: #ffffff;
+}
+
+.primary-btn {
+  padding: 0.8rem;
+  border-radius: 10px;
+  border: none;
+  background-color: #7e209b;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all .3s ease;
+}
+
+.primary-btn:hover {
+  background-color: #000000;
+}
+
+.secondary-link {
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #d074ec;
+  display: inline-block;
+  margin-top: 0.3rem;
+  transition: opacity .2s ease;
+}
+
+.secondary-link:hover {
+  opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 450px) {
+  .email-card {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  .verified-badge {
+    width: 95px;
+    height: 95px;
+  }
+}

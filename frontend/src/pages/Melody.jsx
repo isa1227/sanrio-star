@@ -14,7 +14,7 @@ export default function MyMelody() {
     const fetchProductos = async () => {
       try {
         const res = await axios.get(
-          "http://https://sanrio-star.onrender.com/api/productos/personaje/my%20melody"
+          "http://localhost:8000/api/productos/personaje/my%20melody"
         );
         setProductos(res.data);
       } catch (err) {

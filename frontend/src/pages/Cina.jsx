@@ -12,7 +12,7 @@ export default function Cinnamoroll() {
   // Traer productos desde la BD
   useEffect(() => {
     axios
-      .get("http://https://sanrio-star.onrender.com/api/productos/personaje/cinnamoroll")
+      .get("http://http://localhost:8000/api/productos/personaje/cinnamoroll")
       .then((response) => setProductos(response.data))
       .catch((error) =>
         console.error("Error al cargar productos de Cinnamoroll:", error)
