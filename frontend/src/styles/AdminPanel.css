@@ -19,14 +19,15 @@
 }
 
 .menu button {
-  padding: 10px 15px;
+  padding: 10px 18px;
   border: none;
-  border-radius: 8px;
-  background: #5a0d5a;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #440040, #440040);
   color: #fff;
-  cursor: pointer;
   font-weight: bold;
-  transition: 0.3s;
+  cursor: pointer;
+  transition: 0.25s ease;
+  box-shadow: 0 0 12px rgba(176, 76, 255, 0.4);
 }
 
 .menu button:hover {
@@ -53,14 +54,15 @@
 }
 
 .formulario button {
-  padding: 10px 15px;
+   padding: 10px 18px;
   border: none;
-  border-radius: 6px;
-  background: #8b2e8b;
-  color: white;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #440040, #440040);
+  color: #fff;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.25s ease;
+  box-shadow: 0 0 12px rgba(176, 76, 255, 0.4);
 }
 
 .formulario button:hover {
@@ -78,32 +80,41 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 15px;
-  background: #111;
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(6px);
+  border-radius: 15px;
   overflow: hidden;
+  box-shadow: 0 0 15px rgba(255, 150, 255, 0.2);
 }
 
 th, td {
-  padding: 12px;
-  border: 1px solid #444;
-  text-align: center;
+  padding: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: #e4e4e4;
+  background: rgba(255, 255, 255, 0.08);
+  transition: 0.25s;
 }
 
-th {
-  background: #5a0d5a;
-  color: white;
+
+  th {
+  background: linear-gradient(135deg, #5a0d5a, #8b2e8b);
+  padding: 14px;
   font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 td img {
-  max-width: 60px;
-  border-radius: 6px;
+max-width: 65px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(255, 150, 255, 0.4);
 }
 
 /* ---------------------------
    PAGINACIÓN
 ---------------------------- */
-.pagination {
+.paginacion {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -111,27 +122,30 @@ td img {
   gap: 8px;
 }
 
-.pagination button {
+.paginacion button {
   padding: 6px 12px;
   border-radius: 6px;
   border: none;
-  background: #5a0d5a;
+  background: linear-gradient(135deg, #440040, #440040);
   color: white;
   font-weight: bold;
   cursor: pointer;
   transition: 0.3s;
+   
+  
+  
 }
 
-.pagination button:hover {
+.paginacion button:hover {
   background: #8b2e8b;
 }
 
-.pagination button:disabled {
+.paginacion button:disabled {
   background: #333;
   cursor: not-allowed;
 }
 
-.pagination .active {
+.paginacion .active {
   background: #a93ea9;
 }
 

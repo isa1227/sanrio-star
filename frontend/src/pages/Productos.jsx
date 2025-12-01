@@ -10,7 +10,11 @@ const Productos = () => {
   const [mensaje, setMensaje] = useState('');
   const [cantidad, setCantidad] = useState(1);
 
-  // Mensajes temporales
+  // 📌 PAGINACIÓN
+  const [paginaActual, setPaginaActual] = useState(1);
+  const productosPorPagina = 8;
+
+  // === MENSAJES ===
   useEffect(() => {
     const mensajeAuth = localStorage.getItem("mensajeAuth");
     if (mensajeAuth) {
@@ -21,7 +25,7 @@ const Productos = () => {
     }
   }, []);
 
-  // Obtener productos desde la API Laravel
+  // === API: PRODUCTOS ===
   useEffect(() => {
     const fetchProductos = async () => {
       try {
@@ -34,7 +38,7 @@ const Productos = () => {
     fetchProductos();
   }, []);
 
-  // Obtener categorías desde la API Laravel
+  // === API: CATEGORÍAS ===
   useEffect(() => {
     const fetchCategorias = async () => {
       try {
@@ -47,13 +51,25 @@ const Productos = () => {
     fetchCategorias();
   }, []);
 
-  // Filtrar productos
+  // === FILTRO ===
   const productosFiltrados =
     filtro === 'todos'
       ? productos
       : productos.filter(p => p.categoria_id === Number(filtro));
 
-  // 🛒 Agregar al carrito con imagen incluida
+  // === ACTUALIZAR PAGINACIÓN CUANDO CAMBIA EL FILTRO ===
+  useEffect(() => {
+    setPaginaActual(1);
+  }, [filtro]);
+
+  // === CÁLCULO DE PÁGINAS ===
+  const totalPaginas = Math.ceil(productosFiltrados.length / productosPorPagina);
+
+  const indexInicio = (paginaActual - 1) * productosPorPagina;
+  const indexFin = indexInicio + productosPorPagina;
+  const productosPaginados = productosFiltrados.slice(indexInicio, indexFin);
+
+  // === AGREGAR AL CARRITO ===
   const agregarAlCarrito = (producto) => {
     const usuario = localStorage.getItem("usuario");
     if (!usuario) {
@@ -63,7 +79,6 @@ const Productos = () => {
     }
 
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
     const existe = carrito.find(item => item.producto_id === producto.producto_id);
 
     if (existe) {
@@ -73,15 +88,14 @@ const Productos = () => {
           : item
       );
     } else {
-      const nuevoProducto = {
+      carrito.push({
         producto_id: producto.producto_id,
         nombre: producto.nombre_producto,
         descripcion: producto.descripcion,
         precio: producto.precio,
-        imagen: producto.url_imagen,   // 👈✔ Guardamos URL de imagen
+        imagen: producto.url_imagen,
         cantidad: cantidad,
-      };
-      carrito.push(nuevoProducto);
+      });
     }
 
     localStorage.setItem("carrito", JSON.stringify(carrito));
@@ -89,7 +103,6 @@ const Productos = () => {
     setTimeout(() => setMensaje(''), 3000);
   };
 
-  // Obtener nombre de categoría para el detalle
   const obtenerNombreCategoria = (categoria_id) => {
     const cat = categorias.find(c => c.categoria_id === categoria_id);
     return cat ? cat.nombre_categoria : 'Sin categoría';
@@ -98,6 +111,7 @@ const Productos = () => {
   return (
     <>
       {productoSeleccionado ? (
+        //---------------- DETALLE ----------------
         <div style={{ padding: '20px' }}>
           {mensaje && <div className="mensaje-carrito">{mensaje}</div>}
 
@@ -110,8 +124,13 @@ const Productos = () => {
             </div>
             <div className="product-info">
               <h1>{productoSeleccionado.nombre_producto}</h1>
-              
-              <p className="price">Precio:<br></br>${productoSeleccionado.precio}</p>
+              <div className="info-grid">
+                <span>Categoría:</span>
+                <span>{obtenerNombreCategoria(productoSeleccionado.categoria_id)}</span>
+                <span>ID:</span>
+                <span>{productoSeleccionado.producto_id}</span>
+              </div>
+              <p className="price">${productoSeleccionado.precio}</p>
               <div className="actions">
                 <input
                   type="number"
@@ -129,13 +148,15 @@ const Productos = () => {
             </div>
           </div>
         </div>
+
       ) : (
+        //---------------- LISTA DE PRODUCTOS ----------------
         <div className="productos-layout">
-          {/* Menú lateral */}
+
+          {/* -- SIDEBAR -- */}
           <aside className="sidebar">
             <h3>Categorías</h3>
 
-            {/* Botón TODOS */}
             <button
               onClick={() => setFiltro('todos')}
               className={filtro === 'todos' ? 'activo' : ''}
@@ -143,7 +164,6 @@ const Productos = () => {
               TODOS
             </button>
 
-            {/* Categorías dinámicas */}
             {categorias.map(cat => (
               <button
                 key={cat.categoria_id}
@@ -155,12 +175,12 @@ const Productos = () => {
             ))}
           </aside>
 
-          {/* Contenido principal */}
+          {/* -- CUADRÍCULA DE PRODUCTOS -- */}
           <div style={{ flex: 1, minWidth: 0 }}>
             {mensaje && <div className="mensaje-carrito">{mensaje}</div>}
 
             <div className="containerr">
-              {productosFiltrados.map((p) => (
+              {productosPaginados.map((p) => (
                 <div className="card" key={p.producto_id}>
                   <img
                     src={p.url_imagen}
@@ -184,10 +204,39 @@ const Productos = () => {
                 </div>
               ))}
             </div>
+
+            {/* ---- PAGINACIÓN ---- */}
+            <div className="paginacion">
+              <button
+                disabled={paginaActual === 1}
+                onClick={() => setPaginaActual(paginaActual - 1)}
+              >
+                ◀
+              </button>
+
+              {Array.from({ length: totalPaginas }, (_, i) => (
+                <button
+                  key={i + 1}
+                  className={paginaActual === i + 1 ? "activo" : ""}
+                  onClick={() => setPaginaActual(i + 1)}
+                >
+                  {i + 1}
+                </button>
+              ))}
+
+              <button
+                disabled={paginaActual === totalPaginas}
+                onClick={() => setPaginaActual(paginaActual + 1)}
+              >
+                ▶
+              </button>
+            </div>
+
           </div>
         </div>
       )}
 
+      {/* Footer */}
       <footer id="contacto" className="footer-productos">
         <h3 className="footer-productos-titulo">Contacto</h3>
         <p className="footer-productos-texto">Email: contacto@sanriostar.com</p>
