@@ -67,29 +67,38 @@ class PedidoController extends Controller
     public function pedidosUsuario($usuarioId)
     {
         // Trae los pedidos del usuario con sus detalles y productos
-        $pedidos = Pedido::with(['detalles.producto'])
+$pedidos = Pedido::with(['usuario', 'detalles.producto'])
+
             ->where('usuario_id', $usuarioId)
             ->orderBy('creado_en', 'desc')
             ->get();
 
         // Transformamos los detalles para que React los lea fácil
         $pedidos = $pedidos->map(function ($pedido) {
+    return [
+        'pedido_id'    => $pedido->pedido_id,
+        'estado'       => $pedido->estado,
+        'total'        => $pedido->total,
+        'metodo_pago'  => $pedido->metodo_pago_id,
+        'created_at'   => $pedido->creado_en,
+
+        // 👇 Agregamos los datos del usuario
+        'usuario' => [
+            'nombre' => $pedido->usuario->nombre ?? null,
+            'direccion' => $pedido->usuario->direccion ?? null,
+        ],
+
+        'productos'    => $pedido->detalles->map(function ($detalle) {
             return [
-                'pedido_id'    => $pedido->pedido_id,
-                'estado'       => $pedido->estado,
-                'total'        => $pedido->total,
-                'metodo_pago'  => $pedido->metodo_pago_id, // opcional: puedes mapear a texto
-                'created_at'   => $pedido->creado_en,
-                'productos'    => $pedido->detalles->map(function ($detalle) {
-                    return [
-                        'nombre'   => $detalle->producto->nombre,
-                        'precio'   => $detalle->precio,
-                        'cantidad' => $detalle->cantidad,
-                        'imagen'   => $detalle->producto->imagen ?? null,
-                    ];
-                }),
+                'nombre'   => $detalle->producto->nombre,
+                'precio'   => $detalle->precio,
+                'cantidad' => $detalle->cantidad,
+                'imagen'   => $detalle->producto->imagen ?? null,
             ];
-        });
+        }),
+    ];
+});
+
 
         return response()->json($pedidos);
     }

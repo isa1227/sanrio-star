@@ -1,27 +1,34 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap');
+
+* {
+  font-family: 'Fredoka', 'Poppins', cursive;
+}
 .vista-pedido-container {
   max-width: 1150px;
   margin: 2rem auto;
   padding: 2rem 1.5rem;
   background: linear-gradient(145deg, rgba(68,0,64,0.85), rgba(44,0,44,0.85));
+    background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   border-radius: 20px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-  font-family: 'Arial', sans-serif;
 }
-
 
 .vista-pedido-container h2 {
   font-size: 2rem;
   color: #ffffff;
   text-align: center;
   margin-bottom: 2rem;
-  text-shadow: 2px 2px 6px #440040;
+  text-shadow: 2px 2px 6px #94038ad2;
 }
 
 /* ==========================================
    Card de pedido renovada
 ========================================== */
 .pedido-card {
-  background-color: #2e0025;
+  background-color: #2e0025e5;
   border-radius: 18px;
   border: 1px solid #561953;
   padding: 1.5rem;
@@ -42,7 +49,9 @@
   box-shadow: 0 12px 25px rgba(255,153,255,0.3);
   border-color: #cb66e4;
 }
-
+.sinpedido{
+  color: black;
+}
 /* ==========================================
    Información del usuario
 ========================================== */

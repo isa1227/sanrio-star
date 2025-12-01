@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/vistaPedido.css"; 
-import fondoPedido from "../assets/img/fondo-pedido.jpg"; 
+import fondoPedido from "../assets/img/fondovista2.jpg"; 
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -32,7 +32,7 @@ const VistaPedido = () => {
     >
       <h2>🖤 Mis Pedidos 🖤</h2>
 
-      {pedidos.length === 0 && <p>No tienes pedidos todavía 😢</p>}
+      {pedidos.length === 0 && <p className="sinpedido">No tienes pedidos todavía 😢</p>}
 
       {pedidos.map((pedido, i) => (
         <div key={i} className="pedido-card">
@@ -61,13 +61,13 @@ const VistaPedido = () => {
             ))}
           </div>
 
-          {/* Botones */}
+           {/* Botón único */}
           <div className="botones-pedido">
             <button onClick={handleVolver}>Comprar otra vez</button>
-            <button onClick={() => window.print()}>Descargar factura</button>
           </div>
         </div>
       ))}
+      
     </div>
   );
 };
