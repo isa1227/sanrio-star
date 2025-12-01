@@ -1,5 +1,6 @@
+// src/components/UserForm.jsx
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api/axios"; // <- usa el cliente centralizado
 
 const UserForm = ({ selected, setSelected, refresh }) => {
   const [form, setForm] = useState({
@@ -35,7 +36,11 @@ const UserForm = ({ selected, setSelected, refresh }) => {
       setSelected(null);
       refresh();
     } catch (err) {
-      console.error("Error guardando usuario:", err);
+      console.error("Error guardando usuario:", {
+        message: err.message,
+        status: err.response?.status,
+        data: err.response?.data,
+      });
     }
   };
 
@@ -75,4 +80,3 @@ const UserForm = ({ selected, setSelected, refresh }) => {
 };
 
 export default UserForm;
-

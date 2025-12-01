@@ -127,13 +127,13 @@
 
 .error {
   color: red;
-  font-size: 0.85em;
+  font-size: 0.67em;
   margin-top: 4px;
 }
 
 .success {
   color: green;
-  font-size: 0.85em;
+  font-size: 0.67em;
   margin-top: 4px;
 }
 

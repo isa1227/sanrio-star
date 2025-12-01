@@ -58,30 +58,51 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => 'Datos inválidos'], 400);
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
         }
 
-        $usuario = Usuario::join('roles', 'usuarios.rol_id', '=', 'roles.rol_id')
-            ->where('correo', $request->correo)
-            ->select('usuarios.*', 'roles.nombre_rol')
-            ->first();
+        // Buscar usuario por correo
+        $usuario = Usuario::where('correo', $request->correo)->first();
 
-        if (!$usuario || !Hash::check($request->contrasena, $usuario->contrasena)) {
-            return response()->json(['error' => 'Credenciales incorrectas'], 401);
+        if (!$usuario) {
+            return response()->json([
+                'error' => 'El usuario no existe'
+            ], 404);
         }
 
-        // 🚨 Validar si ya verificó su correo
+        // Comparar contraseña
+        if (!Hash::check($request->contrasena, $usuario->contrasena)) {
+            return response()->json([
+                'error' => 'Contraseña incorrecta'
+            ], 401);
+        }
+
+        // 🔒 Verificar correo
         if (is_null($usuario->email_verified_at)) {
             return response()->json([
-                'error' => 'Debes verificar tu correo antes de iniciar sesión ⚠️'
+                'error' => 'Debes verificar tu correo antes de iniciar sesión'
             ], 403);
         }
 
+        // Obtener rol
+        $rol = DB::table('roles')
+            ->where('rol_id', $usuario->rol_id)
+            ->value('nombre_rol');
+
         return response()->json([
             'mensaje' => 'Inicio de sesión exitoso ✅',
-            'usuario' => $usuario
-        ]);
+            'usuario' => [
+                'usuario_id' => $usuario->usuario_id,
+                'nombre_usuario' => $usuario->nombre_usuario,
+                'correo' => $usuario->correo,
+                'rol_id' => $usuario->rol_id,
+                'rol' => $rol,
+            ]
+        ], 200);
     }
+
     public function forgotPassword(Request $request)
     {
         $request->validate([

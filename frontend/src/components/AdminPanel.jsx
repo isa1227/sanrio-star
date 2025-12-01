@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/AdminPanel.css";
+import CatList from "./CatList"; // <-- import corregido (mayúsculas según archivo)
 
 const API_URL = "http://localhost:8000/api";
 
@@ -34,37 +35,51 @@ const AdminPanel = () => {
   const fetchProductos = async () => {
     try {
       const res = await axios.get(`${API_URL}/productos`);
-      setProductos(res.data);
+      setProductos(res.data || []);
     } catch (err) {
       console.error("Error cargando productos", err);
+      setProductos([]);
     }
   };
 
   const fetchUsuarios = async () => {
     try {
       const res = await axios.get(`${API_URL}/usuarios`);
-      setUsuarios(res.data);
+      setUsuarios(res.data || []);
     } catch (err) {
       console.error("Error cargando usuarios", err);
+      setUsuarios([]);
     }
   };
 
   const fetchCategorias = async () => {
     try {
       const res = await axios.get(`${API_URL}/categorias`);
-      setCategorias(res.data);
+      setCategorias(res.data || []);
     } catch (err) {
       console.error("Error cargando categorías", err);
+      setCategorias([]);
     }
   };
 
   useEffect(() => {
+    // traer datos cuando se muestra cada vista
     if (view === "productos") fetchProductos();
     if (view === "usuarios") fetchUsuarios();
+    if (view === "categorias") fetchCategorias();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view]);
 
+  // limpiar búsqueda al cambiar de vista (mejora UX)
+  useEffect(() => {
+    setQuery("");
+    setCurrentPage(1); // 🔹 reset paginación al cambiar vista
+  }, [view]);
+
+  // carga inicial de categorías (para select de productos)
   useEffect(() => {
     fetchCategorias();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -74,7 +89,9 @@ const AdminPanel = () => {
   }, [view]);
 
   const categoriaMap = categorias.reduce((acc, cat) => {
-    acc[cat.categoria_id] = cat.nombre_categoria;
+    const id = cat.categoria_id ?? cat.id;
+    const nombre = cat.nombre_categoria ?? cat.nombre ?? "";
+    acc[id] = nombre;
     return acc;
   }, {});
 
@@ -83,7 +100,7 @@ const AdminPanel = () => {
   // -------------------------------
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    if (files) {
+    if (files && files.length) {
       setForm({ ...form, [name]: files[0] });
     } else {
       setForm({ ...form, [name]: value });
@@ -135,7 +152,7 @@ const AdminPanel = () => {
 
       resetForm();
     } catch (err) {
-      console.error("Error guardando", err);
+      console.error("Error guardando", err.response?.data ?? err);
     }
   };
 
@@ -144,13 +161,14 @@ const AdminPanel = () => {
   // -------------------------------
   const handleEdit = (item) => {
     if (view === "productos") {
-      setEditing(item.producto_id);
+      setEditing(item.producto_id ?? item.id);
       const { url_imagen, ...rest } = item;
       setForm(rest);
     } else {
-      setEditing(item.usuario_id);
+      setEditing(item.usuario_id ?? item.id);
       setForm(item);
     }
+    window.scrollTo({ top: 0, behavior: "smooth" });
     
   };
 
@@ -172,7 +190,7 @@ const AdminPanel = () => {
         fetchUsuarios();
       }
     } catch (err) {
-      console.error("Error eliminando", err);
+      console.error("Error eliminando", err.response?.data ?? err);
     }
 
     setShowModal(false);
@@ -180,6 +198,37 @@ const AdminPanel = () => {
   };
 
   // -------------------------------
+  // 📦 Actualizar STOCK directo en tabla
+  // -------------------------------
+  const handleStockChange = async (id, nuevoStockRaw) => {
+    try {
+      const nuevoStock = Number(nuevoStockRaw);
+      if (Number.isNaN(nuevoStock) || nuevoStock < 0) return;
+
+      setProductos((prev) =>
+        prev.map((p) =>
+          (p.producto_id ?? p.id) === id ? { ...p, stock: nuevoStock } : p
+        )
+      );
+
+      const prod = productos.find((p) => (p.producto_id ?? p.id) === id);
+      if (!prod) return;
+
+      await axios.put(`${API_URL}/productos/${id}`, {
+        nombre_producto: prod.nombre_producto ?? prod.nombre,
+        descripcion: prod.descripcion ?? "",
+        precio: prod.precio ?? prod.valor ?? 0,
+        categoria_id: prod.categoria_id ?? prod.categoria_id,
+        personajes: prod.personajes ?? "",
+        stock: nuevoStock,
+      });
+    } catch (err) {
+      console.error("Error actualizando stock", err.response?.data ?? err);
+    }
+  };
+
+  // -------------------------------
+  // 🧩 Filtrado (buscador integrado)
   // 🔍 Búsqueda
   // -------------------------------
   const productosFiltrados = productos.filter((p) => {
@@ -227,6 +276,7 @@ const AdminPanel = () => {
       <div className="menu">
         <button onClick={() => setView("productos")}>Productos</button>
         <button onClick={() => setView("usuarios")}>Usuarios</button>
+        <button onClick={() => setView("categorias")}>Categorias</button>
       </div>
 
       {/* Formulario */}
