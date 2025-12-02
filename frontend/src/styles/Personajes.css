@@ -314,7 +314,7 @@ h1 {
 .mensaje-kuromi {
   position: fixed;
   top: 20px;
-  left: 40%;
+  left: 50%;
   transform: translateX(-40%);
   background-color: #2d0346;
   color: #e1b2f7;
@@ -555,7 +555,7 @@ h1 {
 .mensaje-cinnamoroll {
   position: fixed;
   top: 20px;
-  left: 40%;
+  left: 50%;
   transform: translateX(-40%);
   background-color: #a1dfff;
   color: #003d66;
@@ -801,7 +801,7 @@ h1 {
 .mensaje-hellokitty {
   position: fixed;
   top: 20px;
-  left: 40%;
+  left: 50%;
   transform: translateX(-40%);
   background-color: #ffccd5;
   color: #c9002b;
@@ -963,6 +963,9 @@ h1 {
 }
 
 /* ======= Pochaco Theme ======= */
+/* ================================
+   THEME BASE
+================================ */
 .pochaco-theme {
   background-color: #d9f0e7; /* verde pastel */
 }
@@ -975,6 +978,10 @@ h1 {
   color: #2e7d7a;
 }
 
+
+/* ================================
+   PRODUCTOS
+================================ */
 .pochaco-theme .product-card h3 {
   color: #1f5c59;
 }
@@ -987,15 +994,23 @@ h1 {
   color: #1a4d4b;
 }
 
+
+/* ================================
+   BOTONES
+================================ */
 .pochaco-theme .pretty-button {
-  background: linear-gradient(to right, #77c9d4, #4aa6a7); /* degradado verde agua */
+  background: linear-gradient(to right, #77c9d4, #4aa6a7);
   color: white;
 }
 
 .pochaco-theme .pretty-button:hover {
-  background: linear-gradient(to right, #a1e6dc, #247878); /* más claro a más oscuro */
+  background: linear-gradient(to right, #a1e6dc, #247878);
 }
 
+
+/* ================================
+   FOOTER
+================================ */
 .pochaco-theme .footer {
   background: linear-gradient(135deg, #a3d2ca, #75b9b5);
   color: #1a3f3e;
@@ -1036,8 +1051,11 @@ h1 {
 }
 
 
+/* ================================
+   BOTÓN FLOTANTE CARRITO
+================================ */
 .pochaco-theme .floating-cart-btn {
-  background-color: #76bcb2; /* verde fuerte */
+  background-color: #76bcb2;
   color: white;
 }
 
@@ -1047,13 +1065,16 @@ h1 {
   border-color: #76bcb2;
 }
 
-/* mensaje de agregado al carrito */
-.mensaje-pochacco {
+
+/* ================================
+   MENSAJE CARRITO
+================================ */
+.mensajepochacco {
   position: fixed;
   top: 20px;
-  left: 40%;
+  left: 50%;
   transform: translateX(-40%);
-  background-color: #b5f3e7; /* verde agua suave */
+  background-color: #b5f3e7;
   color: #004d40;
   padding: 15px 25px;
   border-radius: 15px;
@@ -1066,6 +1087,10 @@ h1 {
   gap: 10px;
 }
 
+
+/* ================================
+   BOTÓN SCROLL UP
+================================ */
 .scroll-top-btn-pochaco {
   position: fixed;
   bottom: 30px;
@@ -1087,22 +1112,29 @@ h1 {
   transform: scale(1.1) rotate(5deg);
 }
 
-/* Modal de Pochacco */
+
+/* ================================
+   MODAL OVERLAY
+================================ */
 .modal-overlay-pochaco {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.7); /* fondo oscuro */
+  background-color: rgba(0,0,0,0.7);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 10000;
 }
 
+
+/* ================================
+   MODAL CONTENIDO
+================================ */
 .modal-content-detailed-pochaco {
-  background-color: #e0f7f5; /* verde muy claro */
+  background-color: #e0f7f5;
   border-radius: 1rem;
   max-width: 800px;
   width: 95%;
@@ -1111,10 +1143,14 @@ h1 {
   padding: 2rem;
   position: relative;
   flex-wrap: wrap;
-  border: 2px dashed #3a9d9b; /* borde verde azulado */
+  border: 2px dashed #3a9d9b;
   box-shadow: 0 0 15px #76bcb2;
 }
 
+
+/* ================================
+   MODAL CLOSE BUTTON
+================================ */
 .modal-close-pochaco {
   position: absolute;
   top: 10px;
@@ -1130,6 +1166,10 @@ h1 {
   background-color: #a1e6dc;
 }
 
+
+/* ================================
+   GALERÍA
+================================ */
 .modal-product-gallery-pochaco {
   display: flex;
   flex-direction: column;
@@ -1142,9 +1182,13 @@ h1 {
   max-width: 250px;
   min-width: 250px;
   border-radius: 0.5rem;
-  border: 2px solid #4aa6a7; /* borde verde */
+  border: 2px solid #4aa6a7;
 }
 
+
+/* ================================
+   INFO PRODUCTO
+================================ */
 .modal-product-info-pochaco {
   flex: 1 1 300px;
   display: flex;
@@ -1153,7 +1197,7 @@ h1 {
 }
 
 .modal-product-info-pochaco h2 {
-  color: #3a9d9b; /* verde azulado */
+  color: #3a9d9b;
 }
 
 .modal-description-pochaco {
@@ -1170,6 +1214,10 @@ h1 {
   color: #1f5c59;
 }
 
+
+/* ================================
+   SELECTOR CANTIDAD
+================================ */
 .quantity-selector-pochaco {
   display: flex;
   align-items: center;
@@ -1185,6 +1233,10 @@ h1 {
   color: #1a4d4b;
 }
 
+
+/* ================================
+   BOTÓN MODAL
+================================ */
 .pretty-button-pochaco {
   background: linear-gradient(to right, #77c9d4, #4aa6a7);
   color: #fff;
@@ -1197,6 +1249,7 @@ h1 {
 .pretty-button-pochaco:hover {
   background: linear-gradient(to right, #a1e6dc, #247878);
 }
+
 
 /* ======= Keroppi Theme ======= */
 .keroppi-theme {
@@ -1289,7 +1342,7 @@ h1 {
 .mensaje-keroppi {
   position: fixed;
   top: 20px;
-  left: 40%;
+  left: 50%;
   transform: translateX(-40%);
   background-color: #d4f8c4;
   color: #1f4c00;
@@ -1535,7 +1588,7 @@ h1 {
 .mensaje-mymelody {
   position: fixed;
   top: 20px;
-  left: 40%;
+  left: 50%;
   transform: translateX(-40%);
   background-color: #f8c7dc;
   color: #ad1457;
@@ -1789,7 +1842,7 @@ h1 {
 .mensaje-pompompurin {
   position: fixed;
   top: 20px;
-  left: 40%;
+  left: 50%;
   transform: translateX(-40%);
   background-color: #fff2b2;
   color: #a05c00;
@@ -2043,7 +2096,7 @@ h1 {
 .mensaje-chococat {
   position: fixed;
   top: 20px;
-  left: 40%;
+  left: 50%;
   transform: translateX(-40%);
   background-color: #2b2b2b;
   color: #ffd600;

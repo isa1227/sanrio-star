@@ -11,10 +11,17 @@ export default function Pochaco() {
 
   // 📌 Traer productos de la BD
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/productos/personaje/Pochaco")
-      .then((res) => setProductos(res.data))
-      .catch((err) => console.error("Error al cargar productos:", err));
+    const fetchProductos = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:8000/api/productos/personaje/Pochaco"
+        );
+        setProductos(res.data);
+      } catch (err) {
+        console.error("Error al cargar productos:", err);
+      }
+    };
+    fetchProductos();
   }, []);
 
   // 📌 Agregar al carrito
@@ -37,39 +44,46 @@ export default function Pochaco() {
         nombre: producto.nombre_producto,
         descripcion: producto.descripcion,
         precio: producto.precio,
-        imagen: producto.url_imagen, // ✅ usar la URL que devuelve el backend
+        imagen: producto.url_imagen, // URL desde BD
         cantidad: producto.cantidad || 1,
       };
       carrito.push(nuevoProducto);
     }
 
     localStorage.setItem("carrito", JSON.stringify(carrito));
+
     setProductoAgregado(`${producto.nombre_producto} agregado al carrito 🛒`);
     setMensajeVisible(true);
+
     setTimeout(() => setMensajeVisible(false), 3000);
   };
 
   return (
     <div className="character-page pochaco-theme">
+      {/* HEADER */}
       <header>
         <a href="/" className="back-btn circular-button">
           <img src={backImg} alt="Volver al inicio" />
         </a>
+
         <a href="/carrito" className="floating-cart-btn">
           🛒 Carrito
         </a>
       </header>
 
+      {/* MENSAJE DE PRODUCTO AGREGADO */}
       {mensajeVisible && (
-        <div className="mensaje-pochaco">{productoAgregado}</div>
+        <div className="mensajepochaco">{productoAgregado}</div>
       )}
 
+      {/* TÍTULO Y DESCRIPCIÓN */}
       <h1>🐶 Pochaco 🐶</h1>
       <p className="description-text">
-        Un perrito blanco con orejas negras, muy curioso y deportivo. 
+        Un perrito blanco con orejas negras, muy curioso y deportivo.
         Le encanta jugar al fútbol y andar en patineta. 🐶
       </p>
 
+      {/* LISTA DE PRODUCTOS */}
       <section className="product-section">
         <div className="product-grid">
           {productos.length > 0 ? (
@@ -80,11 +94,16 @@ export default function Pochaco() {
                 onClick={() => setProductoSeleccionado(item)}
                 style={{ cursor: "pointer" }}
               >
-                {/* ✅ Mostrar imagen desde la BD */}
-                <img src={item.url_imagen} alt={item.nombre_producto} />
+                {/* Imagen desde BD */}
+                <img
+                  src={item.url_imagen}
+                  alt={item.nombre_producto}
+                />
+
                 <h3>{item.nombre_producto}</h3>
                 <p>{item.descripcion}</p>
                 <div className="price">${item.precio}</div>
+
                 <button
                   className="pretty-button"
                   onClick={(e) => {
@@ -102,7 +121,7 @@ export default function Pochaco() {
         </div>
       </section>
 
-      {/* 📌 Modal detallado */}
+      {/* MODAL DETALLADO */}
       {productoSeleccionado && (
         <div
           className="modal-overlay-pochaco"
@@ -120,7 +139,6 @@ export default function Pochaco() {
             </button>
 
             <div className="modal-product-gallery-pochaco">
-              {/* ✅ Imagen desde la BD */}
               <img
                 src={productoSeleccionado.url_imagen}
                 alt={productoSeleccionado.nombre_producto}
@@ -129,12 +147,15 @@ export default function Pochaco() {
 
             <div className="modal-product-info-pochaco">
               <h2>{productoSeleccionado.nombre_producto}</h2>
+
               <p className="modal-description-pochaco">
                 {productoSeleccionado.descripcion}
               </p>
+
               <p className="modal-price-pochaco">
                 Precio: ${productoSeleccionado.precio}
               </p>
+
               <p className="modal-stock-pochaco">
                 Stock: {productoSeleccionado.stock || "Disponible"}
               </p>
@@ -170,6 +191,7 @@ export default function Pochaco() {
         </div>
       )}
 
+      {/* FOOTER */}
       <footer className="footer pochaco-theme">
         <h3>Contacto</h3>
         <p>Email: contacto@sanriostar.com</p>

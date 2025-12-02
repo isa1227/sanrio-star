@@ -26,9 +26,12 @@ class Pedido extends Model
         return $this->hasMany(DetallePedido::class, 'pedido_id', 'pedido_id');
     }
 
+
     // NUEVA RELACIÓN: Un pedido pertenece a un usuario
     public function usuario()
     {
         return $this->belongsTo(Usuario::class, 'usuario_id', 'usuario_id');
     }
 }
+
+
