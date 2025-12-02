@@ -64,6 +64,7 @@ const VistaPedido = () => {
            {/* Botón único */}
           <div className="botones-pedido">
             <button onClick={handleVolver}>Comprar otra vez</button>
+               <button onClick={() => window.print()}>Descargar factura</button>
           </div>
         </div>
       ))}
