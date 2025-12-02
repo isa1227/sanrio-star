@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pedido;
 use App\Models\DetallePedido;
+use App\Models\Usuario; // Importar el modelo de usuario
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -62,12 +63,12 @@ class PedidoController extends Controller
     }
 
     // -------------------------------
-    // Traer los pedidos de un usuario
+    // Traer los pedidos de un usuario (AHORA INCLUYE EL NOMBRE DEL COMPRADOR)
     // -------------------------------
     public function pedidosUsuario($usuarioId)
     {
-        // Trae los pedidos del usuario con sus detalles y productos
-        $pedidos = Pedido::with(['detalles.producto'])
+        // Trae los pedidos del usuario con sus detalles, productos Y EL USUARIO QUE HIZO EL PEDIDO
+        $pedidos = Pedido::with(['detalles.producto', 'usuario']) // <-- Añadimos 'usuario' aquí
             ->where('usuario_id', $usuarioId)
             ->orderBy('creado_en', 'desc')
             ->get();
@@ -78,14 +79,20 @@ class PedidoController extends Controller
                 'pedido_id'    => $pedido->pedido_id,
                 'estado'       => $pedido->estado,
                 'total'        => $pedido->total,
-                'metodo_pago'  => $pedido->metodo_pago_id, // opcional: puedes mapear a texto
+                'metodo_pago'  => $pedido->metodo_pago_id,
                 'created_at'   => $pedido->creado_en,
+                // AHORA INCLUIMOS LA INFO COMPLETA DEL USUARIO
+                'usuario'      => [
+                    'nombre' => $pedido->usuario->nombre ?? 'Usuario Desconocido',
+                    'direccion' => $pedido->usuario->direccion ?? 'Sin Dirección', // Si tienes este campo
+                ],
                 'productos'    => $pedido->detalles->map(function ($detalle) {
                     return [
-                        'nombre'   => $detalle->producto->nombre,
-                        'precio'   => $detalle->precio,
-                        'cantidad' => $detalle->cantidad,
-                        'imagen'   => $detalle->producto->imagen ?? null,
+                        'nombre'    => $detalle->producto->nombre,
+                        'precio'    => $detalle->precio,
+                        'cantidad'  => $detalle->cantidad,
+                        // El campo 'imagen' viene de la tabla productos
+                        'imagen'    => $detalle->producto->imagen ?? null,
                     ];
                 }),
             ];
