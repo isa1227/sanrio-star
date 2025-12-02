@@ -1,3 +1,5 @@
+si dame el css
+
 /* ============ CONTENEDOR PRINCIPAL ============ */
 .factura-container {
   display: flex;
@@ -25,11 +27,11 @@
   background: rgba(255, 255, 255, 0.6);
   border-radius: 10px;
   color: #333;
-  max-height: 500px;
-  overflow-y: auto;
+  max-height: 500px; /* Altura máxima de la factura visible */
+  overflow-y: auto;  /* Scroll vertical */
 }
 
-/* Scroll */
+/* Estilo opcional para el scrollbar */
 .factura-contenido::-webkit-scrollbar {
   width: 8px;
 }
@@ -44,7 +46,7 @@
   border-radius: 8px;
 }
 
-/* Título */
+/* Título principal */
 .titulo {
   font-size: 22px;
   font-weight: bold;
@@ -81,7 +83,7 @@
   flex-direction: column;
 }
 
-/* Total */
+/* Total a pagar */
 .total {
   text-align: right;
   margin-top: 20px;
@@ -93,13 +95,12 @@
   color: #000;
 }
 
-/* ============ BOTONES DE LA FACTURA (NUEVO) ============ */
-.botones-factura {
+/* ============ BOTONES ============ */
+.botones {
   display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 20px;
-  padding: 10px 0;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 30px;
 }
 
 .boton-descargar {
@@ -126,6 +127,7 @@
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s ease;
+  margin-top: 20px;
 }
 
 .boton-comprar:hover {
@@ -153,10 +155,10 @@
   background-repeat: no-repeat;
   padding: 2rem;
   border-radius: 16px;
-  width: 95%;
-  max-width: 620px;
-  max-height: 80vh;
-  overflow-y: auto;
+  width: 95%;          /* ocupa más espacio horizontal */
+  max-width: 620px;    /* más ancho que antes */
+  max-height: 80vh;    /* límite vertical para poder hacer scroll */
+  overflow-y: auto;    /* scroll vertical si excede la altura */
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
   color: #5a2d7d;
   position: relative;
@@ -164,6 +166,7 @@
   box-sizing: border-box;
 }
 
+/* Scroll para modal (si lo necesitas) */
 .modal::-webkit-scrollbar {
   width: 10px;
 }
@@ -208,7 +211,6 @@
   color: #3c0753;
 }
 
-/* Botones del modal */
 .modal-botones {
   display: flex;
   justify-content: space-between;
@@ -243,7 +245,7 @@
   display: block;
 }
 
-/* ======= Mensajes ======= */
+/* ============ MENSAJE DE COMPRA ============ */
 .mensaje-exito {
   position: fixed;
   top: 20px;
@@ -261,9 +263,18 @@
 }
 
 @keyframes aparecerDesaparecer {
-  0% { opacity: 0; transform: translate(-50%, -20px); }
-  10%, 90% { opacity: 1; transform: translate(-50%, 0); }
-  100% { opacity: 0; transform: translate(-50%, -20px); }
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  10%, 90% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
 }
 
 .mensaje-error {
@@ -275,13 +286,16 @@
   text-align: center;
 }
 
-/* ======= Campos método de pago ======= */
+/* ============ MÉTODO DE PAGO CON OJITO ============ */
+
+/* Contenedor general del método de pago */
 .metodo-pago-bloque {
   width: 100%;
   max-width: 420px;
   margin: 0 auto;
 }
 
+/* Etiquetas */
 .metodo-pago-bloque label {
   display: block;
   font-weight: 700;
@@ -290,22 +304,27 @@
   font-size: 15px;
 }
 
+/* Cada campo con margen equilibrado */
 .campo-con-ojito {
   margin-bottom: 18px;
 }
 
+/* Wrapper del input + ojito */
 .input-wrapper {
   position: relative;
   width: 100%;
 }
 
+/* Inputs */
 .input-wrapper input {
   width: 100%;
   padding: 14px 45px 14px 14px;
   border-radius: 12px;
   border: none;
+
   background: rgba(255,255,255,0.85);
   box-shadow: 0 0 8px rgba(68, 0, 64, 0.13);
+
   font-size: 16px;
   outline: none;
   transition: box-shadow 0.2s ease;
@@ -315,15 +334,18 @@
   box-shadow: 0 0 10px rgba(68, 0, 64, 0.3);
 }
 
+/* Botón del ojito */
 .btn-ojito {
   position: absolute;
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
+
   background: none;
   border: none;
   cursor: pointer;
   padding: 4px;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -341,7 +363,10 @@
   transform: scale(1.12);
 }
 
+
+
 /* ============ RESPONSIVE ============ */
+
 @media (max-width: 768px) {
   .factura-container {
     align-items: center;
@@ -353,14 +378,62 @@
     max-width: 400px;
   }
 
-  .botones-factura {
+  .factura-contenido {
+    padding: 16px;
+  }
+
+  .producto-item {
+    padding: 8px;
+  }
+
+  .producto-detalle {
+    font-size: 13px;
+  }
+
+  .total {
+    font-size: 15px;
+    padding: 8px;
+  }
+
+  .botones {
     flex-direction: column;
+    align-items: center;
     gap: 10px;
   }
 
   .boton-comprar,
   .boton-descargar {
     width: 100%;
+    text-align: center;
+  }
+
+  .modal {
+    padding: 1.5rem;
+    max-width: 95%;
+  }
+
+  .modal h2 {
+    font-size: 1.4rem;
+  }
+
+  .modal label {
+    font-size: 0.9rem;
+  }
+
+  .modal input,
+  .modal select {
+    font-size: 0.95rem;
+    padding: 0.5rem;
+  }
+
+  .modal-botones {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .modal-botones button {
+    width: 100%;
+    min-width: auto;
   }
 }
 
@@ -370,8 +443,41 @@
     max-width: 95%;
   }
 
-  .botones-factura {
-    flex-direction: column;
-    gap: 10px;
+  .factura-contenido {
+    padding: 12px;
+  }
+
+  .titulo {
+    font-size: 20px;
+  }
+
+  .producto-detalle {
+    font-size: 12px;
+  }
+
+  .total {
+    font-size: 14px;
+  }
+
+  .modal {
+    padding: 1rem;
+  }
+
+  .modal h2 {
+    font-size: 1.2rem;
+  }
+
+  .modal label {
+    font-size: 0.85rem;
+  }
+
+  .modal input,
+  .modal select {
+    font-size: 0.9rem;
+  }
+
+  .mensaje-exito {
+    font-size: 1rem;
+    padding: 12px 16px;
   }
 }
